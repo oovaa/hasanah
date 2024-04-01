@@ -17,18 +17,18 @@ function getRandomAyah(surah) {
     .then((data) => data.data);
 }
 
-let get_aya_text = () => {
-  return getRandomSurah()
-    .then((surah) => getRandomAyah(surah))
-    .then((ayah) => ayah.text);
-};
+// let get_aya_text = () => {
+//   return getRandomSurah()
+//     .then((surah) => getRandomAyah(surah))
+//     .then((ayah) => ayah.text);
+// };
 
-get_aya_text()
-  .then((aya) => console.log(aya))
-  .catch((error) => console.log('Error:', error));
+// get_aya_text()
+//   .then((aya) => console.log(aya))
+//   .catch((error) => console.log('Error:', error));
 
 // // Usage:
-// getRandomSurah()
-//   .then((surah) => getRandomAyah(surah))
-//   .then((ayah) => console.log(ayah))
-//   .catch((error) => console.log('Error:', error));
+getRandomSurah()
+  .then((surah) => getRandomAyah(surah))
+  .then((ayah) => console.log(ayah))
+  .catch((error) => console.log('Error:', error));
