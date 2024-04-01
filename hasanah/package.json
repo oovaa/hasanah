@@ -12,10 +12,23 @@
   "activationEvents": [],
   "main": "./extension.js",
   "contributes": {
-    "commands": [{
-      "command": "hasanah.helloWorld",
-      "title": "Hello World"
-    }]
+    "commands": [
+      {
+        "command": "hasanah.helloWorld",
+        "title": "Hello World",
+        "description": "Displays a random ayah at a user-defined interval"
+      }
+    ],
+    "configuration": {
+      "title": "Hasanah",
+      "properties": {
+        "hasanah.delay": {
+          "type": "number",
+          "default": 30,
+          "description": "Delay for ayah display in seconds"
+        }
+      }
+    }
   },
   "scripts": {
     "lint": "eslint .",
