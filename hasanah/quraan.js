@@ -1,37 +1,34 @@
-function getRandomAyah() {}
-
-function getRandomsurah() {
-  // First, fetch the list of all Surahs
-  fetch('https://api.alquran.cloud/v1/surah')
+function getRandomSurah() {
+  return fetch('https://api.alquran.cloud/v1/surah')
     .then((response) => response.json())
     .then((data) => {
-      // Get a random Surah from the list
       let surahs = data.data;
-      let surahs_number = Math.floor(Math.random() * surahs.length - 1);
-      let randomSurah = surahs.find((surah) => surah.number === surahs_number);
-      console.log(surahs_number);
-      console.log(randomSurah);
-
-      // Generate a random Ayah number
-      let ayahNumber =
-        Math.floor(Math.random() * randomSurah['numberOfAyahs']) + 1;
-
-      // Then, fetch the random Ayah from the random Surah
-      fetch(`https://api.alquran.cloud/v1/ayah/${surahs_number}:${ayahNumber}`)
-        .then((response) => response.json())
-        .then((data) => {
-          // Log the Ayah to the console
-          console.log('the ayah is /n');
-          console.log(data.data);
-        })
-        .catch((error) => {
-          console.log('Error:', error);
-        });
-    })
-    .catch((error) => {
-      console.log('Error:', error);
+      let surahs_number = Math.floor(Math.random() * surahs.length);
+      return surahs[surahs_number];
     });
 }
 
-// Call the function
-getRandomsurah();
+function getRandomAyah(surah) {
+  let ayahNumber = Math.floor(Math.random() * surah.numberOfAyahs) + 1;
+  return fetch(
+    `https://api.alquran.cloud/v1/ayah/${surah.number}:${ayahNumber}`
+  )
+    .then((response) => response.json())
+    .then((data) => data.data);
+}
+
+let get_aya_text = () => {
+  return getRandomSurah()
+    .then((surah) => getRandomAyah(surah))
+    .then((ayah) => ayah.text);
+};
+
+get_aya_text()
+  .then((aya) => console.log(aya))
+  .catch((error) => console.log('Error:', error));
+
+// // Usage:
+// getRandomSurah()
+//   .then((surah) => getRandomAyah(surah))
+//   .then((ayah) => console.log(ayah))
+//   .catch((error) => console.log('Error:', error));
