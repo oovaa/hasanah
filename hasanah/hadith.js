@@ -1,5 +1,3 @@
-const fs = require('fs');
-
 const collections = [
     'muslim',
     'bukhari',
@@ -26,11 +24,11 @@ async function getRandomHadith() {
         }
 
         const data = await response.json();
-        const hadiths = data.data.hadiths;
+        const hadiths = data['data']['hadiths'];
         const randomIndex = Math.floor(Math.random() * hadiths.length);
         return hadiths[randomIndex];
     } catch (error) {
-        if (error.message === 'Network response was not ok') {
+        if (error.message === 'Network response was not ok' || error.message === 'Was there a typo in the url or port?') {
             return 'No internet connection available.';
         }
         return 'An error occurred: ' + error.message;
