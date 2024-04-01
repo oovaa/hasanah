@@ -1,0 +1,14 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "install",
+			"path": "hasanah",
+			"group": "none",
+			"problemMatcher": [],
+			"label": "npm: install - hasanah",
+			"detail": "install dependencies from package"
+		}
+	]
+}
