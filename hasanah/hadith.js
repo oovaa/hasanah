@@ -11,34 +11,30 @@ const collections = [
     'darimi',
     'malik'
 ];
-
 const getRandomCollection = () => {
     const randomIndex = Math.floor(Math.random() * collections.length);
     return collections[randomIndex];
 };
-function getRandomHadith() {
-    const collection = getRandomCollection();
-    return fetch(
-        `https://api.hadith.gading.dev/books/${collection}?range=300-500`
-    )
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then((data) => {
-            fs.writeFileSync('file.json', JSON.stringify(data));
-            let hadiths = data.data.hadiths;
-            let randomIndex = Math.floor(Math.random() * hadiths.length);
-            return hadiths[randomIndex];
-        })
-        .catch((error) => {
-            if (error.message === 'Network response was not ok') {
-                return 'No internet connection available.';
-            }
-            return 'An error occurred: ' + error.message;
-        });
+
+async function getRandomHadith() {
+    try {
+        const collection = getRandomCollection();
+        const response = await fetch(`https://api.hadith.gading.dev/books/${collection}?range=300-500`);
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        const hadiths = data.data.hadiths;
+        const randomIndex = Math.floor(Math.random() * hadiths.length);
+        return hadiths[randomIndex];
+    } catch (error) {
+        if (error.message === 'Network response was not ok') {
+            return 'No internet connection available.';
+        }
+        return 'An error occurred: ' + error.message;
+    }
 }
 
 getRandomHadith()
