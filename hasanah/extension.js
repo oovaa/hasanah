@@ -32,7 +32,7 @@ function activate(context) {
         vscode.window.showInformationMessage(
           `Hello World from hasanah! I'm ${name}`
         );
-      }, time * 1000); // 10000 milliseconds = 10 seconds
+      }, Number(time) * 1000); // 10000 milliseconds = 10 seconds
     }
   );
 
