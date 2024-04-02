@@ -1,46 +1,54 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
+const { printRandomHadith } = require('./hadith');
+const { getAyahText } = require('./quraan');
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+let timerId;
 
-/**
- * @param {vscode.ExtensionContext} context
- */
 function activate(context) {
-  // Use the console to output diagnostic information (console.log) and errors (console.error)
-  // This line of code will only be executed once when your extension is activated
-  console.log('Congratulations, your extension "hasanah" is now active!');
+  const config = vscode.workspace.getConfiguration('hasanah');
+  const delay = config.get('delay') * 6000; // convert to milliseconds
 
-  // The command has been defined in the package.json file
-  // Now provide the implementation of the command with  registerCommand
-  // The commandId parameter must match the command field in package.json
-  let disposable = vscode.commands.registerCommand(
-    'hasanah.helloWorld',
-    async function () {
-      // Get the user's input
-      let name = await vscode.window.showInputBox({
-        prompt: 'Enter your name'
-      });
+  if (timerId) {
+    clearInterval(timerId);
+  }
 
-      let time = await vscode.window.showInputBox({
-        prompt: 'Enter time'
-      });
-      // Set an interval to display the message every 10 seconds
-      setInterval(function () {
-        vscode.window.showInformationMessage(
-          `Hello World from hasanah! I'm ${name}`
-        );
-      }, Number(time) * 1000); // 10000 milliseconds = 10 seconds
+  let showHadith = true;
+
+  timerId = setInterval(async () => {
+    let text;
+    try {
+      if (showHadith) {
+        text = await printRandomHadith();
+        text = `${text.arab}`;
+      } else {
+        text = await getAyahText();
+        if (text) {
+          let name = text['surah']['name']
+          let number = text['surah']['number']
+          text = `${text.text} ❤️ ${name} (${number})`;
+        }
+      }
+    } catch (error) {
+      text = `اللهم احفظ السودان واهله ✨ سبحان الله وبحمده`;
     }
-  );
+    vscode.window.showInformationMessage(text);
+    showHadith = !showHadith;
+  }, delay);
 
-  context.subscriptions.push(disposable);
+  context.subscriptions.push({
+    dispose: () => {
+      if (timerId) {
+        clearInterval(timerId);
+      }
+    }
+  });
 }
 
-// This method is called when your extension is deactivated
-function deactivate() { }
+function deactivate() {
+  if (timerId) {
+    clearInterval(timerId);
+  }
+}
 
 module.exports = {
   activate,

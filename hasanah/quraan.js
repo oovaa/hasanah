@@ -2,8 +2,8 @@ async function getRandomSurah() {
   try {
     const response = await fetch('https://api.alquran.cloud/v1/surah');
     const data = await response.json();
-    let surahs = data['data'];
-    let surahs_number = Math.floor(Math.random() * surahs.length);
+    const surahs = data['data'];
+    const surahs_number = Math.floor(Math.random() * surahs.length);
     return surahs[surahs_number];
   } catch (error) {
     if (error.message === 'Was there a typo in the url or port?') {
@@ -15,7 +15,7 @@ async function getRandomSurah() {
 
 async function getRandomAyah(surah) {
   try {
-    let ayahNumber = Math.floor(Math.random() * surah.numberOfAyahs) + 1;
+    const ayahNumber = Math.floor(Math.random() * surah.numberOfAyahs) + 1;
     const response = await fetch(`https://api.alquran.cloud/v1/ayah/${surah.number}:${ayahNumber}`);
     const data = await response.json();
     return data['data'];
@@ -37,7 +37,11 @@ async function getAyahText() {
   }
 }
 
-getAyahText().then(ayah => {
-  // You can handle the returned ayah here
-  console.log(ayah);
-});
+module.exports.getAyahText = getAyahText;
+
+// getAyahText().then(ayah => {
+//   // You can handle the returned ayah here
+//   console.log(ayah.text);
+// });
+
+// printRandomHadith()

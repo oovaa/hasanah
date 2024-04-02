@@ -17,7 +17,8 @@ const getRandomCollection = () => {
 async function getRandomHadith() {
     try {
         const collection = getRandomCollection();
-        const response = await fetch(`https://api.hadith.gading.dev/books/${collection}?range=300-500`);
+        const response = await fetch(
+            `https://api.hadith.gading.dev/books/${collection}?range=300-500`);
 
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -35,6 +36,18 @@ async function getRandomHadith() {
     }
 }
 
-getRandomHadith()
-    .then((hadith) => console.log(hadith))
-    .catch((error) => console.log('Error:', error));
+async function printRandomHadith() {
+    try {
+        const hadith = await getRandomHadith();
+        return hadith;
+    } catch (error) {
+        console.log('Error:', error);
+        return null;
+    }
+}
+
+module.exports.printRandomHadith = printRandomHadith;
+
+// let h = await printRandomHadith()
+// console.log(h);
+// getAyahText

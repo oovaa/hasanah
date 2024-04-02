@@ -9,16 +9,11 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "*"
+  ],
   "main": "./extension.js",
   "contributes": {
-    "commands": [
-      {
-        "command": "hasanah.helloWorld",
-        "title": "Hello World",
-        "description": "Displays a random ayah at a user-defined interval"
-      }
-    ],
     "configuration": {
       "title": "Hasanah",
       "properties": {
