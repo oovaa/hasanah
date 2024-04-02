@@ -19,12 +19,12 @@ function activate(context) {
     try {
       if (showHadith) {
         text = await printRandomHadith();
-        text = `${text.arab}`;
+        text = `${text.arab} (${text.book})`;
       } else {
         text = await getAyahText();
         if (text) {
           let name = text['surah']['name']
-          let number = text['surah']['number']
+          let number = text['numberInSurah']
           text = `${text.text} ❤️ ${name} (${number})`;
         }
       }
