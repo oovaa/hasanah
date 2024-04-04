@@ -20,7 +20,7 @@
         "hasanah.delay": {
           "type": "number",
           "default": 30,
-          "description": "Delay for ayah display in seconds"
+          "description": "Delay for ayah display in minuts"
         }
       }
     }

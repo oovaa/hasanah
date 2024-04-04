@@ -1,52 +1,55 @@
+
 const vscode = require('vscode');
 const { printRandomHadith } = require('./hadith');
 const { getAyahText } = require('./quraan');
 
 let timerId;
 
-function activate(context) {
+
+async function getText(showHadith) {
+  try {
+    let text;
+    if (showHadith) {
+      const hadith = await printRandomHadith();
+      if (hadith && hadith.arab && hadith.book) {
+        text = `${hadith.arab} (${hadith.book})`;
+      }
+    } else {
+      const ayah = await getAyahText();
+      if (ayah && ayah.text && ayah.surah && ayah.surah.name && ayah.numberInSurah) {
+        text = `${ayah.text} ❤️ ${ayah.surah.name} (${ayah.numberInSurah})`;
+      }
+    }
+    if (!text) {
+      throw new Error('Failed to fetch text');
+    }
+    return text;
+  } catch (error) {
+    console.log(error);
+    return `اللهم احفظ السودان واهله ❤️ سبحان الله وبحمده`;
+  }
+}
+
+function activate() {
   const config = vscode.workspace.getConfiguration('hasanah');
-  const delay = config.get('delay') * 6000; // convert to milliseconds
+  const delay = config.get('delay') * 60000; // convert from milliseconds
 
   if (timerId) {
     clearInterval(timerId);
   }
 
-  let showHadith = true;
+  let showHadith = false;
 
   timerId = setInterval(async () => {
-    let text;
-    try {
-      if (showHadith) {
-        text = await printRandomHadith();
-        text = `${text.arab} (${text.book})`;
-      } else {
-        text = await getAyahText();
-        if (text) {
-          let name = text['surah']['name']
-          let number = text['numberInSurah']
-          text = `${text.text} ❤️ ${name} (${number})`;
-        }
-      }
-    } catch (error) {
-      text = `اللهم احفظ السودان واهله ✨ سبحان الله وبحمده`;
-    }
+    const text = await getText(showHadith);
     vscode.window.showInformationMessage(text);
     showHadith = !showHadith;
   }, delay);
-
-  context.subscriptions.push({
-    dispose: () => {
-      if (timerId) {
-        clearInterval(timerId);
-      }
-    }
-  });
 }
-
 function deactivate() {
   if (timerId) {
     clearInterval(timerId);
+    timerId = null;
   }
 }
 
