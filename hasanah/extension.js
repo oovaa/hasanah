@@ -32,7 +32,7 @@ async function getText(showHadith) {
 
 function activate() {
   const config = vscode.workspace.getConfiguration('hasanah');
-  const delay = config.get('delay') * 60000; // convert from milliseconds
+  let delay = config.get('delay') * 60000; // convert from milliseconds
 
   if (timerId) {
     clearInterval(timerId);
@@ -44,6 +44,7 @@ function activate() {
     const text = await getText(showHadith);
     vscode.window.showInformationMessage(text);
     showHadith = !showHadith;
+    delay = config.get('delay') * 60000;
   }, delay);
 }
 function deactivate() {
