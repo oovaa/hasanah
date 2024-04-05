@@ -2,15 +2,28 @@
   "name": "hasanah",
   "displayName": "hasanah",
   "description": "",
+  "publisher": "omarabdo",
   "version": "0.0.1",
+  "icon": "Hasanah-04 (1).png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oovaa/vs_extension.git"
+  },
   "engines": {
     "vscode": "^1.87.0"
   },
   "categories": [
     "Other"
   ],
+  "keywords": [
+    "quotes",
+    "motivation",
+    "quran",
+    "ayat",
+    "Islam"
+  ],
   "activationEvents": [
-    "*"
+    "onStartupFinished"
   ],
   "main": "./extension.js",
   "contributes": {
