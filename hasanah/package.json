@@ -3,8 +3,8 @@
   "displayName": "hasanah",
   "description": "",
   "publisher": "omarabdo",
-  "version": "0.0.1",
-  "icon": "Hasanah-04 (1).png",
+  "version": "0.0.2",
+  "icon": "Hasanah-04.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/oovaa/vs_extension.git"
