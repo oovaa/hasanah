@@ -49,6 +49,9 @@ beta release of Hasanah.
 Fixed issues:
 - When offline, the extension isn't displays a specific message: "اللهم احفظ السودان وأهله ❤️ سبحان الله وبحمده".
 
+## Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md) for a detailed history of changes.
 
 
 ## For more information

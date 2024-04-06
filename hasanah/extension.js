@@ -12,7 +12,7 @@ async function getText(showHadith) {
     if (showHadith) {
       const hadith = await printRandomHadith();
       if (hadith && hadith.arab && hadith.book) {
-        text = `${hadith.arab} (${hadith.book})`;
+        text = `${hadith.arab} ❤️ book (${hadith.book})`;
       }
     } else {
       const ayah = await getAyahText();
