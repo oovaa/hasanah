@@ -6,6 +6,12 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 # Changelog
 
+## [0.4.0] - 2022-01-01
+
+### Added
+- Added functionality to immediately apply changes to the 'hasanah.delay' configuration without needing to reload the extension.
+
+
 ## [0.3.0] - 2024-01-01
 
 ### Added
