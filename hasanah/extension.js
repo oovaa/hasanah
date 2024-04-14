@@ -1,7 +1,7 @@
 
 const vscode = require('vscode');
 const { printRandomHadith } = require('./hadith');
-const { getAyahText } = require('./quraan');
+const { getAyahText, getSpecificAyah } = require('./quraan');
 
 let timerId;
 
@@ -55,6 +55,31 @@ function activate(context) {
       timerId = setInterval(showText, delay); // Create a new interval with the new delay
     }
   }));
+
+  let disposable = vscode.commands.registerCommand('extension.getAyah', async function () {
+    const surah = await vscode.window.showInputBox({ prompt: 'Enter the number of the surah' });
+    const ayah = await vscode.window.showInputBox({ prompt: 'Enter the number of the ayah' });
+
+    if (!surah || !ayah || isNaN(surah) || isNaN(ayah)) {
+      vscode.window.showInformationMessage("Invalid input. Please enter a number.");
+      return;
+    }
+
+    try {
+      const data = await getSpecificAyah(surah, ayah);
+      if (data) {
+        vscode.window.showInformationMessage(data.text);
+      }
+      else {
+        vscode.window.showInformationMessage("No data returned from getSpecificAyah.");
+      }
+    } catch (error) {
+      vscode.window.showInformationMessage(`Error fetching Ayah: ${error.message}`);
+    }
+  });
+
+  context.subscriptions.push(disposable);
+
 }
 
 function deactivate() {

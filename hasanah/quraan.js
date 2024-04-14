@@ -38,6 +38,10 @@ async function getAyahText() {
 }
 
 async function getSpecificAyah(surahNumber, ayahNumber) {
+  if (typeof surahNumber !== 'number' || typeof ayahNumber !== 'number') {
+    surahNumber = parseInt(surahNumber);
+    ayahNumber = parseInt(ayahNumber);
+  }
   try {
     const response = await fetch(`https://api.alquran.cloud/v1/ayah/${surahNumber}:${ayahNumber}`);
     const data = await response.json();
