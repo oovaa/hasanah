@@ -37,7 +37,26 @@ async function getAyahText() {
   }
 }
 
+async function getSpecificAyah(surahNumber, ayahNumber) {
+  try {
+    const response = await fetch(`https://api.alquran.cloud/v1/ayah/${surahNumber}:${ayahNumber}`);
+    const data = await response.json();
+    return data['data'];
+  } catch (error) {
+    if (error.message === 'Was there a typo in the url or port?') {
+      throw new Error('No internet connection available.');
+    }
+    throw error;
+  }
+}
+
+
+
+module.exports.getSpecificAyah = getSpecificAyah;
 module.exports.getAyahText = getAyahText;
+
+// let data = await getSpecificAyah(2, 255)
+// console.log(data.text, data.numberInSurah, data.surah.name);
 
 // getAyahText().then(ayah => {
 //   // You can handle the returned ayah here

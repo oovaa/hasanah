@@ -3,7 +3,7 @@
 This is the README for the "Hasanah" extension. Hasanah is a VS Code extension that displays random Hadith and Ayah from the Quran in your editor. It alternates between displaying a Hadith and an Ayah at a specified interval.
 
 
-You can contribute to my repository [oovaa/vs_extension](https://github.com/oovaa/vs_extension) to help improve this extension.
+You can contribute to my repository [oovaa/hasanah](https://github.com/oovaa/hasanah) to help improve this extension.
 
 
 #### This extension is inspired by the "Ayat" extension.

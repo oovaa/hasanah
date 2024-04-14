@@ -7,7 +7,7 @@
   "icon": "Hasanah-04.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/oovaa/vs_extension.git"
+    "url": "https://github.com/oovaa/hasanah.git"
   },
   "engines": {
     "vscode": "^1.87.0"
@@ -30,10 +30,15 @@
     "configuration": {
       "title": "Hasanah",
       "properties": {
+        "hasanah.ayah": {
+          "type": "string",
+          "default": "",
+          "description": "Specify an Ayah in the format <surahnum:ahyanum>"
+        },
         "hasanah.delay": {
           "type": "number",
           "default": 30,
-          "description": "Delay for ayah display in minuts"
+          "description": "Delay for ayah display in minutes"
         }
       }
     }
