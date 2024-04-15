@@ -60,7 +60,7 @@ function activate(context) {
     const surah = await vscode.window.showInputBox({ prompt: 'Enter the number of the surah' });
     const ayah = await vscode.window.showInputBox({ prompt: 'Enter the number of the ayah' });
 
-    if (!surah || !ayah || isNaN(surah) || isNaN(ayah)) {
+    if (!surah || !ayah) {
       vscode.window.showInformationMessage("Invalid input. Please enter a number.");
       return;
     }
@@ -71,10 +71,10 @@ function activate(context) {
         vscode.window.showInformationMessage(data.text);
       }
       else {
-        vscode.window.showInformationMessage("No data returned from getSpecificAyah.");
+        vscode.window.showInformationMessage("No data returned from the Quraan API.");
       }
     } catch (error) {
-      vscode.window.showInformationMessage(`Error fetching Ayah: ${error.message}`);
+      vscode.window.showInformationMessage(`اللهم احفظ السودان واهله ❤️ سبحان الله وبحمده (Internet problem)`);
     }
   });
 
