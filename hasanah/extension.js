@@ -68,13 +68,13 @@ function activate(context) {
     try {
       const data = await getSpecificAyah(surah, ayah);
       if (data) {
-        vscode.window.showInformationMessage(data.text);
+        vscode.window.showInformationMessage(`${data.text} 💙 ${data.surah.name} (${data.numberInSurah})`);
       }
       else {
         vscode.window.showInformationMessage("No data returned from the Quraan API.");
       }
     } catch (error) {
-      vscode.window.showInformationMessage(`اللهم احفظ السودان واهله ❤️ سبحان الله وبحمده (Internet problem)`);
+      vscode.window.showInformationMessage(`اللهم احفظ السودان واهله ❤️ سبحان الله وبحمده (invalid surah/Ayah reference or Internet problem)`);
     }
   });
 

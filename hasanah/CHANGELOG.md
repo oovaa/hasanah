@@ -6,11 +6,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 # Changelog
 
-## [0.4.0] - 2022-01-01
-
+## [0.5.0] - 2022-06-15
 ### Added
-- Added functionality to immediately apply changes to the 'hasanah.delay' configuration without needing to reload the extension.
-
+- Added feature to ask for an ayah on the command palette with the command "get ayah".
 
 ## [0.3.0] - 2024-01-01
 

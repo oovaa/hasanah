@@ -9,6 +9,14 @@
 			"problemMatcher": [],
 			"label": "npm: install - hasanah",
 			"detail": "install dependencies from package"
+		},
+		{
+			"type": "npm",
+			"script": "lint",
+			"path": "hasanah",
+			"problemMatcher": [],
+			"label": "npm: lint - hasanah",
+			"detail": "eslint ."
 		}
 	]
 }
