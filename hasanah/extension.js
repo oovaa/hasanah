@@ -1,10 +1,8 @@
-
 const vscode = require('vscode');
 const { printRandomHadith } = require('./hadith');
 const { getAyahText, getSpecificAyah } = require('./quraan');
 
 let timerId;
-
 
 async function getText(showHadith) {
   try {
@@ -12,11 +10,17 @@ async function getText(showHadith) {
     if (showHadith) {
       const hadith = await printRandomHadith();
       if (hadith && hadith.arab && hadith.book) {
-        text = `${hadith.arab} ❤️ book (${hadith.book})`;
+        text = `${hadith.arab} 🧡 book (${hadith.book})`;
       }
     } else {
       const ayah = await getAyahText();
-      if (ayah && ayah.text && ayah.surah && ayah.surah.name && ayah.numberInSurah) {
+      if (
+        ayah &&
+        ayah.text &&
+        ayah.surah &&
+        ayah.surah.name &&
+        ayah.numberInSurah
+      ) {
         text = `${ayah.text} ❤️ ${ayah.surah.name} (${ayah.numberInSurah})`;
       }
     }
@@ -45,41 +49,56 @@ function activate(context) {
   let timerId = setInterval(showText, delay);
 
   // Listen for configuration changes
-  context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(e => {
-    if (e.affectsConfiguration('hasanah.delay')) {
-      clearInterval(timerId); // Clear the old interval
+  context.subscriptions.push(
+    vscode.workspace.onDidChangeConfiguration((e) => {
+      if (e.affectsConfiguration('hasanah.delay')) {
+        clearInterval(timerId); // Clear the old interval
 
-      config = vscode.workspace.getConfiguration('hasanah');
-      delay = config.get('delay') * 60000; // Get the new delay
+        config = vscode.workspace.getConfiguration('hasanah');
+        delay = config.get('delay') * 60000; // Get the new delay
 
-      timerId = setInterval(showText, delay); // Create a new interval with the new delay
-    }
-  }));
-
-  let disposable = vscode.commands.registerCommand('extension.getAyah', async function () {
-    const surah = await vscode.window.showInputBox({ prompt: 'Enter the number of the surah' });
-    const ayah = await vscode.window.showInputBox({ prompt: 'Enter the number of the ayah' });
-
-    if (!surah || !ayah) {
-      vscode.window.showInformationMessage("Invalid input. Please enter a number.");
-      return;
-    }
-
-    try {
-      const data = await getSpecificAyah(surah, ayah);
-      if (data) {
-        vscode.window.showInformationMessage(`${data.text} 💙 ${data.surah.name} (${data.numberInSurah})`);
+        timerId = setInterval(showText, delay); // Create a new interval with the new delay
       }
-      else {
-        vscode.window.showInformationMessage("No data returned from the Quraan API.");
+    })
+  );
+
+  let disposable = vscode.commands.registerCommand(
+    'extension.getAyah',
+    async function () {
+      const surah = await vscode.window.showInputBox({
+        prompt: 'Enter the number of the surah'
+      });
+      const ayah = await vscode.window.showInputBox({
+        prompt: 'Enter the number of the ayah'
+      });
+
+      if (!surah || !ayah) {
+        vscode.window.showInformationMessage(
+          'Invalid input. Please enter a number.'
+        );
+        return;
       }
-    } catch (error) {
-      vscode.window.showInformationMessage(`اللهم احفظ السودان واهله ❤️ سبحان الله وبحمده (invalid surah/Ayah reference or Internet problem)`);
+
+      try {
+        const data = await getSpecificAyah(surah, ayah);
+        if (data) {
+          vscode.window.showInformationMessage(
+            `${data.text} 💙 ${data.surah.name} (${data.numberInSurah})`
+          );
+        } else {
+          vscode.window.showInformationMessage(
+            'No data returned from the Quraan API.'
+          );
+        }
+      } catch (error) {
+        vscode.window.showInformationMessage(
+          `اللهم احفظ السودان واهله ❤️ سبحان الله وبحمده (invalid surah/Ayah reference or Internet problem)`
+        );
+      }
     }
-  });
+  );
 
   context.subscriptions.push(disposable);
-
 }
 
 function deactivate() {
