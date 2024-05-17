@@ -63,7 +63,7 @@ function activate(context) {
   );
 
   let disposable = vscode.commands.registerCommand(
-    'extension.getAyah',
+    'hasanah.getAyah',
     async function () {
       const surah = await vscode.window.showInputBox({
         prompt: 'Enter the number of the surah'

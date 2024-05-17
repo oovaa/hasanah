@@ -29,7 +29,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "extension.getAyah",
+        "command": "hasanah.getAyah",
         "title": "get Ayah"
       }
     ],
