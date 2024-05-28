@@ -6,7 +6,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 # Changelog
 
-## [0.6.0] - 2024-04-16
+## [0.6.0] - 2024-05-17
 ### Added
 - hasanah.getAyah command is now hasanah.getAyah and shows a blue heart and the hadith with the yellow heart.
 
