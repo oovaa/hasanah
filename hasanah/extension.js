@@ -1,7 +1,7 @@
 const vscode = require('vscode')
 const { printRandomHadith } = require('./hadith')
 const { getAyahText, getSpecificAyah } = require('./quraan')
-// const { get_hijri_Date } = require('./islamicDate.js')
+const { get_hijri_Date } = require('./islamicDate.js')
 
 let timerId
 
@@ -98,7 +98,14 @@ function activate(context) {
       }
     }
   )
-
+  vscode.commands.registerCommand('hasanah.getHijriDate', async () => {
+    try {
+      const hejri_date = await get_hijri_Date()
+      vscode.window.showInformationMessage(`Today in Hijri is: ${hejri_date}`)
+    } catch (e) {
+      console.log('An error occurred:', e)
+    }
+  })
   context.subscriptions.push(disposable)
 }
 

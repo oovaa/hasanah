@@ -14,7 +14,7 @@ const get_hijri_Date = async () => {
   const month_en = data['data']['hijri']['month'].en
   const month_ar = data['data']['hijri']['month'].ar
 
-  return `${hijri_date} (${month_ar} / ${month_en})`
+  return `${hijri_date} (${month_ar} - ${month_en}) 🩵`
 }
 
-export { get_hijri_Date }
+module.exports.get_hijri_Date = get_hijri_Date

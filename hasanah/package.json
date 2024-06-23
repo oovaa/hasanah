@@ -30,7 +30,11 @@
     "commands": [
       {
         "command": "hasanah.getAyah",
-        "title": "get Ayah"
+        "title": "hasanah: get Ayah"
+      },
+      {
+        "command": "hasanah.getHijriDate",
+        "title": "hasanah: get Hijri Date"
       }
     ],
     "configuration": {
