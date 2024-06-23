@@ -32,7 +32,10 @@ There are no specific requirements or dependencies for this extension.
 This extension contributes the following commands:
 
 * `hasanah.getAyah`: This command fetches and displays a random Ayah from the Quran.
-* `getHasanah`: This command fetches and displays a random Hadith or Ayah from the Quran at a specified interval. The displayed text alternates between a Hadith and an Ayah.
+
+* `hasanah.getHijriDate`: This new command fetches and displays the current Hijri date.
+
+
 
 You can run these commands from the command palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on Mac) by typing the command name.
 

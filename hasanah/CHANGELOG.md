@@ -6,6 +6,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 # Changelog
 
+## [0.7.0] - 2024-04-20
+### Added
+- Added `get_hijri_Date` command to retrieve the current Hijri date.
+- Displays the current Hijri date alongside the Gregorian date.
+
 ## [0.6.0] - 2024-04-16
 ### Added
 - hasanah.getAyah command is now hasanah.getAyah and shows a blue heart and the hadith with the yellow heart.
