@@ -32,7 +32,11 @@
       {
         "command": "hasanah.getAyah",
         "title": "get Ayah"
-      }
+      },
+      {
+        "command": "hasanah.getHijriDate",
+        "title": "Get Hijri Date"
+    }
     ],
     "configuration": {
       "title": "Hasanah",
