@@ -6,6 +6,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 # Changelog
 
+
+## [0.7.0] - 2024-04-20
+- update readmes
+
 ## [0.7.0] - 2024-04-20
 ### Added
 - Added `get_hijri_Date` command to retrieve the current Hijri date.
