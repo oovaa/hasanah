@@ -92,6 +92,7 @@ function activate(context) {
           )
         }
       } catch (error) {
+        console.log(error.message)
         vscode.window.showInformationMessage(
           `اللهم احفظ السودان واهله ❤️ سبحان الله وبحمده (invalid surah/Ayah reference or Internet problem)`
         )
@@ -103,7 +104,7 @@ function activate(context) {
       const hejri_date = await get_hijri_Date()
       vscode.window.showInformationMessage(`Today in Hijri is: ${hejri_date}`)
     } catch (e) {
-      console.log('An error occurred:', e)
+      console.log('An error occurred:', e.message)
     }
   })
   context.subscriptions.push(disposable)

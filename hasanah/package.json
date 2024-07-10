@@ -10,7 +10,7 @@
     "url": "https://github.com/oovaa/hasanah.git"
   },
   "engines": {
-    "vscode": "^1.87.0"
+    "vscode": "^1.70.0"
   },
   "categories": [
     "Other"
