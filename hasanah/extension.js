@@ -5,13 +5,15 @@ const { get_hijri_Date } = require('./islamicDate.js')
 
 let timerId
 
+const DEFAULT_DUAA = 'اللهم احفظ السودان واهله ❤️ سبحان الله وبحمده '
+
 async function getText(showHadith) {
   try {
     let text
     if (showHadith) {
       const hadith = await printRandomHadith()
       if (hadith && hadith.arab && hadith.book) {
-        text = `${hadith.arab} 🧡 book (${hadith.book})`
+        text = `${hadith.arab} 💚 book (${hadith.book})`
       }
     } else {
       const ayah = await getAyahText()
@@ -31,7 +33,7 @@ async function getText(showHadith) {
     return text
   } catch (error) {
     console.log(error)
-    return `اللهم احفظ السودان واهله ❤️ سبحان الله وبحمده`
+    return DEFAULT_DUAA
   }
 }
 
@@ -94,7 +96,7 @@ function activate(context) {
       } catch (error) {
         console.log(error.message)
         vscode.window.showInformationMessage(
-          `اللهم احفظ السودان واهله ❤️ سبحان الله وبحمده (invalid surah/Ayah reference or Internet problem)`
+          ` ${DEFAULT_DUAA} (invalid surah/Ayah reference or Internet problem)`
         )
       }
     }
