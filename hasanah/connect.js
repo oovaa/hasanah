@@ -1,9 +1,18 @@
-const { printRandomHadith } = require('./hadith');
-const { getAyahText } = require('./quraan');
+import { newgetAyah } from './exp/quraan2'
 
-(async () => {
-    const aya = await getAyahText();
-    const hadith = await printRandomHadith();
-    console.log(aya);
-    console.log(hadith);
-})();
+const { printRandomHadith } = require('./hadith')
+const { getAyahText } = require('./quraan')
+
+// displayRandomAyah
+;(async () => {
+  console.time()
+  const aya2 = await newgetAyah()
+  console.timeEnd()
+  console.time()
+  const aya = await getAyahText()
+  console.timeEnd()
+
+  // console.log(aya)
+  // const hadith = await printRandomHadith()
+  //   console.log(hadith)
+})()
