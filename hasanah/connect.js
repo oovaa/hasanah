@@ -6,7 +6,7 @@ const { getAyahText } = require('./quraan')
 // displayRandomAyah
 ;(async () => {
   console.time()
-  const aya2 = await newgetAyah()
+  const aya2 = await newgetAyah() // 'https://quranapi.pages.dev/api'
   console.timeEnd()
   console.time()
   const aya = await getAyahText()
