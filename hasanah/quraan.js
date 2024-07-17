@@ -1,75 +1,44 @@
-async function getRandomSurah() {
-  try {
-    const response = await fetch('https://api.alquran.cloud/v1/surah')
-    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
+const API_BASE_URL = 'https://quranapi.pages.dev/api'
+const TOTAL_SURAH = 114
 
-    const data = await response.json()
-    const surahs = data['data']
-    const surahs_number = Math.floor(Math.random() * surahs.length)
-    return surahs[surahs_number]
-  } catch (error) {
-    console.error('Error fetching random Surah:', error)
-    throw error // Rethrow the error after logging it
-  }
+function getRandomNum(range) {
+  return Math.floor(Math.random() * range) + 1
 }
 
-async function getRandomAyah(surah) {
+async function fetchFromAPI(url) {
   try {
-    const ayahNumber = Math.floor(Math.random() * surah.numberOfAyahs) + 1
-    const response = await fetch(
-      `https://api.alquran.cloud/v1/ayah/${surah.number}:${ayahNumber}`
-    )
+    const response = await fetch(url)
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
+      throw new Error(`API request failed with status ${response.status}`)
     }
-    const data = await response.json()
-    return data['data']
+    return await response.json()
   } catch (error) {
-    console.error('Error fetching random Ayah:', error)
-    throw error // Rethrow the error after logging it
+    console.error(`Failed to fetch data: ${error.message}`)
+    throw error // Rethrow to handle it in the calling function if needed
   }
 }
 
-async function getAyahText() {
+async function newgetAyah() {
+  const surah_num = getRandomNum(TOTAL_SURAH)
+  const url = `${API_BASE_URL}/${surah_num}.json`
+  const data = await fetchFromAPI(url)
+  const numofayahs = data['totalAyah'] - 1
+  const ayah_num = getRandomNum(numofayahs)
+  const ayah = data['arabic1'][ayah_num]
+  const surah_name = data['surahNameArabic']
+  return { ayah, surah_name, ayah_num: ayah_num + 1 } // Adjust for zero-based index
+}
+
+async function displayRandomAyah() {
   try {
-    const surah = await getRandomSurah()
-    const ayah = await getRandomAyah(surah)
-    return ayah
+    const test = await newgetAyah()
+    console.log(test)
   } catch (error) {
-    console.error('Error fetching Ayah text:', error)
-    throw error // Rethrow the error after logging it
+    console.error(`Error displaying Ayah: ${error.message}`)
   }
 }
 
-async function getSpecificAyah(surahNumber, ayahNumber) {
-  if (typeof surahNumber !== 'number' || typeof ayahNumber !== 'number') {
-    surahNumber = parseInt(surahNumber)
-    ayahNumber = parseInt(ayahNumber)
-  }
-  try {
-    const response = await fetch(
-      `https://api.alquran.cloud/v1/ayah/${surahNumber}:${ayahNumber}`
-    )
-    if (!response.ok) {
-      console.error(`HTTP error! status: ${response.status}`)
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
-    const data = await response.json()
-    return data['data']
-  } catch (error) {
-    console.error('Error fetching specific Ayah:', error)
-    throw error // Rethrow the error after logging it
-  }
-}
+// إِنَّ ٱلْأَبْرَارَ يَشْرَبُونَ مِن كَأْسٍ كَانَ مِزَاجُهَا كَافُورًا
+// مِن شَرِّ مَا خَلَقَ
 
-module.exports.getSpecificAyah = getSpecificAyah
-module.exports.getAyahText = getAyahText
-
-// Usage examples:
-// let data = await getSpecificAyah(2, 255);
-// console.log(data.text, data.numberInSurah, data.surah.name);
-
-// getAyahText().then(ayah => {
-//   // You can handle the returned ayah here
-//   console.log(ayah.text);
-// });
+module.exports.newgetAyah = newgetAyah

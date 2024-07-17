@@ -1,6 +1,6 @@
 const vscode = require('vscode')
 const { printRandomHadith } = require('./hadith')
-const { getAyahText, getSpecificAyah } = require('./quraan')
+const { getAyahText, getSpecificAyah } = require('./oldquraan')
 const { get_hijri_Date } = require('./islamicDate.js')
 
 let timerId
