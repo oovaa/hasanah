@@ -1,6 +1,7 @@
+const { oldgetAyahText } = require('./oldquraan')
 const vscode = require('vscode')
 const { printRandomHadith } = require('./hadith')
-const { getAyahText, getSpecificAyah } = require('./oldquraan')
+const { getSpecificAyah } = require('./quraan')
 const { get_hijri_Date } = require('./islamicDate.js')
 
 let timerId
@@ -16,7 +17,7 @@ async function getText(showHadith) {
         text = `${hadith.arab} 💚 book (${hadith.book})`
       }
     } else {
-      const ayah = await getAyahText()
+      const ayah = await oldgetAyahText()
       if (
         ayah &&
         ayah.text &&
@@ -86,7 +87,7 @@ function activate(context) {
         const data = await getSpecificAyah(surah, ayah)
         if (data) {
           vscode.window.showInformationMessage(
-            `${data.text} 💙 ${data.surah.name} (${data.numberInSurah})`
+            `${data.text} 💙 ${data.surah_name} (${data.ayahNumber})`
           )
         } else {
           vscode.window.showInformationMessage(

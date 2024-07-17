@@ -18,7 +18,7 @@ async function fetchFromAPI(url) {
   }
 }
 
-async function newgetAyah() {
+async function getAyah() {
   const surah_num = getRandomNum(TOTAL_SURAH)
   const url = `${API_BASE_URL}/${surah_num}.json`
   const data = await fetchFromAPI(url)
@@ -31,14 +31,27 @@ async function newgetAyah() {
 
 async function displayRandomAyah() {
   try {
-    const test = await newgetAyah()
+    const test = await getAyah()
     console.log(test)
   } catch (error) {
     console.error(`Error displaying Ayah: ${error.message}`)
   }
 }
 
+async function getSpecificAyah(surahNumber, ayahNumber) {
+  const res = await fetchFromAPI(
+    `${API_BASE_URL}/${surahNumber}/${ayahNumber}.json`
+  )
+  const ans = {
+    text: res['arabic1'],
+    surah_name: res['surahNameArabic'],
+    ayahNumber
+  }
+  return ans
+}
+
 // إِنَّ ٱلْأَبْرَارَ يَشْرَبُونَ مِن كَأْسٍ كَانَ مِزَاجُهَا كَافُورًا
 // مِن شَرِّ مَا خَلَقَ
 
-module.exports.newgetAyah = newgetAyah
+module.exports.getAyah = getAyah
+module.exports.getSpecificAyah = getSpecificAyah

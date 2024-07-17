@@ -30,7 +30,7 @@ async function getRandomAyah(surah) {
   }
 }
 
-async function getAyahText() {
+async function oldgetAyahText() {
   try {
     const surah = await getRandomSurah()
     const ayah = await getRandomAyah(surah)
@@ -41,7 +41,7 @@ async function getAyahText() {
   }
 }
 
-async function getSpecificAyah(surahNumber, ayahNumber) {
+async function oldgetSpecificAyah(surahNumber, ayahNumber) {
   if (typeof surahNumber !== 'number' || typeof ayahNumber !== 'number') {
     surahNumber = parseInt(surahNumber)
     ayahNumber = parseInt(ayahNumber)
@@ -54,22 +54,29 @@ async function getSpecificAyah(surahNumber, ayahNumber) {
       console.error(`HTTP error! status: ${response.status}`)
       throw new Error(`HTTP error! status: ${response.status}`)
     }
-    const data = await response.json()
-    return data['data']
+    const json_res = await response.json()
+    const data = json_res['data']
+
+    const ans = {
+      text: data['text'],
+      ssurah_name: data['surah']['name'],
+      ayahNumber
+    }
+    return ans
   } catch (error) {
     console.error('Error fetching specific Ayah:', error)
     throw error // Rethrow the error after logging it
   }
 }
 
-module.exports.getSpecificAyah = getSpecificAyah
-module.exports.getAyahText = getAyahText
+module.exports.oldgetSpecificAyah = oldgetSpecificAyah
+module.exports.oldgetAyahText = oldgetAyahText
 
 // Usage examples:
-// let data = await getSpecificAyah(2, 255);
+// let data = await oldgetSpecificAyah(2, 255);
 // console.log(data.text, data.numberInSurah, data.surah.name);
 
-// getAyahText().then(ayah => {
+// oldgetAyahText().then(ayah => {
 //   // You can handle the returned ayah here
 //   console.log(ayah.text);
 // });
