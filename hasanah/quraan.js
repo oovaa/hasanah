@@ -24,6 +24,10 @@ async function fetchFromAPI(url) {
   }
 }
 
+/**
+ * Retrieves a random ayah (verse) from the Quran API.
+ * @returns {Promise<{text: string, surah_name: string, ayah_num: number}>} The random ayah, along with its surah name and ayah number.
+ */
 async function getAyah() {
   const surah_num = getRandomNum(TOTAL_SURAH)
   const url = `${API_BASE_URL}/${surah_num}.json`
@@ -35,6 +39,10 @@ async function getAyah() {
   return { text: ayah, surah_name, ayah_num: ayah_num + 1 } // Adjust for zero-based index
 }
 
+/**
+ * Displays a random Ayah.
+ * @returns {Promise<void>} A promise that resolves when the Ayah is displayed.
+ */
 async function displayRandomAyah() {
   try {
     const test = await getAyah()

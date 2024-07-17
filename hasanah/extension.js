@@ -15,7 +15,7 @@ async function getText(showHadith) {
       const hadith = await printRandomHadith()
       if (hadith && hadith.arab && hadith.book) {
         text = `${hadith.arab} 💚 book (${hadith.book})`
-      }
+      } else text = `${DEFAULT_DUAA} 💚 hadith failed`
     } else {
       const ayah = await getAyah()
       if (ayah && ayah.text && ayah.surah_name && ayah.ayah_num) {
