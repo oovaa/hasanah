@@ -1,7 +1,7 @@
 const { oldgetAyahText } = require('./oldquraan')
 const vscode = require('vscode')
 const { printRandomHadith } = require('./hadith')
-const { getSpecificAyah } = require('./quraan')
+const { getSpecificAyah, getAyah } = require('./quraan')
 const { get_hijri_Date } = require('./islamicDate.js')
 
 let timerId
@@ -17,18 +17,13 @@ async function getText(showHadith) {
         text = `${hadith.arab} 💚 book (${hadith.book})`
       }
     } else {
-      const ayah = await oldgetAyahText()
-      if (
-        ayah &&
-        ayah.text &&
-        ayah.surah &&
-        ayah.surah.name &&
-        ayah.numberInSurah
-      ) {
-        text = `${ayah.text} ❤️ ${ayah.surah.name} (${ayah.numberInSurah})`
+      const ayah = await getAyah()
+      if (ayah && ayah.text && ayah.surah_name && ayah.ayah_num) {
+        text = `${ayah.text} ❤️ ${ayah.surah_name} (${ayah.ayah_num})`
       }
     }
     if (!text) {
+      showHadith = !showHadith
       throw new Error('Failed to fetch text ', showHadith)
     }
     return text
@@ -75,7 +70,6 @@ function activate(context) {
       const ayah = await vscode.window.showInputBox({
         prompt: 'Enter the number of the ayah'
       })
-
       if (!surah || !ayah) {
         vscode.window.showInformationMessage(
           'Invalid input. Please enter a number.'

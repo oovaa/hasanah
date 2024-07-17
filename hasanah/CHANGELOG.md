@@ -6,8 +6,13 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 # Changelog
 
+## [0.8.0] - 2024-07-17
+- update readmes
+- Updated the extension to use a new API 'https://quranapi.pages.dev/api'.
+- Improved performance and code readability.
+- Unified the returned objects in files.
 
-## [0.7.0] - 2024-04-20
+## [0.7.1] - 2024-04-20
 - update readmes
 
 ## [0.7.0] - 2024-04-20
