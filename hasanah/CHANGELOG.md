@@ -6,6 +6,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 # Changelog
 
+## [0.8.1] - 2024-07-18
+- fix names of hadith rawi
+- add some docs
+- remove unnneded stuff (pics and files)
+
 ## [0.8.0] - 2024-07-17
 - update readmes
 - Updated the extension to use a new API 'https://quranapi.pages.dev/api'.
