@@ -1,4 +1,3 @@
-const { oldgetAyahText } = require('./oldquraan')
 const vscode = require('vscode')
 const { printRandomHadith } = require('./hadith')
 const { getSpecificAyah, getAyah } = require('./quraan')
@@ -8,19 +7,27 @@ let timerId
 
 const DEFAULT_DUAA = 'اللهم احفظ السودان واهله ❤️ سبحان الله وبحمده '
 
+/**
+ * @param { boolean } showHadith
+ */
 async function getText(showHadith) {
   try {
     let text
-    if (showHadith) {
-      const hadith = await printRandomHadith()
-      if (hadith && hadith.arab && hadith.book) {
-        text = `${hadith.arab} 💚 book (${hadith.book})`
-      } else text = `${DEFAULT_DUAA} 💚 hadith failed`
-    } else {
-      const ayah = await getAyah()
-      if (ayah && ayah.text && ayah.surah_name && ayah.ayah_num) {
-        text = `${ayah.text} ❤️ ${ayah.surah_name} (${ayah.ayah_num})`
-      }
+    switch (showHadith) {
+      case true:
+        const hadith = await printRandomHadith()
+        if (hadith && hadith.arab && hadith.book) {
+          text = `${hadith.arab} 💚 book (${hadith.book}) (${hadith.number})`
+        } else {
+          text = `${DEFAULT_DUAA} 💚 hadith failed`
+        }
+        break
+      case false:
+        const ayah = await getAyah()
+        if (ayah && ayah.text && ayah.surah_name && ayah.ayah_num) {
+          text = `${ayah.text} ❤️ ${ayah.surah_name} (${ayah.ayah_num})`
+        }
+        break
     }
     if (!text) {
       showHadith = !showHadith
