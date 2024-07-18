@@ -4,7 +4,7 @@ const collections = [
   { english: 'tirmidzi', arabic: 'الترمذي' },
   { english: 'nasai', arabic: 'النسائي' },
   { english: 'abu-daud', arabic: 'أبو داود' },
-  { english: 'ibnumajah', arabic: 'ابن ماجه' },
+  { english: 'ibnu-majah', arabic: 'ابن ماجه' },
   { english: 'ahmad', arabic: 'أحمد' },
   { english: 'darimi', arabic: 'الدارمي' },
   { english: 'malik', arabic: 'مالك' }
