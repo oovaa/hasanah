@@ -3,7 +3,7 @@ const collections = [
   { english: 'bukhari', arabic: 'البخاري' },
   { english: 'tirmidzi', arabic: 'الترمذي' },
   { english: 'nasai', arabic: 'النسائي' },
-  { english: 'abudaud', arabic: 'أبو داود' },
+  { english: 'abu-daud', arabic: 'أبو داود' },
   { english: 'ibnumajah', arabic: 'ابن ماجه' },
   { english: 'ahmad', arabic: 'أحمد' },
   { english: 'darimi', arabic: 'الدارمي' },
@@ -32,7 +32,7 @@ async function getRandomHadith() {
     )
 
     if (!response.ok) {
-      throw new Error('Network response was not ok')
+      throw new Error('Network response was not ok ' + (await response.text()))
     }
 
     const data = await response.json()
