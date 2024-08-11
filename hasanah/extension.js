@@ -31,7 +31,7 @@ async function getText(showHadith) {
     }
     if (!text) {
       showHadith = !showHadith
-      throw new Error('Failed to fetch text ', showHadith)
+      return getText(showHadith)
     }
     return text
   } catch (error) {
