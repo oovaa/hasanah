@@ -6,7 +6,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 # Changelog
 
-## [0.8.1.1] - 2024-10-03
+## [0.8.2] - 2024-10-03
 - Added extension description
 - Updated `engines.vscode` to support newer versions
 
