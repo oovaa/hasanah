@@ -80,4 +80,4 @@ See [CHANGELOG.md](./CHANGELOG.md) for a detailed history of changes.
 
 A huge thank you to everyone who uses and supports this extension. Your feedback and contributions make it better every day. May your coding journey be filled with inspiration and productivity.
 
-and a special thank you. 🩷
+and a special thank for you. 🩷
