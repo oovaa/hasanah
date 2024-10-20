@@ -6,6 +6,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 # Changelog
 
+## [0.8.3] - 2024-10-24
+- Updated readme
+- Improved compatibility with older versions of VS Code
+
 ## [0.8.2] - 2024-10-03
 - Added extension description
 - Updated `engines.vscode` to support newer versions

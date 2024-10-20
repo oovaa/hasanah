@@ -97,7 +97,7 @@ function activate(context) {
         }
       } catch (error) {
         console.log(error.message)
-        vscode.window.showInformationMessage(
+        vscode.window.showErrorMessage(
           ` ${DEFAULT_DUAA} (invalid surah/Ayah reference or Internet problem)`
         )
       }
