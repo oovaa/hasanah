@@ -59,7 +59,7 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.93.0",
+    "@types/vscode": "1.87.0",
     "@types/mocha": "^10.0.8",
     "@types/node": "^18.19.54",
     "eslint": "^8.57.1",

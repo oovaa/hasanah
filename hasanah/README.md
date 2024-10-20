@@ -43,9 +43,17 @@ You can run these commands from the command palette (`Ctrl+Shift+P` or `Cmd+Shif
 
 This extension contributes the following settings:
 
-* `hasanah.enable`: Enable/disable this extension.
 * `hasanah.delay`: Set the delay (in minutes) between each display of Hadith or Ayah. The delay can be any positive integer. The default value is 30 minutes.
 
+  **How to configure:**
+  1. Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on Mac).
+  2. Type `Preferences: Open Settings (UI)` and press `Enter`.
+  3. In the search bar at the top, type `hasanah delay`.
+  4. Set the desired delay value in the settings.
+
+  Alternatively, you can add the following line to your `settings.json` file:
+  ```json
+  "hasanah.delay": 30
 ## Known Issues
 
 - When the Hadith text is too long, it may not display properly.
@@ -64,3 +72,12 @@ See [CHANGELOG.md](./CHANGELOG.md) for a detailed history of changes.
 * [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown): Learn more about writing Markdown in Visual Studio Code.
 * [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/): A reference guide for Markdown syntax.
 **Enjoy!**
+
+
+
+
+### 🙏 Thank You! 🙏
+
+A huge thank you to everyone who uses and supports this extension. Your feedback and contributions make it better every day. May your coding journey be filled with inspiration and productivity.
+
+and a special thank you. 🩷
