@@ -61,6 +61,9 @@ async function getText(showHadith, language) {
   }
 }
 
+/**
+ * @param {vscode.ExtensionContext} context
+ */
 function activate(context) {
   let config = vscode.workspace.getConfiguration('hasanah')
   let delay = config.get('delay') * 60000 // convert from milliseconds
