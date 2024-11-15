@@ -37,6 +37,8 @@ This extension contributes the following settings:
 
 * `hasanah.delay`: Set the delay (in minutes) between each display of Hadith or Ayah. The delay can be any positive integer. The default value is 30 minutes.
 
+* `hasanah.language`: Set the language for the displayed Ayah or Hadith. The language can be either 'en' for English or 'ar' for Arabic. The default value is 'ar'.
+
   **How to configure:**
   1. Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on Mac).
   2. Type `Preferences: Open Settings (UI)` and press `Enter`.
@@ -46,6 +48,17 @@ This extension contributes the following settings:
   Alternatively, you can add the following line to your `settings.json` file:
   ```json
   "hasanah.delay": 30
+  ```
+
+  **How to configure:**
+  1. Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on Mac).
+  2. Type `Preferences: Open Settings (UI)` and press `Enter`.
+  3. In the search bar at the top, type `hasanah language`.
+  4. Select the desired language from the dropdown menu in the settings.
+
+  Alternatively, you can add the following line to your `settings.json` file:
+  ```json
+  "hasanah.language": "ar"
   ```
 
 ## Known Issues
