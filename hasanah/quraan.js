@@ -28,41 +28,46 @@ async function fetchFromAPI(url) {
  * Retrieves a random ayah (verse) from the Quran API.
  * @returns {Promise<{text: string, surah_name: string, ayah_num: number}>} The random ayah, along with its surah name and ayah number.
  */
-async function getAyah() {
+/**
+ * @typedef {Object} Ayah
+ * @property {string} text - The text of the ayah.
+ * @property {string} surah_name - The name of the surah.
+ * @property {number} ayah_num - The number of the ayah.
+ */
+
+/**
+ * Retrieves a random ayah (verse) from the Quran API.
+ * @param {string} language - The language of the ayah ('ar' for Arabic, otherwise English).
+ * @returns {Promise<Ayah>} The random ayah, along with its surah name and ayah number.
+ */
+async function getAyah(language) {
   const surah_num = getRandomNum(TOTAL_SURAH)
   const url = `${API_BASE_URL}/${surah_num}.json`
   const data = await fetchFromAPI(url)
   const numofayahs = data['totalAyah'] - 1
   const ayah_num = getRandomNum(numofayahs)
-  const ayah = data['arabic1'][ayah_num]
-  const surah_name = data['surahNameArabic']
+  const lang = language == 'ar' ? 'arabic1' : 'english'
+  const ayah = data[lang][ayah_num]
+  const surah_name = language == 'ar' ? data['surahNameArabic'] : data['surahName']
+
+  // console.log({ text: ayah, surah_name, ayah_num: ayah_num + 1 });
+
   return { text: ayah, surah_name, ayah_num: ayah_num + 1 } // Adjust for zero-based index
 }
+// getAyah('ar')
 
-/**
- * Displays a random Ayah.
- * @returns {Promise<void>} A promise that resolves when the Ayah is displayed.
- */
-async function displayRandomAyah() {
-  try {
-    const test = await getAyah()
-    console.log(test)
-  } catch (error) {
-    console.error(`Error displaying Ayah: ${error.message}`)
-  }
-}
 
 /**
  * @param {String} surahNumber
  * @param {String} ayahNumber
  */
-async function getSpecificAyah(surahNumber, ayahNumber) {
+async function getSpecificAyah(surahNumber, ayahNumber, language) {
   const res = await fetchFromAPI(
     `${API_BASE_URL}/${surahNumber}/${ayahNumber}.json`
   )
   const ans = {
-    text: res['arabic1'],
-    surah_name: res['surahNameArabic'],
+    text: language == 'ar' ? res['arabic1'] : res['english'],
+    surah_name: language == 'ar' ? res['surahNameArabic'] : res['surahName'],
     ayahNumber
   }
   return ans
