@@ -15,7 +15,7 @@ Hasanah includes the following features:
 - Includes the source of the Hadith or the Surah and Ayah number for the Quran verse.
 
 <p align="center">
-  <img src="./hasanah/Screenshot_20240402_162846.png" alt="Hasanah extension screenshot">
+  <img src="./Screenshot_20241115_062746.png" alt="Hasanah extension screenshot">
 </p>
 
 ## Requirements
