@@ -10,7 +10,7 @@ const DEFAULT_DUAA = 'اللهم احفظ السودان واهله ❤️ سب�
 /**
  * @param { boolean } showHadith
  */
-async function getText(showHadith) {
+async function getText(showHadith, language) {
   try {
     let text
     switch (showHadith) {
@@ -23,7 +23,7 @@ async function getText(showHadith) {
         }
         break
       case false:
-        const ayah = await getAyah()
+        const ayah = await getAyah(language)
         if (ayah && ayah.text && ayah.surah_name && ayah.ayah_num) {
           text = `${ayah.text} ❤️ ${ayah.surah_name} (${ayah.ayah_num})`
         }
@@ -43,6 +43,7 @@ async function getText(showHadith) {
 function activate(context) {
   let config = vscode.workspace.getConfiguration('hasanah')
   let delay = config.get('delay') * 60000 // convert from milliseconds
+  let language = config.get('language'); // get the language setting
 
   let showHadith = false
 
@@ -85,7 +86,7 @@ function activate(context) {
       }
 
       try {
-        const data = await getSpecificAyah(surah, ayah)
+        const data = await getSpecificAyah(surah, ayah, language)
         if (data) {
           vscode.window.showInformationMessage(
             `${data.text} 💙 ${data.surah_name} (${data.ayahNumber})`
