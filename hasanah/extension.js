@@ -10,11 +10,31 @@ const DEFAULT_DUAA = 'اللهم احفظ السودان واهله ❤️ سب�
 /**
  * @param { boolean } showHadith
  */
+/**
+ * @typedef {Object} Hadith
+ * @property {string} arab
+ * @property {string} book
+ * @property {number} number
+ */
+
+/**
+ * @typedef {Object} Ayah
+ * @property {string} text
+ * @property {string} surah_name
+ * @property {number} ayah_num
+ */
+
+/**
+ * @param {boolean} showHadith
+ * @param {string} language
+ * @returns {Promise<string>}
+ */
 async function getText(showHadith, language) {
   try {
     let text
     switch (showHadith) {
       case true:
+        /** @type {Hadith} */
         const hadith = await printRandomHadith()
         if (hadith && hadith.arab && hadith.book) {
           text = `${hadith.arab} 💚 book (${hadith.book}) (${hadith.number})`
@@ -23,6 +43,7 @@ async function getText(showHadith, language) {
         }
         break
       case false:
+        /** @type {Ayah} */
         const ayah = await getAyah(language)
         if (ayah && ayah.text && ayah.surah_name && ayah.ayah_num) {
           text = `${ayah.text} ❤️ ${ayah.surah_name} (${ayah.ayah_num})`
@@ -31,7 +52,7 @@ async function getText(showHadith, language) {
     }
     if (!text) {
       showHadith = !showHadith
-      return getText(showHadith)
+      return getText(showHadith, language)
     }
     return text
   } catch (error) {
@@ -48,7 +69,7 @@ function activate(context) {
   let showHadith = false
 
   const showText = async () => {
-    const text = await getText(showHadith)
+    const text = await getText(showHadith, language)
     vscode.window.showInformationMessage(text)
     showHadith = !showHadith
   }

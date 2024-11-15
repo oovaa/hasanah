@@ -6,10 +6,18 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 # Changelog
 
-## [0.8.3] - 2024-10-24
+## [9.0.0] - 2024-11-15
+- support english and arabic on quraan
+- Updated readme
+- next step is to support english hadith
+
+
+## [8.3.0] - 2024-10-24
 - Updated readme
 - Improved compatibility with older versions of VS Code
 - Improved error messages
+
+> lost the 0
 
 ## [0.8.2] - 2024-10-03
 - Added extension description
