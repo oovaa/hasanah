@@ -6,6 +6,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 # Changelog
 
+## [9.0.1] - 2024-12-1
+- No restart needed after changing language.
+- Added comments documentation for `extension.js` for better developer experience.
+- Overall improved error handling.
+
 ## [9.0.0] - 2024-11-15
 - support english and arabic on quraan
 - Updated readme
