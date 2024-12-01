@@ -5,11 +5,8 @@ const { get_hijri_Date } = require('./islamicDate.js')
 
 let timerId
 
-const DEFAULT_DUAA = 'اللهم احفظ السودان واهله ❤️ سبحان الله وبحمده '
+const DEFAULT_DUAA = 'اللهم احفظ السودان واهله ❤️ سبحان الله وبحمده'
 
-/**
- * @param { boolean } showHadith
- */
 /**
  * @typedef {Object} Hadith
  * @property {string} arab
@@ -25,6 +22,7 @@ const DEFAULT_DUAA = 'اللهم احفظ السودان واهله ❤️ سب�
  */
 
 /**
+ * Fetches either a random Hadith or Ayah based on the showHadith flag and language.
  * @param {boolean} showHadith
  * @param {string} language
  * @returns {Promise<string>}
@@ -32,23 +30,18 @@ const DEFAULT_DUAA = 'اللهم احفظ السودان واهله ❤️ سب�
 async function getText(showHadith, language) {
   try {
     let text
-    switch (showHadith) {
-      case true:
-        /** @type {Hadith} */
-        const hadith = await printRandomHadith()
-        if (hadith && hadith.arab && hadith.book) {
-          text = `${hadith.arab} 💚 book (${hadith.book}) (${hadith.number})`
-        } else {
-          text = `${DEFAULT_DUAA} 💚 hadith failed`
-        }
-        break
-      case false:
-        /** @type {Ayah} */
-        const ayah = await getAyah(language)
-        if (ayah && ayah.text && ayah.surah_name && ayah.ayah_num) {
-          text = `${ayah.text} ❤️ ${ayah.surah_name} (${ayah.ayah_num})`
-        }
-        break
+    if (showHadith) {
+      const hadith = await printRandomHadith()
+      if (hadith && hadith.arab && hadith.book) {
+        text = `${hadith.arab} 💚 book (${hadith.book}) (${hadith.number})`
+      } else {
+        text = `${DEFAULT_DUAA} 💚 hadith failed`
+      }
+    } else {
+      const ayah = await getAyah(language)
+      if (ayah && ayah.text && ayah.surah_name && ayah.ayah_num) {
+        text = `${ayah.text} ❤️ ${ayah.surah_name} (${ayah.ayah_num})`
+      }
     }
     if (!text) {
       showHadith = !showHadith
@@ -56,17 +49,18 @@ async function getText(showHadith, language) {
     }
     return text
   } catch (error) {
-    console.log(error)
+    console.error('Error fetching text:', error)
     return DEFAULT_DUAA
   }
 }
 
 /**
+ * Activates the extension.
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
   let config = vscode.workspace.getConfiguration('hasanah')
-  let delay = config.get('delay') * 60000 // convert from milliseconds
+  let delay = config.get('delay') * 60000 // convert from minutes to milliseconds
   let language = config.get('language') // get the language setting
 
   let showHadith = false
@@ -77,34 +71,28 @@ function activate(context) {
     showHadith = !showHadith
   }
 
-  let timerId = setInterval(showText, delay)
+  timerId = setInterval(showText, delay)
 
   // Listen for configuration changes
   context.subscriptions.push(
     vscode.workspace.onDidChangeConfiguration((e) => {
       if (e.affectsConfiguration('hasanah.delay')) {
         clearInterval(timerId) // Clear the old interval
-
         config = vscode.workspace.getConfiguration('hasanah')
         delay = config.get('delay') * 60000 // Get the new delay
-
         timerId = setInterval(showText, delay) // Create a new interval with the new delay
       }
-
       if (e.affectsConfiguration('hasanah.language')) {
         config = vscode.workspace.getConfiguration('hasanah')
-        language = config.get('language') // Get the new language
+        language = config.get('language') // update the language setting
       }
     })
   )
 
-  let disposable = vscode.commands.registerCommand('hasanah.getAyah', async function () {
-    const surah = await vscode.window.showInputBox({
-      prompt: 'Enter the number of the surah'
-    })
-    const ayah = await vscode.window.showInputBox({
-      prompt: 'Enter the number of the ayah'
-    })
+  // Register commands
+  let disposable = vscode.commands.registerCommand('hasanah.getAyah', async () => {
+    const surah = await vscode.window.showInputBox({ prompt: 'Enter the number of the surah' })
+    const ayah = await vscode.window.showInputBox({ prompt: 'Enter the number of the ayah' })
     if (!surah || !ayah) {
       vscode.window.showInformationMessage('Invalid input. Please enter a number.')
       return
@@ -118,16 +106,19 @@ function activate(context) {
         vscode.window.showInformationMessage('No data returned from the Quraan API.')
       }
     } catch (error) {
-      console.log(error.message)
-      vscode.window.showErrorMessage(` ${DEFAULT_DUAA} (invalid surah/Ayah reference or Internet problem)`)
+      console.error('Error fetching specific Ayah:', error.message)
+      vscode.window.showErrorMessage(`${DEFAULT_DUAA} (invalid surah/Ayah reference or Internet problem)`)
     }
   })
-  vscode.commands.registerCommand('hasanah.getHijriDate', async () => {
+
+  context.subscriptions.push(disposable)
+
+  disposable = vscode.commands.registerCommand('hasanah.getHijriDate', async () => {
     try {
       const hejri_date = await get_hijri_Date()
       vscode.window.showInformationMessage(`Today in Hijri is: ${hejri_date}`)
     } catch (e) {
-      console.log('An error occurred:', e.message)
+      console.error('An error occurred:', e.message)
     }
   })
   context.subscriptions.push(disposable)
