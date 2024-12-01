@@ -1,5 +1,5 @@
 const vscode = require('vscode')
-const { printRandomHadith } = require('./hadith')
+const { GetRandomHadith } = require('./hadith')
 const { getSpecificAyah, getAyah } = require('./quraan')
 const { get_hijri_Date } = require('./islamicDate.js')
 
@@ -22,17 +22,19 @@ const DEFAULT_DUAA = 'اللهم احفظ السودان واهله ❤️ سب�
  */
 
 /**
- * Fetches either a random Hadith or Ayah based on the showHadith flag and language.
- * @param {boolean} showHadith - Whether to show a Hadith (true) or an Ayah (false).
+ * Fetches either a random Hadith or Ayah based on the turns flag and language.
+ * @param {boolean} turns - Whether to show a Hadith (true) or an Ayah (false).
  * @param {string} language - The language for the Ayah (en for English, ar for Arabic).
  * @returns {Promise<string>} The text to display.
  */
-async function getText(showHadith, language) {
+async function getText(turns, language) {
+  // The 'turns' parameter is a boolean that determines whether to fetch a Hadith (if true) or an Ayah (if false).
+  // If fetching fails, the function toggles 'turns' and tries fetching the other type of text.
   try {
     let text
-    if (showHadith) {
+    if (turns) {
       // Fetch a random Hadith
-      const hadith = await printRandomHadith()
+      const hadith = await GetRandomHadith()
       if (hadith && hadith.arab && hadith.book) {
         text = `${hadith.arab} 💚 book (${hadith.book}) (${hadith.number})`
       } else {
@@ -46,9 +48,9 @@ async function getText(showHadith, language) {
       }
     }
     if (!text) {
-      // If no text was fetched, toggle showHadith and try again
-      showHadith = !showHadith
-      return getText(showHadith, language)
+      // If no text was fetched, toggle turns and try again
+      turns = !turns
+      return getText(turns, language)
     }
     return text
   } catch (error) {
@@ -67,13 +69,13 @@ function activate(context) {
   let delay = config.get('delay') * 60000 // Convert delay from minutes to milliseconds
   let language = config.get('language') // Get the language setting
 
-  let showHadith = false
+  let turns = false
 
   // Function to fetch and display text (Hadith or Ayah) at regular intervals
   const showText = async () => {
-    const text = await getText(showHadith, language)
+    const text = await getText(turns, language)
     vscode.window.showInformationMessage(text)
-    showHadith = !showHadith
+    turns = !turns
   }
 
   // Set an interval to call the showText function based on the delay setting
@@ -114,7 +116,7 @@ function activate(context) {
         vscode.window.showInformationMessage('No data returned from the Quraan API.')
       }
     } catch (error) {
-      console.error('Error fetching specific Ayah:', error.message)
+      console.error('Error fetching specific Ayah:', error)
       vscode.window.showErrorMessage(`${DEFAULT_DUAA} (invalid surah/Ayah reference or Internet problem)`)
     }
   })

@@ -54,7 +54,7 @@ async function getRandomHadith() {
  * Prints a random Hadith.
  * @returns {Promise<any>| null} The random Hadith object, or null if no Hadith is found.
  */
-async function printRandomHadith() {
+async function GetRandomHadith() {
   try {
     const hadith = await getRandomHadith()
     if (hadith) {
@@ -69,8 +69,8 @@ async function printRandomHadith() {
   }
 }
 
-module.exports.printRandomHadith = printRandomHadith
+module.exports.GetRandomHadith = GetRandomHadith
 
 // Usage example:
-// let h = await printRandomHadith();
+// let h = await GetRandomHadith();
 // console.log(h);

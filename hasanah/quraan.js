@@ -54,17 +54,13 @@ async function getAyah(language) {
 
   return { text: ayah, surah_name, ayah_num: ayah_num + 1 } // Adjust for zero-based index
 }
-// getAyah('ar')
-
 
 /**
  * @param {String} surahNumber
  * @param {String} ayahNumber
  */
 async function getSpecificAyah(surahNumber, ayahNumber, language) {
-  const res = await fetchFromAPI(
-    `${API_BASE_URL}/${surahNumber}/${ayahNumber}.json`
-  )
+  const res = await fetchFromAPI(`${API_BASE_URL}/${surahNumber}/${ayahNumber}.json`)
   const ans = {
     text: language == 'ar' ? res['arabic1'] : res['english'],
     surah_name: language == 'ar' ? res['surahNameArabic'] : res['surahName'],

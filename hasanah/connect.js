@@ -1,13 +1,13 @@
 import { time, timeEnd } from 'console'
 import { getAyah, getSpecificAyah } from './quraan'
 
-const { printRandomHadith } = require('./hadith')
+const { GetRandomHadith } = require('./hadith')
 const { oldgetAyahText, oldgetSpecificAyah } = require('../oldquraan')
 
 // displayRandomAyah
 async function main() {
   time('hadith time')
-  let hadith = await printRandomHadith()
+  let hadith = await GetRandomHadith()
   timeEnd('hadith time')
   // console.log(hadith)
 
