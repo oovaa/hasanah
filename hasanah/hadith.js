@@ -27,20 +27,22 @@ const collection = getRandomCollection()
  */
 async function getRandomHadith() {
   try {
-    const response = await fetch(
-      `https://api.hadith.gading.dev/books/${collection.english}?range=300-500`
-    )
+    const response = await fetch(`https://api.hadith.gading.dev/books/${collection.english}?range=300-500`)
 
     if (!response.ok) {
       throw new Error('Network response was not ok ' + (await response.text()))
     }
 
     const data = await response.json()
+    if (!data || !data['data'] || !data['data']['hadiths']) {
+      throw new Error('Invalid API response')
+    }
+
     const hadiths = data['data']['hadiths']
     const randomIndex = Math.floor(Math.random() * hadiths.length)
     return hadiths[randomIndex]
   } catch (error) {
-    console.error('Error fetching random Hadith:', error)
+    console.error('Error fetching random Hadith:', error.message)
     if (error.message === 'Network response was not ok') {
       return 'No internet connection available.'
     }
@@ -62,7 +64,7 @@ async function printRandomHadith() {
       throw new Error('No Hadith found.')
     }
   } catch (error) {
-    console.error('Error printing random Hadith:', error)
+    console.error('Error printing random Hadith:', error.message)
     return null
   }
 }

@@ -67,7 +67,7 @@ async function getText(showHadith, language) {
 function activate(context) {
   let config = vscode.workspace.getConfiguration('hasanah')
   let delay = config.get('delay') * 60000 // convert from milliseconds
-  let language = config.get('language'); // get the language setting
+  let language = config.get('language') // get the language setting
 
   let showHadith = false
 
@@ -90,44 +90,38 @@ function activate(context) {
 
         timerId = setInterval(showText, delay) // Create a new interval with the new delay
       }
+
+      if (e.affectsConfiguration('hasanah.language')) {
+        config = vscode.workspace.getConfiguration('hasanah')
+        language = config.get('language') // Get the new language
+      }
     })
   )
 
-  let disposable = vscode.commands.registerCommand(
-    'hasanah.getAyah',
-    async function () {
-      const surah = await vscode.window.showInputBox({
-        prompt: 'Enter the number of the surah'
-      })
-      const ayah = await vscode.window.showInputBox({
-        prompt: 'Enter the number of the ayah'
-      })
-      if (!surah || !ayah) {
-        vscode.window.showInformationMessage(
-          'Invalid input. Please enter a number.'
-        )
-        return
-      }
-
-      try {
-        const data = await getSpecificAyah(surah, ayah, language)
-        if (data) {
-          vscode.window.showInformationMessage(
-            `${data.text} 💙 ${data.surah_name} (${data.ayahNumber})`
-          )
-        } else {
-          vscode.window.showInformationMessage(
-            'No data returned from the Quraan API.'
-          )
-        }
-      } catch (error) {
-        console.log(error.message)
-        vscode.window.showErrorMessage(
-          ` ${DEFAULT_DUAA} (invalid surah/Ayah reference or Internet problem)`
-        )
-      }
+  let disposable = vscode.commands.registerCommand('hasanah.getAyah', async function () {
+    const surah = await vscode.window.showInputBox({
+      prompt: 'Enter the number of the surah'
+    })
+    const ayah = await vscode.window.showInputBox({
+      prompt: 'Enter the number of the ayah'
+    })
+    if (!surah || !ayah) {
+      vscode.window.showInformationMessage('Invalid input. Please enter a number.')
+      return
     }
-  )
+
+    try {
+      const data = await getSpecificAyah(surah, ayah, language)
+      if (data) {
+        vscode.window.showInformationMessage(`${data.text} 💙 ${data.surah_name} (${data.ayahNumber})`)
+      } else {
+        vscode.window.showInformationMessage('No data returned from the Quraan API.')
+      }
+    } catch (error) {
+      console.log(error.message)
+      vscode.window.showErrorMessage(` ${DEFAULT_DUAA} (invalid surah/Ayah reference or Internet problem)`)
+    }
+  })
   vscode.commands.registerCommand('hasanah.getHijriDate', async () => {
     try {
       const hejri_date = await get_hijri_Date()
