@@ -1,5 +1,5 @@
 const vscode = require('vscode')
-const { GetRandomHadith } = require('./hadith')
+const { GetRandomHadith } = require('./hadith.mjs')
 const { getSpecificAyah, getAyah } = require('./quraan')
 const { get_hijri_Date } = require('./islamicDate.js')
 
