@@ -1,5 +1,9 @@
-const vscode = require('vscode')
-const { GetRandomHadith } = require('./hadith')
+// const vscode = require('vscode')
+import vscode from 'vscode';
+
+// const { GetRandomHadith } = require('./hadith')
+const { GetRandomHadith } = require('./hadith-api')
+
 const { getSpecificAyah, getAyah } = require('./quraan')
 const { get_hijri_Date } = require('./islamicDate.js')
 
@@ -27,6 +31,40 @@ const DEFAULT_DUAA = 'اللهم احفظ السودان واهله ❤️ سب�
  * @param {string} language - The language for the Ayah (en for English, ar for Arabic).
  * @returns {Promise<string>} The text to display.
  */
+
+// async function getText(turns, language) {
+//   // The 'turns' parameter is a boolean that determines whether to fetch a Hadith (if true) or an Ayah (if false).
+//   // If fetching fails, the function toggles 'turns' and tries fetching the other type of text.
+//   try {
+//     let text
+//     if (turns) {
+//       // Fetch a random Hadith
+//       const hadith = await GetRandomHadith()
+//       if (hadith && hadith.arab && hadith.book) {
+//         text = `${hadith.arab} 💚 book (${hadith.book}) (${hadith.number})`
+//       } else {
+//         text = `${DEFAULT_DUAA} 💚 hadith failed`
+//       }
+//     } else {
+//       // Fetch a random Ayah
+//       const ayah = await getAyah(language)
+//       if (ayah && ayah.text && ayah.surah_name && ayah.ayah_num) {
+//         text = `${ayah.text} ❤️ ${ayah.surah_name} (${ayah.ayah_num})`
+//       }
+//     }
+//     if (!text) {
+//       // If no text was fetched, toggle turns and try again
+//       turns = !turns
+//       return getText(turns, language)
+//     }
+//     return text
+//   } catch (error) {
+//     console.error('Error fetching text:', error)
+//     return DEFAULT_DUAA
+//   }
+// }
+
+
 async function getText(turns, language) {
   // The 'turns' parameter is a boolean that determines whether to fetch a Hadith (if true) or an Ayah (if false).
   // If fetching fails, the function toggles 'turns' and tries fetching the other type of text.
@@ -34,9 +72,9 @@ async function getText(turns, language) {
     let text
     if (turns) {
       // Fetch a random Hadith
-      const hadith = await GetRandomHadith()
-      if (hadith && hadith.arab && hadith.book) {
-        text = `${hadith.arab} 💚 book (${hadith.book}) (${hadith.number})`
+      const hadith = await GetRandomHadith(language)
+      if (hadith && hadith.hadithBook && hadith.hadithNumber) {
+        text = `${hadith} 💚 book (${hadith.hadithBook}) (${hadith.hadithNumber})`
       } else {
         text = `${DEFAULT_DUAA} 💚 hadith failed`
       }
@@ -58,6 +96,7 @@ async function getText(turns, language) {
     return DEFAULT_DUAA
   }
 }
+
 
 /**
  * Activates the extension.
