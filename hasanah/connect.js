@@ -1,15 +1,23 @@
 import { time, timeEnd } from 'console'
 import { getAyah, getSpecificAyah } from './quraan'
 
-const { GetRandomHadith } = require('./hadith')
+import vscode from 'vscode';
+
+// const { GetRandomHadith } = require('./hadith')
+const { GetRandomHadith } = require('./hadith-api')
+
 const { oldgetAyahText, oldgetSpecificAyah } = require('../oldquraan')
 
 // displayRandomAyah
 async function main() {
+  let config = vscode.workspace.getConfiguration('hasanah')
+  let language = config.get('language') // Get the language setting
+
   time('hadith time')
-  let hadith = await GetRandomHadith()
+  let hadith = await GetRandomHadith(language)
   timeEnd('hadith time')
   // console.log(hadith)
+
 
   console.time('new get spicific ayah')
   const aya2 = await getSpecificAyah('2', '255') // 'https://quranapi.pages.dev/api'
