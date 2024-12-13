@@ -26,8 +26,8 @@ There are no specific requirements or dependencies for this extension.
 
 This extension contributes the following commands:
 
-* `hasanah.getAyah`: Fetches and displays a random Ayah from the Quran.
-* `hasanah.getHijriDate`: Fetches and displays the current Hijri date.
+- `hasanah.getAyah`: Fetches and displays a random Ayah from the Quran.
+- `hasanah.getHijriDate`: Fetches and displays the current Hijri date.
 
 You can run these commands from the command palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on Mac) by typing the command name.
 
@@ -35,31 +35,35 @@ You can run these commands from the command palette (`Ctrl+Shift+P` or `Cmd+Shif
 
 This extension contributes the following settings:
 
-* `hasanah.delay`: Set the delay (in minutes) between each display of Hadith or Ayah. The delay can be any positive integer. The default value is 30 minutes.
+- `hasanah.delay`: Set the delay (in minutes) between each display of Hadith or Ayah. The delay can be any positive integer. The default value is 30 minutes.
 
-* `hasanah.language`: Set the language for the displayed Ayah or Hadith. The language can be either 'en' for English or 'ar' for Arabic. The default value is 'ar'.
+- `hasanah.language`: Set the language for the displayed Ayah or Hadith. The language can be either 'en' for English or 'ar' for Arabic. The default value is 'ar'.
 
-  **How to configure:**
-  1. Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on Mac).
-  2. Type `Preferences: Open Settings (UI)` and press `Enter`.
-  3. In the search bar at the top, type `hasanah delay`.
-  4. Set the desired delay value in the settings.
+    **How to configure:**
 
-  Alternatively, you can add the following line to your `settings.json` file:
-  ```json
-  "hasanah.delay": 30
-  ```
+    1. Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on Mac).
+    2. Type `Preferences: Open Settings (UI)` and press `Enter`.
+    3. In the search bar at the top, type `hasanah delay`.
+    4. Set the desired delay value in the settings.
 
-  **How to configure:**
-  1. Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on Mac).
-  2. Type `Preferences: Open Settings (UI)` and press `Enter`.
-  3. In the search bar at the top, type `hasanah language`.
-  4. Select the desired language from the dropdown menu in the settings.
+    Alternatively, you can add the following line to your `settings.json` file:
 
-  Alternatively, you can add the following line to your `settings.json` file:
-  ```json
-  "hasanah.language": "ar"
-  ```
+    ```json
+    "hasanah.delay": 30
+    ```
+
+    **How to configure:**
+
+    1. Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on Mac).
+    2. Type `Preferences: Open Settings (UI)` and press `Enter`.
+    3. In the search bar at the top, type `hasanah language`.
+    4. Select the desired language from the dropdown menu in the settings.
+
+    Alternatively, you can add the following line to your `settings.json` file:
+
+    ```json
+    "hasanah.language": "ar"
+    ```
 
 ## Known Issues
 
@@ -71,11 +75,11 @@ See [CHANGELOG.md](./CHANGELOG.md) for a detailed history of changes.
 
 ## For more information
 
-* [Quraan API](https://quranapi.pages.dev/api): This API is used to fetch the Ayahs displayed by the extension.
-* [Old Quraan API](https://api.alquran.cloud/v1/surah): This is the old API used to fetch the Ayahs displayed by the extension.
-* [Hadith API](https://api.hadith.gading.dev): This API is used to fetch the Hadiths displayed by the extension.
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown): Learn more about writing Markdown in Visual Studio Code.
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/): A reference guide for Markdown syntax.
+- [Quraan API](https://quranapi.pages.dev/api): This API is used to fetch the Ayahs displayed by the extension.
+- [Old Quraan API](https://api.alquran.cloud/v1/surah): This is the old API used to fetch the Ayahs displayed by the extension.
+- [Hadith API](https://api.hadith.gading.dev): This API is used to fetch the Hadiths displayed by the extension.
+- [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown): Learn more about writing Markdown in Visual Studio Code.
+- [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/): A reference guide for Markdown syntax.
 
 **Enjoy!**
 
@@ -84,4 +88,4 @@ See [CHANGELOG.md](./CHANGELOG.md) for a detailed history of changes.
 A huge thank you to everyone who uses and supports this extension. Your feedback and contributions make it better every day. May your coding journey be filled with inspiration and productivity.
 and a special thank for you. 🩷
 
- صدقة جارية عن جميع المسلمين، نسألكم الدعاء ونفع الله بنا وبكم. 💙
+صدقة جارية عن جميع المسلمين، نسألكم الدعاء ونفع الله بنا وبكم. 💙

@@ -1,79 +1,82 @@
 {
-  "name": "hasanah",
-  "displayName": "hasanah",
-  "description": "keep Quraan around 🕋🩵",
-  "publisher": "omarabdo",
-  "version": "9.0.1",
-  "icon": "Hasanah-04.png",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/oovaa/hasanah.git"
-  },
-  "engines": {
-    "vscode": "^1.93.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "keywords": [
-    "quotes",
-    "motivation",
-    "quran",
-    "ayat",
-    "Islam"
-  ],
-  "activationEvents": [
-    "onStartupFinished"
-  ],
-  "main": "./extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "hasanah.getAyah",
-        "title": "hasanah: get Ayah"
-      },
-      {
-        "command": "hasanah.getHijriDate",
-        "title": "hasanah: get Hijri Date"
-      }
+    "name": "hasanah",
+    "version": "9.0.1",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/oovaa/hasanah.git"
+    },
+    "main": "./extension.js",
+    "devDependencies": {
+        "@types/mocha": "^10.0.8",
+        "@types/node": "^18.19.54",
+        "@types/vscode": "1.87.0",
+        "@vscode/test-cli": "^0.0.8",
+        "@vscode/test-electron": "^2.4.1",
+        "eslint": "^8.57.1",
+        "typescript": "^5.6.2"
+    },
+    "activationEvents": [
+        "onStartupFinished"
     ],
-    "configuration": {
-      "title": "Hasanah",
-      "properties": {
-        "hasanah.ayah": {
-          "type": "string",
-          "default": "",
-          "description": "Specify an Ayah in the format <surahnum:ahyanum>"
-        },
-        "hasanah.delay": {
-          "type": "number",
-          "default": 20,
-          "description": "Delay for ayah/hadith display in minutes"
-        },
-        "hasanah.language": {
-          "type": "string",
-          "default": "ar",
-          "enum": [
-            "en",
-            "ar"
-          ],
-          "description": "Language for Ayah/Hadith display (en for English, ar for Arabic)"
+    "categories": [
+        "Other"
+    ],
+    "contributes": {
+        "commands": [
+            {
+                "command": "hasanah.getAyah",
+                "title": "hasanah: get Ayah"
+            },
+            {
+                "command": "hasanah.getHijriDate",
+                "title": "hasanah: get Hijri Date"
+            }
+        ],
+        "configuration": {
+            "title": "Hasanah",
+            "properties": {
+                "hasanah.ayah": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Specify an Ayah in the format <surahnum:ahyanum>"
+                },
+                "hasanah.delay": {
+                    "type": "number",
+                    "default": 20,
+                    "description": "Delay for ayah/hadith display in minutes"
+                },
+                "hasanah.language": {
+                    "type": "string",
+                    "default": "ar",
+                    "enum": [
+                        "en",
+                        "ar"
+                    ],
+                    "description": "Language for Ayah/Hadith display (en for English, ar for Arabic)"
+                }
+            }
         }
-      }
+    },
+    "description": "keep Quraan around 🕋🩵",
+    "displayName": "hasanah",
+    "engines": {
+        "vscode": "^1.93.0"
+    },
+    "icon": "Hasanah-04.png",
+    "keywords": [
+        "quotes",
+        "motivation",
+        "quran",
+        "ayat",
+        "Islam"
+    ],
+    "publisher": "omarabdo",
+    "scripts": {
+        "lint": "eslint .",
+        "pretest": "npm run lint",
+        "test": "vscode-test"
+    },
+    "dependencies": {
+        "dotenv": "^16.4.7"
     }
-  },
-  "scripts": {
-    "lint": "eslint .",
-    "pretest": "npm run lint",
-    "test": "vscode-test"
-  },
-  "devDependencies": {
-    "@types/vscode": "1.87.0",
-    "@types/mocha": "^10.0.8",
-    "@types/node": "^18.19.54",
-    "eslint": "^8.57.1",
-    "typescript": "^5.6.2",
-    "@vscode/test-cli": "^0.0.8",
-    "@vscode/test-electron": "^2.4.1"
-  }
 }
