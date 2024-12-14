@@ -73,7 +73,8 @@ async function getSpecificAyah(surahNumber, ayah_num, language) {
 
         const ans = {
             text: data['text'],
-            surah_name: data['surah']['name'],
+            surah_name:
+                language == 'ar' ? data.surah.name : data.surah.englishName,
             ayah_num,
         }
         return ans
