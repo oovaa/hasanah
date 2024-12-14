@@ -1,8 +1,8 @@
 import { time, timeEnd } from 'console'
-import { getAyah, getSpecificAyah } from './quraan'
+import { getAyah, getSpecificAyah } from '../oldquraan'
 
 const { GetRandomHadith } = require('./hadith')
-const { oldgetAyahText, oldgetSpecificAyah } = require('../oldquraan')
+const { oldgetAyahText, oldgetSpecificAyah } = require('./quraan')
 
 // displayRandomAyah
 async function main() {

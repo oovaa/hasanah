@@ -1,81 +1,98 @@
-const API_BASE_URL = 'https://quranapi.pages.dev/api'
-const TOTAL_SURAH = 114
-const vscode = require('vscode')
-
 /**
- * @param {number} range
+ * Fetches a random Ayah from the Quran in the specified language.
+ *
+ * @param {string} language - The language code for the Ayah ('ar' for Arabic, 'en' for English).
+ * @returns {Promise<Object>} A promise that resolves to the data of the random Ayah.
+ * @throws {Error} Throws an error if the fetch operation fails.
  */
-function getRandomNum(range) {
-    return Math.floor(Math.random() * range) + 1
-}
-
-/**
- * @param {string | URL | Request} url
- */
-async function fetchFromAPI(url) {
+async function getRandomAyah(language) {
     try {
-        const response = await fetch(url)
-        if (!response.ok) {
-            throw new Error(`API request failed with status ${response.status}`)
-        }
-        return await response.json()
+        const ayahNumber = Math.floor(Math.random() * 6236) + 1
+        const extension = language == 'ar' ? 'ar.asad' : 'en.asad'
+        const url = `https://api.alquran.cloud/v1/ayah/${ayahNumber}/`
+        const response = await fetch(url + extension)
+
+        if (!response.ok)
+            throw new Error(`HTTP error! status: ${response.status}`)
+
+        const data = await response.json()
+        return data['data']
     } catch (error) {
-        console.error(`Failed to fetch data: ${error.message}`)
-        throw error // Rethrow to handle it in the calling function if needed
+        console.error('Error fetching random Ayah:', error)
+        throw error // Rethrow the error after logging it
     }
 }
 
 /**
- * Retrieves a random ayah (verse) from the Quran API.
- * @returns {Promise<{text: string, surah_name: string, ayah_num: number}>} The random ayah, along with its surah name and ayah number.
- */
-/**
- * @typedef {Object} Ayah
- * @property {string} text - The text of the ayah.
- * @property {string} surah_name - The name of the surah.
- * @property {number} ayah_num - The number of the ayah.
- */
-
-/**
- * Retrieves a random ayah (verse) from the Quran API.
- * @param {string} language - The language of the ayah ('ar' for Arabic, otherwise English).
- * @returns {Promise<Ayah>} The random ayah, along with its surah name and ayah number.
+ * Fetches a random Ayah (verse) text in the specified language.
+ *
+ * @async
+ * @function getAyah
+ * @param {string} language - The language in which to fetch the Ayah text.
+ *                            Use 'ar' for Arabic or any other language code for the respective translation.
+ * @returns {Promise<Object>} A promise that resolves to an object containing the Ayah text,
+ *                            Surah name, and Ayah number.
+ * @throws Will throw an error if there is an issue fetching the Ayah text.
  */
 async function getAyah(language) {
-    const surah_num = getRandomNum(TOTAL_SURAH)
-    const url = `${API_BASE_URL}/${surah_num}.json`
-    const data = await fetchFromAPI(url)
-    const numofayahs = data['totalAyah'] - 1
-    const ayah_num = getRandomNum(numofayahs)
-    const lang = language == 'ar' ? 'arabic1' : 'english'
-    const ayah = data[lang][ayah_num]
-    const surah_name =
-        language == 'ar' ? data['surahNameArabic'] : data['surahName']
-
-    // console.log({ text: ayah, surah_name, ayah_num: ayah_num + 1 });
-
-    return { text: ayah, surah_name, ayah_num: ayah_num + 1 } // Adjust for zero-based index
+    try {
+        const ayah = await getRandomAyah(language)
+        const result = {
+            text: ayah.text,
+            surah_name:
+                language == 'ar' ? ayah.surah.name : ayah.surah.englishName,
+            ayah_num: ayah.numberInSurah,
+        }
+        return result
+    } catch (error) {
+        console.error('Error fetching Ayah text:', error)
+        throw error // Rethrow the error after logging it
+    }
 }
 
 /**
- * @param {String} surahNumber
- * @param {String} ayahNumber
+ * Fetches a specific Ayah from the Quran API.
+ *
+ * @param {string} surahNumber - The number of the Surah (chapter) in the Quran.
+ * @param {string} ayah_num - The number of the Ayah (verse) in the Surah.
+ * @param {string} language - The language code for the translation ('ar' for Arabic, 'en' for English).
+ * @returns {Promise<Object>} A promise that resolves to an object containing the Ayah text, Surah name, and Ayah number.
+ * @throws {Error} Throws an error if the fetch operation fails.
  */
-async function getSpecificAyah(surahNumber, ayahNumber, language) {
-    const res = await fetchFromAPI(
-        `${API_BASE_URL}/${surahNumber}/${ayahNumber}.json`
-    )
-    const ans = {
-        text: language == 'ar' ? res['arabic1'] : res['english'],
-        surah_name:
-            language == 'ar' ? res['surahNameArabic'] : res['surahName'],
-        ayahNumber,
+async function getSpecificAyah(surahNumber, ayah_num, language) {
+    const url = `https://api.alquran.cloud/v1/ayah/${surahNumber}:${ayah_num}/`
+    const extension = language == 'ar' ? 'ar.asad' : 'en.asad'
+    try {
+        const response = await fetch(url + extension)
+        if (!response.ok) {
+            console.error(`HTTP error! status: ${response.status}`)
+            throw new Error(`HTTP error! status: ${response.status}`)
+        }
+        const json_res = await response.json()
+        const data = json_res['data']
+
+        const ans = {
+            text: data['text'],
+            surah_name: data['surah']['name'],
+            ayah_num,
+        }
+        return ans
+    } catch (error) {
+        console.error('Error fetching specific Ayah:', error)
+        throw error // Rethrow the error after logging it
     }
-    return ans
 }
 
-// إِنَّ ٱلْأَبْرَارَ يَشْرَبُونَ مِن كَأْسٍ كَانَ مِزَاجُهَا كَافُورًا
-// مِن شَرِّ مَا خَلَقَ
+// console.log(await oldgetSpecificAyah('12', '23', 'ar'))
 
-module.exports.getAyah = getAyah
 module.exports.getSpecificAyah = getSpecificAyah
+module.exports.getAyah = getAyah
+
+// Usage examples:
+// let data = await oldgetSpecificAyah(2, 255);
+// console.log(data.text, data.numberInSurah, data.surah.name);
+
+// getAyah().then(ayah => {
+//   // You can handle the returned ayah here
+//   console.log(ayah.text);
+// });

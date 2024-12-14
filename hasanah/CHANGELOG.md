@@ -6,6 +6,14 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 # Changelog
 
+
+## [9.0.2] - 2024-12-1
+
+- Back to using the old API for Quran (`https://api.alquran.cloud/v1/surah`)
+- Cleaning up `extension.js` and moving some logic to `main.js`
+- Quran retrieval performance improved.
+- Minor bug fixes.
+
 ## [9.0.1] - 2024-12-1
 
 - No restart needed after changing language.
