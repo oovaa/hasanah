@@ -1,6 +1,3 @@
-import dotenv from 'dotenv'
-dotenv.config()
-
 // API
 // https://www.hadithapi.com/docs/hadiths
 
@@ -18,9 +15,8 @@ const slugs = [
  * @returns {Promise<Object|string>} A Promise that resolves to a random Hadith object or an error message.
  */
 
-async function getRandomHadith() {
+async function getRandomHadith_ENG() {
     const book = slugs[Math.floor(Math.random() * slugs.length)]
-    console.log(book)
 
     try {
         const response = await fetch(
@@ -55,7 +51,7 @@ async function getRandomHadith() {
  * Prints a random Hadith.
  * @returns {Promise<any>| null} The random Hadith object, or null if no Hadith is found.
  */
-async function GetRandomHadith(language = 'en') {
+async function GetRandomHadith_ENG(language = 'en') {
     const lang = {
         ar: 'hadithArabic',
         en: 'hadithEnglish',
@@ -63,7 +59,7 @@ async function GetRandomHadith(language = 'en') {
     }[language]
 
     try {
-        const hadith = await getRandomHadith()
+        const hadith = await getRandomHadith_ENG()
         if (hadith) {
             return {
                 hadith: hadith[`${lang}`],
@@ -79,13 +75,13 @@ async function GetRandomHadith(language = 'en') {
     }
 }
 
-module.exports.GetRandomHadith = GetRandomHadith
-// export { GetRandomHadith }
+module.exports.GetRandomHadith_ENG = GetRandomHadith_ENG
+// export { GetRandomHadith_ENG }
 
 // Usage example:
 // @ts-ignore
 // for (let i = 0; i < 10; i++) {
-//     let h = await GetRandomHadith('en')
-//     console.log(h)
+// let h = await GetRandomHadith_ENG('en')
+// console.log(h)
 // }
 // console.log(process.env.HADITH_API_KEY)
