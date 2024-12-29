@@ -1,3 +1,4 @@
+const { GetRandomHadith_ENG } = require('./eng_hadith')
 const { GetRandomHadith } = require('./hadith')
 const { getAyah } = require('./quraan')
 
@@ -5,7 +6,7 @@ const DEFAULT_DUAA = 'اللهم احفظ السودان واهله ❤️ سب�
 
 /**
  * @typedef {Object} Hadith
- * @property {string} arab - The Arabic text of the Hadith.
+ * @property {string} hadith - The text of the Hadith.
  * @property {string} book - The book where the Hadith is found.
  * @property {number} number - The number of the Hadith in the book.
  */
@@ -27,33 +28,31 @@ const DEFAULT_DUAA = 'اللهم احفظ السودان واهله ❤️ سب�
 async function getText(turns, language) {
     // The 'turns' parameter is a boolean that determines whether to fetch a Hadith (if true) or an Ayah (if false).
     // If fetching fails, the function toggles 'turns' and tries fetching the other type of text.
-    try {
-        let text
-        if (turns) {
-            // Fetch a random Hadith
-            const hadith = await GetRandomHadith()
-            if (hadith && hadith.arab && hadith.book) {
-                text = `${hadith.arab} 💚 book (${hadith.book}) (${hadith.number})`
-            } else {
-                text = `${DEFAULT_DUAA} 💚 hadith failed`
-            }
-        } else {
-            // Fetch a random Ayah
-            const ayah = await getAyah(language)
-            if (ayah && ayah.text && ayah.surah_name && ayah.ayah_num) {
-                text = `${ayah.text} ❤️ ${ayah.surah_name} (${ayah.ayah_num})`
-            }
+    let  text
+    if (turns) {
+        // Fetch a random Hadith
+        try {
+            const hadith =
+                language == 'ar'
+                    ? await GetRandomHadith()
+                    : await GetRandomHadith_ENG()
+            text = `${hadith.hadith} 💚 book (${hadith.book}) (${hadith.number})`
+        } catch (error) {
+            text = `${DEFAULT_DUAA} 💚 hadith failed`
+            return text
         }
-        if (!text) {
-            // If no text was fetched, toggle turns and try again
-            turns = !turns
-            return getText(turns, language)
+    } else {
+        // Fetch a random Ayah
+        try {
+            const ayahData = await getAyah(language)
+            text = `${ayahData.ayah} ❤️ ${ayahData.surah_name} (${ayahData.ayah_num})`
+        } catch (error) {
+            return DEFAULT_DUAA
         }
-        return text
-    } catch (error) {
-        console.error('Error fetching text:', error)
-        return DEFAULT_DUAA
     }
+    return text
 }
+
+// console.log(await getText(true, 'en'))
 
 module.exports.getText = getText

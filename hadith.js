@@ -63,7 +63,12 @@ async function GetRandomHadith() {
         const hadith = await getRandomHadith()
         if (hadith) {
             hadith['book'] = collection.arabic
-            return hadith
+
+            return {
+                book: hadith.book,
+                number: hadith.number,
+                hadith: hadith.arab,
+            }
         } else {
             throw new Error('No Hadith found.')
         }
@@ -76,5 +81,5 @@ async function GetRandomHadith() {
 module.exports.GetRandomHadith = GetRandomHadith
 
 // Usage example:
-// let h = await GetRandomHadith();
-// console.log(h);
+// let h = await GetRandomHadith()
+// console.log(h)

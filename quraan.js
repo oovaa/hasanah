@@ -38,7 +38,7 @@ async function getAyah(language) {
     try {
         const ayah = await getRandomAyah(language)
         const result = {
-            text: ayah.text,
+            ayah: ayah.text,
             surah_name:
                 language == 'ar' ? ayah.surah.name : ayah.surah.englishName,
             ayah_num: ayah.numberInSurah,
@@ -93,7 +93,7 @@ module.exports.getAyah = getAyah
 // let data = await oldgetSpecificAyah(2, 255);
 // console.log(data.text, data.numberInSurah, data.surah.name);
 
-// getAyah().then(ayah => {
-//   // You can handle the returned ayah here
-//   console.log(ayah.text);
-// });
+// getAyah('ar').then((ayah) => {
+//     // You can handle the returned ayah here
+//     console.log(ayah)
+// })
