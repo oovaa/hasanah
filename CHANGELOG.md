@@ -8,8 +8,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [9.1.0] - 2024-12-1
 
-- added experimentel English Hadith support with the API `https://www.hadithapi.com/docs/hadiths`
-- improved code structure 
+- added experimentel English Hadith support with the API `https://www.hadithapi.com/docs/hadiths` thanks to [Abdul Baaki Hudu](https://github.com/baaki20)  ✅
+- improved code structure ✅
 
 
 ## [9.0.2] - 2024-12-1

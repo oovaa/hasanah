@@ -19,7 +19,7 @@ async function fetchRandomHadith() {
 
     try {
         const response = await fetch(
-            `https://www.hadithapi.com/api/hadiths/?apiKey=$2y$10$P8VPmYSunct4p52yC32YGuoZ9fIcC6nbNEine2UK6hISoIRp78i&paginate=50&book=${book}`
+            `https://www.hadithapi.com/api/hadiths/?apiKey=$2y$10$P8VPmYSunct4p52yC32YGuoZ9fIcC6nbNEine2UK6hISoIRp78i&paginate=70&book=${book}`
         )
 
         if (!response.ok) {

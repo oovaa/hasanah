@@ -78,6 +78,7 @@ See [CHANGELOG.md](./CHANGELOG.md) for a detailed history of changes.
 - [Quraan API](https://api.alquran.cloud/v1/surah): This is the old API used to fetch the Ayahs displayed by the extension.
 - [Old Quraan API](https://quranapi.pages.dev/api): This API is used to fetch the Ayahs displayed by the extension.
 - [Hadith API](https://api.hadith.gading.dev): This API is used to fetch the Hadiths displayed by the extension.
+> - [English Hadith API](https://www.hadithapi.com/docs/hadiths): This is the API used to fetch the English Hadiths displayed by the extension. <span style="color: yellow;">Experimental</span>
 - [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown): Learn more about writing Markdown in Visual Studio Code.
 - [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/): A reference guide for Markdown syntax.
 
