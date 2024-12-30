@@ -6,7 +6,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 # Changelog
 
-## [9.3.0] - 2024-12-1
+## [9.1.0] - 2024-12-1
 
 - added experimentel English Hadith support with the API `https://www.hadithapi.com/docs/hadiths`
 - improved code structure 
