@@ -8,7 +8,7 @@
     "main": "./extension.js",
     "devDependencies": {
         "@types/mocha": "^10.0.10",
-        "@types/node": "^18.19.70",
+        "@types/node": "^18.19.71",
         "@types/vscode": "1.87.0",
         "@vscode/test-cli": "^0.0.8",
         "@vscode/test-electron": "^2.4.1",

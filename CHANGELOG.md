@@ -6,6 +6,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 # Changelog
 
+## [9.1.1] - 2025-01-19
+
+- Fixed the issue where the hadith shows an undefined message.
+
 ## [9.1.0] - 2024-12-1
 
 - added experimentel English Hadith support with the API `https://www.hadithapi.com/docs/hadiths` thanks to [Abdul Baaki Hudu](https://github.com/baaki20)  ✅
