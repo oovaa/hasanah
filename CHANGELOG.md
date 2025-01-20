@@ -8,7 +8,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [9.1.1] - 2025-01-19
 
-- Fixed the issue where the hadith shows an undefined message.
+- Fixed the issue where the hadith shows an undefined message when offline.
 
 ## [9.1.0] - 2024-12-1
 

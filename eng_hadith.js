@@ -22,16 +22,14 @@ async function fetchRandomHadith() {
             `https://www.hadithapi.com/api/hadiths/?apiKey=$2y$10$P8VPmYSunct4p52yC32YGuoZ9fIcC6nbNEine2UK6hISoIRp78i&paginate=70&book=${book}`
         )
 
-        if (!response.ok) {
+        if (!response.ok)
             throw new Error(
                 'Network response was not ok ' + (await response.text())
             )
-        }
 
         const data = await response.json()
-        if (!data || !data['hadiths'] || !data['hadiths']['data']) {
+        if (!data || !data['hadiths'] || !data['hadiths']['data'])
             throw new Error('Invalid API response')
-        }
 
         const hadiths = data['hadiths']['data']
         const randomIndex = Math.floor(Math.random() * hadiths.length)
@@ -39,9 +37,10 @@ async function fetchRandomHadith() {
     } catch (error) {
         console.error('Error fetching random Hadith:', error.message)
         if (error.message.includes('Network response was not ok')) {
-            return 'No internet connection available.'
+            console.log('No internet connection available.')
+            throw new Error(error.message)
         }
-        return 'An error occurred: ' + error.message
+        throw new Error(error.message)
     }
 }
 
@@ -69,7 +68,7 @@ async function GetRandomHadith_ENG(language = 'en') {
         }
     } catch (error) {
         console.error('Error printing random Hadith:', error.message)
-        return null
+        throw new Error(error.message)
     }
 }
 

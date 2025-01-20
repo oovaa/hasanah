@@ -36,8 +36,6 @@ async function getText(turns, language) {
                 language === 'ar'
                     ? await GetRandomHadith()
                     : await GetRandomHadith_ENG()
-            if (!hadith || !hadith.hadith)
-                throw new Error('Error fetching hadith')
 
             text = `${hadith.hadith} 💚 book (${hadith.book}) (${hadith.number})`
         } catch (error) {
@@ -48,8 +46,6 @@ async function getText(turns, language) {
         // Fetch a random Ayah
         try {
             const ayahData = await getAyah(language)
-            if (!ayahData || !ayahData.ayah)
-                throw new Error('Error fetching ayah')
 
             text = `${ayahData.ayah} ❤️ ${ayahData.surah_name} (${ayahData.ayah_num})`
         } catch (error) {
@@ -60,6 +56,6 @@ async function getText(turns, language) {
     return text
 }
 
-// console.log(await getText(false, 'ar'))
+// console.log(await getText(false, 'en'))
 
 module.exports.getText = getText

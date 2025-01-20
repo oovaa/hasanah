@@ -50,7 +50,7 @@ async function getRandomHadith() {
         if (error.message === 'Network response was not ok') {
             return 'No internet connection available.'
         }
-        return 'An error occurred: ' + error.message
+        throw new Error(error.message)
     }
 }
 
@@ -64,6 +64,8 @@ async function GetRandomHadith() {
         if (hadith) {
             hadith['book'] = collection.arabic
 
+            console.log('into it ' + hadith)
+
             return {
                 book: hadith.book,
                 number: hadith.number,
@@ -74,7 +76,7 @@ async function GetRandomHadith() {
         }
     } catch (error) {
         console.error('Error printing random Hadith:', error.message)
-        return null
+        throw new Error('No Hadith found.')
     }
 }
 
