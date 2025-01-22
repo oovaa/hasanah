@@ -40,7 +40,7 @@ async function getText(turns, language) {
             text = `${hadith.hadith} 💚 book (${hadith.book}) (${hadith.number})`
         } catch (error) {
             console.error('Error fetching hadith:', error)
-            text = `${DEFAULT_DUAA} 💚 hadith failed`
+            text = `${DEFAULT_DUAA} 💚`
         }
     } else {
         // Fetch a random Ayah
