@@ -6,6 +6,15 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ---
 
 
+## [9.2.1] - 2025-02-04
+
+### Fixed
+- offline default duaa
+
+
+---
+
+
 ## [9.2.0] - 2025-02-04
 
 ### Improved
