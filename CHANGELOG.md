@@ -1,112 +1,148 @@
-# Change Log
-
-All notable changes to the "hasanah" extension will be documented in this file.
-
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
 # Changelog
+
+All notable changes to the **Hasanah** extension will be documented in this file.  
+This project adheres to [Semantic Versioning](https://semver.org/).
+
+---
+
+
+## [9.2.0] - 2025-02-04
+
+### Improved
+- The notification will now auto-dismiss after two-thirds of the delay time.
+- Added caching to the "Get Hijri Date" command.
+- General developer experience improvements.
+
+---
 
 ## [9.1.1] - 2025-01-19
 
-- Fixed the issue where the hadith shows an undefined message when offline.
+### Fixed
+- Resolved issue where Hadiths showed `undefined` when offline.
 
-## [9.1.0] - 2024-12-1
+---
 
-- added experimentel English Hadith support with the API `https://www.hadithapi.com/docs/hadiths` thanks to [Abdul Baaki Hudu](https://github.com/baaki20)  ✅
-- improved code structure ✅
+## [9.1.0] - 2024-12-01
 
+### Added
+- Experimental English Hadith support using [Hadith API](https://www.hadithapi.com/docs/hadiths).  
+  *Special thanks to [Abdul Baaki Hudu](https://github.com/baaki20) for this contribution!*
 
-## [9.0.2] - 2024-12-1
+### Improved
+- Refactored codebase for better maintainability.
+- Enhanced error handling for API requests.
 
-- Back to using the old API for Quran (`https://api.alquran.cloud/v1/surah`)
-- Cleaning up `extension.js` and moving some logic to `main.js`
-- Quran retrieval performance improved.
-- Minor bug fixes.
+---
 
-## [9.0.1] - 2024-12-1
+## [9.0.2] - 2024-12-01
 
-- No restart needed after changing language.
-- Added comments documentation for `extension.js` for better developer experience.
-- Overall improved error handling.
+### Changed
+- Reverted to the original Quran API (`https://api.alquran.cloud/v1/surah`) for better reliability.
+
+### Fixed
+- Improved Quran retrieval performance.
+- Minor bug fixes and code cleanup.
+
+---
+
+## [9.0.1] - 2024-12-01
+
+### Added
+- No restart required after changing the language setting.
+- Comprehensive code documentation for `extension.js`.
+
+### Improved
+- Overall error handling and user feedback.
+
+---
 
 ## [9.0.0] - 2024-11-15
 
-- support english and arabic on quraan
-- Updated readme
-- next step is to support english hadith
+### Added
+- Full support for English and Arabic Quranic verses.
+- Updated README with clearer instructions.
 
-## [8.3.0] - 2024-10-24
+### Next Steps
+- Expand English Hadith support.
 
-- Updated readme
-- Improved compatibility with older versions of VS Code
-- Improved error messages
-
-> lost the 0
+---
 
 ## [0.8.2] - 2024-10-03
 
-- Added extension description
-- Updated `engines.vscode` to support newer versions
+### Added
+- Extension description for better discoverability.
+- Support for newer VS Code versions.
+
+---
 
 ## [0.8.1] - 2024-07-18
 
-- fix names of hadith rawi
-- add some docs
-- remove unnneded stuff (pics and files)
+### Fixed
+- Corrected Hadith narrator names.
+- Removed unnecessary files and images.
+
+---
 
 ## [0.8.0] - 2024-07-17
 
-- update readmes
-- Updated the extension to use a new API 'https://quranapi.pages.dev/api'.
-- Improved performance and code readability.
-- Unified the returned objects in files.
+### Added
+- New Quran API integration (`https://quranapi.pages.dev/api`).
 
-## [0.7.1] - 2024-04-20
+### Improved
+- Code readability and performance.
+- Unified response objects across modules.
 
-- update readmes
+---
 
 ## [0.7.0] - 2024-04-20
 
 ### Added
+- `get_hijri_Date` command to display the current Hijri date.
 
-- Added `get_hijri_Date` command to retrieve the current Hijri date.
-- Displays the current Hijri date alongside the Gregorian date.
+---
 
 ## [0.6.0] - 2024-04-16
 
-### Added
+### Changed
+- Updated command names and added visual indicators (💙 for Ayahs, 💛 for Hadiths).
 
-- hasanah.getAyah command is now hasanah.getAyah and shows a blue heart and the hadith with the yellow heart.
+---
 
 ## [0.5.0] - 2024-04-16
 
 ### Added
+- Command to fetch specific Ayahs via the command palette.
 
-- Added feature to ask for an ayah on the command palette with the command "get ayah".
+---
 
 ## [0.4.0] - 2024-04-12
 
-### Added
+### Fixed
+- Typos and repository name consistency.
 
-- Fixed some typos.
-- Updated the repo name to "hasanah".
+---
 
 ## [0.3.0] - 2024-04-10
 
 ### Added
+- Heart emoji (❤️) at the end of Hadiths for a personal touch.
 
-- added a heart at the end of the hadith
+---
 
 ## [0.2.0] - 2024-04-01
 
 ### Added
+- Support for displaying random Hadiths.
+- Arabic book names for Hadith sources.
 
-- Added support for displaying random Hadith.
-- Added Arabic book names for Hadith.
+---
 
 ## [0.1.0] - 2024-03-22
 
 ### Added
-
 - Initial release of Hasanah.
-- Displays random Quranic verses.
+- Basic functionality to display random Quranic verses.
+
+---
+
+*May this project continue to grow and benefit the ummah. Ameen.*

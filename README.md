@@ -1,86 +1,111 @@
-# hasanah README
 
-This is the README for the "Hasanah" extension. Hasanah is a VS Code extension that displays random Hadith and Ayah from the Quran in your editor. It alternates between displaying a Hadith and an Ayah at a specified interval.
+# Hasanah - Quran & Hadith in Your Editor 🕋
 
-You can contribute to the repository [oovaa/hasanah](https://github.com/oovaa/hasanah) to help improve this extension.
+Hasanah is a VS Code extension that brings the beauty of the Quran and Hadith directly into your coding environment. It displays random Ayahs (Quranic verses) and Hadiths at customizable intervals, helping you stay spiritually connected while you code.
 
-#### This extension is inspired by the "Ayat" extension.
+[![Version](https://img.shields.io/badge/version-9.1.1-blue)](https://marketplace.visualstudio.com/items?itemName=omarabdo.hasanah)
+[![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE.md)
+[![Open Issues](https://img.shields.io/github/issues/oovaa/hasanah)](https://github.com/oovaa/hasanah/issues)
 
-## Features
+---
 
-Hasanah includes the following features:
+## ✨ Features
 
-- Displays a random Hadith or Ayah at a specified interval.
-- Alternates between displaying a Hadith and an Ayah.
-- Includes the source of the Hadith or the Surah and Ayah number for the Quran verse.
+- **Daily Inspiration**: Displays random Ayahs and Hadiths at customizable intervals.
+- **Dual Language Support**: Choose between Arabic (`ar`) and English (`en`) for Ayahs and Hadiths.
+- **Hijri Date**: Get the current Islamic date with a single command.
+- **Customizable Delay**: Set the interval (in minutes) between notifications.
+- **Quick Access**: Fetch specific Ayahs or Hadiths via the command palette.
 
-<p align="center">
-  <img src="./Screenshot_20241115_062746.png" alt="Hasanah extension screenshot">
-</p>
+---
 
-## Requirements
+## 🚀 Installation
 
-There are no specific requirements or dependencies for this extension.
+1. Open **VS Code**.
+2. Go to the Extensions view (`Ctrl+Shift+X` or `Cmd+Shift+X` on Mac).
+3. Search for **"Hasanah"**.
+4. Click **Install**.
 
-## Commands
+---
 
-This extension contributes the following commands:
+## ⚙️ Configuration
 
-- `hasanah.getAyah`: Fetches and displays a random Ayah from the Quran.
-- `hasanah.getHijriDate`: Fetches and displays the current Hijri date.
+### Settings
+You can configure Hasanah via VS Code settings:
 
-You can run these commands from the command palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on Mac) by typing the command name.
+1. Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on Mac).
+2. Search for `Preferences: Open Settings (UI)`.
+3. Search for `Hasanah` to customize:
+   - **Delay**: Set the interval between notifications (default: 30 minutes).
+   - **Language**: Choose between Arabic (`ar`) and English (`en`).
 
-## Extension Settings
+Alternatively, edit your `settings.json` file:
+```json
+{
+  "hasanah.delay": 30,
+  "hasanah.language": "ar"
+}
+```
 
-This extension contributes the following settings:
+### Commands
+- `hasanah.getAyah`: Fetch and display a specific Ayah.
+- `hasanah.getHijriDate`: Display the current Hijri date.
 
-- `hasanah.delay`: Set the delay (in minutes) between each display of Hadith or Ayah. The delay can be any positive integer. The default value is 30 minutes.
+---
 
-- `hasanah.language`: Set the language for the displayed Ayah or Hadith. The language can be either 'en' for English or 'ar' for Arabic. The default value is 'ar'.
+## 📸 Screenshots
 
-    **How to configure:**
+![Hasanah in Action](./Screenshot_20241115_062746.png)
 
-    1. Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on Mac).
-    2. Type `Preferences: Open Settings (UI)` and press `Enter`.
-    3. In the search bar at the top, type `hasanah delay`.
-    4. Set the desired delay value in the settings.
+---
 
-    Alternatively, you can add the following line to your `settings.json` file:
+## 🛠️ Development
 
-    ```json
-    "hasanah.delay": 30
-    ```
+### Contributing
+We welcome contributions! Here's how to get started:
+1. Fork the repository: [oovaa/hasanah](https://github.com/oovaa/hasanah).
+2. Clone your fork and install dependencies:
+   ```bash
+   npm install
+   ```
+3. Make your changes and test them using VS Code's extension debugger.
+4. Submit a pull request with a detailed description of your changes.
 
-    **How to configure:**
+### Requirements
+- Node.js (v16+)
+- VS Code (v1.93+)
 
-    1. Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on Mac).
-    2. Type `Preferences: Open Settings (UI)` and press `Enter`.
-    3. In the search bar at the top, type `hasanah language`.
-    4. Select the desired language from the dropdown menu in the settings.
+---
 
-    Alternatively, you can add the following line to your `settings.json` file:
+## ❓ FAQ
 
-    ```json
-    "hasanah.language": "ar"
-    ```
+### Why is my Hadith/Ayah not displaying properly?
+If the text is too long, it may get truncated. We're working on a solution using webview panels for better display.
 
-## Known Issues
+### Can I use Hasanah offline?
+While Hasanah requires an internet connection to fetch new content, we're exploring offline caching for future releases.
 
-- When the Hadith text is too long, it may not display properly.
+---
 
-## Changelog
+## 🙏 Acknowledgments
 
-See [CHANGELOG.md](./CHANGELOG.md) for a detailed history of changes.
+- Inspired by the **"Ayat"** extension.
+- Special thanks to [Abdul Baaki Hudu](https://github.com/baaki20) for English Hadith support.
+- APIs used:
+  - [AlQuran Cloud](https://api.alquran.cloud/v1/surah)
+  - [Hadith API](https://api.hadith.gading.dev)
+  - [English Hadith API](https://www.hadithapi.com/docs/hadiths) (Experimental)
 
-## For more information
+---
 
-- [Quraan API](https://api.alquran.cloud/v1/surah): This is the old API used to fetch the Ayahs displayed by the extension.
-- [Old Quraan API](https://quranapi.pages.dev/api): This API is used to fetch the Ayahs displayed by the extension.
-- [Hadith API](https://api.hadith.gading.dev): This API is used to fetch the Hadiths displayed by the extension.
-> - [English Hadith API](https://www.hadithapi.com/docs/hadiths): This is the API used to fetch the English Hadiths displayed by the extension. <span style="color: yellow;">Experimental</span>
-- [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown): Learn more about writing Markdown in Visual Studio Code.
-- [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/): A reference guide for Markdown syntax.
+## 📜 License
+
+Hasanah is open-source software licensed under the [MIT License](./LICENSE.md).
+
+---
+
+**May this project be a source of barakah in your coding journey. 💙**  
+*"And whoever does an atom's weight of good will see it."* (Quran 99:7)
 
 **Enjoy!**
 
