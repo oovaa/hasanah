@@ -29,8 +29,8 @@ async function getText(turns, language) {
     let text
     const DEFAULT_DUAA =
         language === 'ar'
-            ? 'اللهم احفظ السودان...'
-            : 'O Allah, protect Sudan and its people...'
+            ? 'اللهم احفظ السودان واهله ❤️ سبحان الله وبحمده'
+            : 'O God, protect Sudan and its people ❤️ Glory to God and praise to Him'
 
     try {
         if (turns) {
