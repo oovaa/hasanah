@@ -1,11 +1,39 @@
-
 const vscode = require('vscode')
 const { getText } = require('./main')
 const { getSpecificAyah } = require('./quraan')
 const { get_hijri_Date } = require('./islamicDate.js')
 
 let timerId
-const DEFAULT_DUAA = 'اللهم احفظ السودان واهله ❤️ سبحان الله وبحمده'
+let config = vscode.workspace.getConfiguration('hasanah')
+let language = config.get('language') // Get the language setting
+
+const DEFAULT_DUAA =
+    language === 'ar'
+        ? 'اللهم احفظ السودان...'
+        : 'O Allah, protect Sudan and its people...'
+
+/**
+ * Displays an automatically dismissing notification with the given message for the specified duration.
+ *
+ * @param {string} message - The text content of the notification.
+ * @param {number} duration - Time in milliseconds before the notification is automatically dismissed.
+ * @returns {void}
+ */
+function showAutoDismissNotification(message, duration) {
+    vscode.window.withProgress(
+        {
+            location: vscode.ProgressLocation.Notification,
+            cancellable: true,
+            title: message,
+        },
+        (progress, token) => {
+            return new Promise((resolve) => {
+                token.onCancellationRequested(() => resolve())
+                setTimeout(resolve, duration)
+            })
+        }
+    )
+}
 
 /**
  * Activates the extension.
@@ -13,16 +41,15 @@ const DEFAULT_DUAA = 'اللهم احفظ السودان واهله ❤️ سب�
  */
 function activate(context) {
     // Get the configuration settings
-    let config = vscode.workspace.getConfiguration('hasanah')
     let delay = config.get('delay') * 60000 // Convert delay from minutes to milliseconds
-    let language = config.get('language') // Get the language setting
-
     let turns = false
 
     // Function to fetch and display text (Hadith or Ayah) at regular intervals
     const showText = async () => {
         const text = await getText(turns, language)
-        vscode.window.showInformationMessage(text)
+        const dismissTime = (2 * delay) / 3 // Two-thirds of the delay
+
+        showAutoDismissNotification(text, dismissTime)
         turns = !turns
     }
 

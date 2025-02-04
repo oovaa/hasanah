@@ -8,7 +8,7 @@
     "main": "./extension.js",
     "devDependencies": {
         "@types/mocha": "^10.0.10",
-        "@types/node": "^18.19.71",
+        "@types/node": "^18.19.75",
         "@types/vscode": "1.87.0",
         "@vscode/test-cli": "^0.0.8",
         "@vscode/test-electron": "^2.4.1",
@@ -35,11 +35,6 @@
         "configuration": {
             "title": "Hasanah",
             "properties": {
-                "hasanah.ayah": {
-                    "type": "string",
-                    "default": "",
-                    "description": "Specify an Ayah in the format <surahnum:ahyanum>"
-                },
                 "hasanah.delay": {
                     "type": "number",
                     "default": 20,
@@ -75,8 +70,5 @@
         "lint": "eslint .",
         "pretest": "npm run lint",
         "test": "vscode-test"
-    },
-    "dependencies": {
-        "dotenv": "^16.4.7"
     }
 }

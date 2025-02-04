@@ -2,8 +2,6 @@ const { GetRandomHadith_ENG } = require('./eng_hadith')
 const { GetRandomHadith } = require('./hadith')
 const { getAyah } = require('./quraan')
 
-const DEFAULT_DUAA = 'اللهم احفظ السودان واهله ❤️ سبحان الله وبحمده'
-
 /**
  * @typedef {Object} Hadith
  * @property {string} hadith - The text of the Hadith.
@@ -29,29 +27,26 @@ async function getText(turns, language) {
     // The 'turns' parameter is a boolean that determines whether to fetch a Hadith (if true) or an Ayah (if false).
     // If fetching fails, the function toggles 'turns' and tries fetching the other type of text.
     let text
-    if (turns) {
-        // Fetch a random Hadith
-        try {
+    const DEFAULT_DUAA =
+        language === 'ar'
+            ? 'اللهم احفظ السودان...'
+            : 'O Allah, protect Sudan and its people...'
+
+    try {
+        if (turns) {
             const hadith =
                 language === 'ar'
                     ? await GetRandomHadith()
                     : await GetRandomHadith_ENG()
 
             text = `${hadith.hadith} 💚 book (${hadith.book}) (${hadith.number})`
-        } catch (error) {
-            console.error('Error fetching hadith:', error)
-            text = `${DEFAULT_DUAA} 💚`
-        }
-    } else {
-        // Fetch a random Ayah
-        try {
+        } else {
             const ayahData = await getAyah(language)
-
             text = `${ayahData.ayah} ❤️ ${ayahData.surah_name} (${ayahData.ayah_num})`
-        } catch (error) {
-            console.error('Error fetching ayah:', error)
-            text = DEFAULT_DUAA
         }
+    } catch (error) {
+        console.error('Error fetching text:', error)
+        text = turns ? `${DEFAULT_DUAA} 💚` : DEFAULT_DUAA
     }
     return text
 }
