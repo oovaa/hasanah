@@ -85,6 +85,12 @@ If the text is too long, it may get truncated. We're working on a solution using
 ### Can I use Hasanah offline?
 While Hasanah requires an internet connection to fetch new content, we're exploring offline caching for future releases.
 
+
+### How can I hide a popup?
+
+To hide a popup in Hasanah, simply press the `Esc` key on your keyboard. This will hide the popup and allow you to continue working without interruptions.
+
+
 ---
 
 ## 🙏 Acknowledgments
