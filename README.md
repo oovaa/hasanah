@@ -7,6 +7,9 @@ Hasanah is a VS Code extension that brings the beauty of the Quran and Hadith di
 [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE.md)
 [![Open Issues](https://img.shields.io/github/issues/oovaa/hasanah)](https://github.com/oovaa/hasanah/issues)
 
+
+![logo](./hasanah.png)
+
 ---
 
 ## ✨ Features
