@@ -57,7 +57,7 @@
     "engines": {
         "vscode": "^1.93.0"
     },
-    "icon": "Hasanah-04.png",
+    "icon": "hasanah.png",
     "keywords": [
         "quotes",
         "motivation",

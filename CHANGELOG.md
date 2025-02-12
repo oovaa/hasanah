@@ -3,6 +3,12 @@
 All notable changes to the **Hasanah** extension will be documented in this file.  
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [9.3.0] - 2025-02-12
+
+### Modified
+- Update the Hasanah logo preparing for Ramadan
+
+
 ---
 
 
