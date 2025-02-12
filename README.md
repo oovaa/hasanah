@@ -3,7 +3,7 @@
 
 Hasanah is a VS Code extension that brings the beauty of the Quran and Hadith directly into your coding environment. It displays random Ayahs (Quranic verses) and Hadiths at customizable intervals, helping you stay spiritually connected while you code.
 
-[![Version](https://img.shields.io/badge/version-9.1.1-blue)](https://marketplace.visualstudio.com/items?itemName=omarabdo.hasanah)
+[![Version](https://img.shields.io/badge/version-9.3.0-blue)](https://marketplace.visualstudio.com/items?itemName=omarabdo.hasanah)
 [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE.md)
 [![Open Issues](https://img.shields.io/github/issues/oovaa/hasanah)](https://github.com/oovaa/hasanah/issues)
 
