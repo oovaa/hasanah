@@ -8,10 +8,10 @@
     "main": "./extension.js",
     "devDependencies": {
         "@types/mocha": "^10.0.10",
-        "@types/node": "^18.19.86",
+        "@types/node": "^18.19.100",
         "@types/vscode": "1.87.0",
         "@vscode/test-cli": "^0.0.8",
-        "@vscode/test-electron": "^2.5.1",
+        "@vscode/test-electron": "^2.5.2",
         "eslint": "^8.57.1",
         "typescript": "^5.8.3"
     },
@@ -52,7 +52,7 @@
             }
         }
     },
-    "description": "keep Quraan around 🕋🩵",
+    "description": "keep Quraan around 🕋",
     "displayName": "hasanah",
     "engines": {
         "vscode": "^1.93.0"
