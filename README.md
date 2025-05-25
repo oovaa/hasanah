@@ -94,7 +94,7 @@ We welcome contributions to make Hasanah even better!
 1.  **Fork the repository**: Click the "Fork" button at the top right of the [oovaa/hasanah](https://github.com/oovaa/hasanah) GitHub page.
 2.  **Clone your fork**:
     ```bash
-    git clone https://github.com/YOUR_USERNAME/hasanah.git
+    git clone https://github.com/oovaa/hasanah.git
     cd hasanah
     ```
 3.  **Install dependencies**:
