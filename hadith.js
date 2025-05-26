@@ -22,35 +22,63 @@ const getRandomCollection = () => {
 const collection = getRandomCollection()
 
 /**
+ * Utility to handle API fetch with better error handling and timeout.
+ * @param {string} url - The API endpoint.
+ * @param {object} [options] - Fetch options.
+ * @param {number} [timeout=10000] - Timeout in ms.
+ * @returns {Promise<Response>} The fetch response.
+ */
+async function safeFetch(url, options = {}, timeout = 10000) {
+    const controller = new AbortController()
+    const id = setTimeout(() => controller.abort(), timeout)
+    try {
+        const response = await fetch(url, {
+            ...options,
+            signal: controller.signal,
+        })
+        clearTimeout(id)
+        return response
+    } catch (error) {
+        clearTimeout(id)
+        if (error.name === 'AbortError') {
+            throw new Error('Request timed out')
+        }
+        throw error
+    }
+}
+
+/**
  * Retrieves a random Hadith from the API.
  * @returns {Promise<Object|string>} A Promise that resolves to a random Hadith object or an error message.
  */
 async function getRandomHadith() {
     try {
-        const response = await fetch(
+        const response = await safeFetch(
             `https://api.hadith.gading.dev/books/${collection.english}?range=300-500`
         )
-
         if (!response.ok) {
+            const text = await response.text()
             throw new Error(
-                'Network response was not ok ' + (await response.text())
+                `Network response was not ok: ${response.status} - ${text}`
             )
         }
-
         const data = await response.json()
-        if (!data || !data['data'] || !data['data']['hadiths']) {
-            throw new Error('Invalid API response')
+        if (!data || !data['data'] || !Array.isArray(data['data']['hadiths'])) {
+            throw new Error('Invalid API response structure')
         }
-
         const hadiths = data['data']['hadiths']
+        if (!hadiths.length) throw new Error('No hadiths found in response')
         const randomIndex = Math.floor(Math.random() * hadiths.length)
         return hadiths[randomIndex]
     } catch (error) {
-        console.error('Error fetching random Hadith:', error.message)
-        if (error.message === 'Network response was not ok') {
-            return 'No internet connection available.'
+        console.error('Error fetching random Hadith:', error)
+        if (
+            error.message &&
+            error.message.includes('Network response was not ok')
+        ) {
+            throw new Error('No internet connection available or API error.')
         }
-        throw new Error(error.message)
+        throw new Error('Failed to fetch hadith: ' + error.message)
     }
 }
 
@@ -63,24 +91,21 @@ async function GetRandomHadith() {
         const hadith = await getRandomHadith()
         if (hadith) {
             hadith['book'] = collection.arabic
-
-            console.log('into it ' + hadith)
-
             return {
                 book: hadith.book,
-                number: hadith.number,
-                hadith: hadith.arab,
+                number: hadith.number || 'N/A',
+                hadith: hadith.arab || hadith.text || 'No text',
             }
         } else {
             throw new Error('No Hadith found.')
         }
     } catch (error) {
-        console.error('Error printing random Hadith:', error.message)
-        throw new Error('No Hadith found.')
+        console.error('Error printing random Hadith:', error)
+        throw new Error(error.message || 'Unknown error')
     }
 }
 
-module.exports.GetRandomHadith = GetRandomHadith
+// module.exports.GetRandomHadith = GetRandomHadith
 
 // Usage example:
 // let h = await GetRandomHadith()
