@@ -3,6 +3,14 @@
 All notable changes to the **Hasanah** extension will be documented in this file.  
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [9.3.1] - 2025-05-26
+
+### Improved
+- General code structure refactored for better maintainability and readability.
+- Added robust error handling and a reusable `safeFetch` utility with timeout to both Hadith modules.
+- Enhanced API response validation and error messages.
+- Updated and improved the README documentation for clarity and completeness.
+
 ## [9.3.0] - 2025-02-12
 
 ### Modified
