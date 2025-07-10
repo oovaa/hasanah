@@ -65,22 +65,21 @@ async function getSpecificAyah(surahNumber, ayah_num, language) {
     try {
         const response = await fetch(url + extension)
         if (!response.ok) {
-            console.error(`HTTP error! status: ${response.status}`)
-            throw new Error(`HTTP error! status: ${response.status}`)
+            const text = await response.text()
+            throw new Error(
+                `Network response was not ok: ${response.status} - ${text}`
+            )
         }
-        const json_res = await response.json()
-        const data = json_res['data']
-
-        const ans = {
-            text: data['text'],
+        const { data } = await response.json()
+        return {
+            text: data.text,
             surah_name:
                 language == 'ar' ? data.surah.name : data.surah.englishName,
-            ayah_num,
+            ayah_num: data.numberInSurah,
         }
-        return ans
     } catch (error) {
         console.error('Error fetching specific Ayah:', error)
-        throw error // Rethrow the error after logging it
+        throw error
     }
 }
 

@@ -76,7 +76,7 @@ async function getRandomHadith() {
             error.message &&
             error.message.includes('Network response was not ok')
         ) {
-            throw new Error('No internet connection available or API error.')
+            throw new Error('Network error: ' + error.message)
         }
         throw new Error('Failed to fetch hadith: ' + error.message)
     }
@@ -90,14 +90,13 @@ async function GetRandomHadith() {
     try {
         const hadith = await getRandomHadith()
         if (hadith) {
-            hadith['book'] = collection.arabic
             return {
-                book: hadith.book,
-                number: hadith.number || 'N/A',
-                hadith: hadith.arab || hadith.text || 'No text',
+                hadith: hadith['arab'],
+                book: hadith['book'] || 'Unknown',
+                number: hadith['number'] || 'N/A',
             }
         } else {
-            throw new Error('No Hadith found.')
+            throw new Error('No hadith found')
         }
     } catch (error) {
         console.error('Error printing random Hadith:', error)
@@ -105,7 +104,7 @@ async function GetRandomHadith() {
     }
 }
 
-// module.exports.GetRandomHadith = GetRandomHadith
+module.exports.GetRandomHadith = GetRandomHadith
 
 // Usage example:
 // let h = await GetRandomHadith()

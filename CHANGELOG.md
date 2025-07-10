@@ -3,6 +3,19 @@
 All notable changes to the **Hasanah** extension will be documented in this file.  
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [9.4.0] - 2025-07-10
+
+### Improved
+- Enhanced error handling and API response validation in English Hadith module (`eng_hadith.js`).
+- Improved documentation and code comments for maintainability.
+- Updated error messages for clarity and user feedback.
+
+### Fixed
+- Addressed edge cases in Hadith API response structure.
+- Ensured consistent return values and error propagation in Hadith fetching logic.
+
+---
+
 ## [9.3.1] - 2025-05-26
 
 ### Improved

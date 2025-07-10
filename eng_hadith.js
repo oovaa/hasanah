@@ -70,7 +70,7 @@ async function fetchRandomHadith() {
             error.message &&
             error.message.includes('Network response was not ok')
         ) {
-            throw new Error('No internet connection available or API error.')
+            throw new Error('Network error: ' + error.message)
         }
         throw new Error('Failed to fetch hadith: ' + error.message)
     }
@@ -95,7 +95,7 @@ async function GetRandomHadith_ENG(language = 'en') {
                 number: hadith['hadithNumber'] || 'N/A',
             }
         } else {
-            throw new Error('No Hadith found.')
+            throw new Error('No hadith found')
         }
     } catch (error) {
         console.error('Error printing random Hadith:', error)

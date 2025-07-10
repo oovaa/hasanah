@@ -42,7 +42,7 @@ async function getText(turns, language) {
             text = `${hadith.hadith} 💚 book (${hadith.book}) (${hadith.number})`
         } else {
             const ayahData = await getAyah(language)
-            text = `${ayahData.ayah} ❤️ ${ayahData.surah_name} (${ayahData.ayah_num})`
+            text = `${ayahData.text} ❤️ ${ayahData.surah_name} (${ayahData.ayah_num})`
         }
     } catch (error) {
         console.error('Error fetching text:', error)

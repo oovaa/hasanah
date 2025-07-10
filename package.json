@@ -8,7 +8,7 @@
     "main": "./extension.js",
     "devDependencies": {
         "@types/mocha": "^10.0.10",
-        "@types/node": "^18.19.100",
+        "@types/node": "^18.19.117",
         "@types/vscode": "1.87.0",
         "@vscode/test-cli": "^0.0.8",
         "@vscode/test-electron": "^2.5.2",
@@ -70,5 +70,9 @@
         "lint": "eslint .",
         "pretest": "npm run lint",
         "test": "vscode-test"
+    },
+    "dependencies": {
+        "abort-controller": "^3.0.0",
+        "node-fetch": "^3.3.2"
     }
 }
