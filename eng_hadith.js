@@ -1,3 +1,5 @@
+// Simple in-memory cache for Hadiths
+const hadithCache = {}
 // API
 // https://www.hadithapi.com/docs/hadiths
 
@@ -11,11 +13,11 @@ const slugs = [
 ]
 
 /**
- * Utility to handle API fetch with better error handling and timeout.
- * @param {string} url - The API endpoint.
+ * Utility to handle API fetch with error handling and timeout.
+ * @param {string} url - API endpoint.
  * @param {object} [options] - Fetch options.
  * @param {number} [timeout=10000] - Timeout in ms.
- * @returns {Promise<Response>} The fetch response.
+ * @returns {Promise<Response>} Fetch response.
  */
 async function safeFetch(url, options = {}, timeout = 10000) {
     const controller = new AbortController()
@@ -38,10 +40,16 @@ async function safeFetch(url, options = {}, timeout = 10000) {
 
 /**
  * Retrieves a random Hadith from the API.
- * @returns {Promise<Object|string>} A Promise that resolves to a random Hadith object or an error message.
+ * @returns {Promise<Object>} Random Hadith object.
  */
 async function fetchRandomHadith() {
     const book = slugs[Math.floor(Math.random() * slugs.length)]
+    const cacheKey = book
+    if (hadithCache[cacheKey]) {
+        const hadiths = hadithCache[cacheKey]
+        const randomIndex = Math.floor(Math.random() * hadiths.length)
+        return hadiths[randomIndex]
+    }
     try {
         const response = await safeFetch(
             `https://www.hadithapi.com/api/hadiths/?apiKey=$2y$10$P8VPmYSunct4p52yC32YGuoZ9fIcC6nbNEine2UK6hISoIRp78i&paginate=80&book=${book}`
@@ -62,6 +70,7 @@ async function fetchRandomHadith() {
         }
         const hadiths = data['hadiths']['data']
         if (!hadiths.length) throw new Error('No hadiths found in response')
+        hadithCache[cacheKey] = hadiths
         const randomIndex = Math.floor(Math.random() * hadiths.length)
         return hadiths[randomIndex]
     } catch (error) {
@@ -77,8 +86,9 @@ async function fetchRandomHadith() {
 }
 
 /**
- * Prints a random Hadith.
- * @returns {Promise<any>| null} The random Hadith object, or null if no Hadith is found.
+ * Gets a random Hadith in the specified language.
+ * @param {string} language - Language code ('en', 'ar', 'ur').
+ * @returns {Promise<Object>} Hadith object.
  */
 async function GetRandomHadith_ENG(language = 'en') {
     const lang = {

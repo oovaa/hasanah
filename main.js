@@ -18,14 +18,13 @@ const { getAyah } = require('./quraan')
 
 /**
  * Fetches either a random Hadith or Ayah based on the turns flag and language.
- * @param {boolean} turns - Whether to show a Hadith (true) or an Ayah (false).
- * @param {string} language - The language for the Ayah (en for English, ar for Arabic).
- * @returns {Promise<string>} The text to display.
+ * @param {boolean} turns - If true, fetch Hadith; if false, fetch Ayah.
+ * @param {string} language - Language code ('en' for English, 'ar' for Arabic).
+ * @returns {Promise<string>} The text to display in notification.
  */
 
 async function getText(turns, language) {
-    // The 'turns' parameter is a boolean that determines whether to fetch a Hadith (if true) or an Ayah (if false).
-    // If fetching fails, the function toggles 'turns' and tries fetching the other type of text.
+    // If fetching fails, fallback to default Duaa.
     let text
     const DEFAULT_DUAA =
         language === 'ar'

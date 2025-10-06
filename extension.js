@@ -4,13 +4,20 @@ const { getSpecificAyah } = require('./quraan')
 const { get_hijri_Date } = require('./islamicDate.js')
 
 let timerId
-let config = vscode.workspace.getConfiguration('hasanah')
-let language = config.get('language') // Get the language setting
 
-const DEFAULT_DUAA =
-    language === 'ar'
+function getConfig() {
+    return vscode.workspace.getConfiguration('hasanah')
+}
+
+function getLanguage() {
+    return getConfig().get('language')
+}
+
+function getDefaultDuaa(language) {
+    return language === 'ar'
         ? 'اللهم احفظ السودان...'
         : 'O Allah, protect Sudan and its people...'
+}
 
 /**
  * Displays an automatically dismissing notification with the given message for the specified duration.
@@ -20,6 +27,7 @@ const DEFAULT_DUAA =
  * @returns {void}
  */
 function showAutoDismissNotification(message, duration) {
+    // Use withProgress for auto-dismiss, but ensure only one notification at a time
     vscode.window.withProgress(
         {
             location: vscode.ProgressLocation.Notification,
@@ -28,8 +36,14 @@ function showAutoDismissNotification(message, duration) {
         },
         (progress, token) => {
             return new Promise((resolve) => {
-                token.onCancellationRequested(() => resolve())
-                setTimeout(resolve, duration)
+                let dismissed = false
+                token.onCancellationRequested(() => {
+                    dismissed = true
+                    resolve()
+                })
+                setTimeout(() => {
+                    if (!dismissed) resolve()
+                }, duration)
             })
         }
     )
@@ -40,36 +54,43 @@ function showAutoDismissNotification(message, duration) {
  * @param {vscode.ExtensionContext} context - The context in which the extension is activated.
  */
 function activate(context) {
-    // Get the configuration settings
-    let delay = config.get('delay') * 60000 // Convert delay from minutes to milliseconds
     let turns = false
+
+    function getDelay() {
+        return getConfig().get('delay') * 60000
+    }
 
     // Function to fetch and display text (Hadith or Ayah) at regular intervals
     const showText = async () => {
-        const text = await getText(turns, language)
-        const dismissTime = (2 * delay) / 3 // Two-thirds of the delay
-
-        showAutoDismissNotification(text, dismissTime)
+        const language = getLanguage()
+        let delay = getDelay()
+        try {
+            const text = await getText(turns, language)
+            const dismissTime = (2 * delay) / 3 // Two-thirds of the delay
+            showAutoDismissNotification(text, dismissTime)
+        } catch (err) {
+            vscode.window.showErrorMessage(
+                getDefaultDuaa(language) + ' (Error displaying text)'
+            )
+        }
         turns = !turns
     }
 
-    // Set an interval to call the showText function based on the delay setting
-    timerId = setInterval(showText, delay)
+    function startInterval() {
+        if (timerId) clearInterval(timerId)
+        timerId = setInterval(showText, getDelay())
+    }
+
+    startInterval()
 
     // Listen for configuration changes
     context.subscriptions.push(
         vscode.workspace.onDidChangeConfiguration((e) => {
-            if (e.affectsConfiguration('hasanah.delay')) {
-                // If the delay setting changes, update the interval
-                clearInterval(timerId) // Clear the old interval
-                config = vscode.workspace.getConfiguration('hasanah')
-                delay = config.get('delay') * 60000 // Get the new delay
-                timerId = setInterval(showText, delay) // Create a new interval with the new delay
-            }
-            if (e.affectsConfiguration('hasanah.language')) {
-                // If the language setting changes, update the language
-                config = vscode.workspace.getConfiguration('hasanah')
-                language = config.get('language') // Update the language setting
+            if (
+                e.affectsConfiguration('hasanah.delay') ||
+                e.affectsConfiguration('hasanah.language')
+            ) {
+                startInterval()
             }
         })
     )
@@ -84,13 +105,13 @@ function activate(context) {
             const ayah = await vscode.window.showInputBox({
                 prompt: 'Enter the number of the ayah',
             })
+            const language = getLanguage()
             if (!surah || !ayah) {
                 vscode.window.showInformationMessage(
                     'Invalid input. Please enter a number.'
                 )
                 return
             }
-
             try {
                 const data = await getSpecificAyah(surah, ayah, language)
                 if (data) {
@@ -105,12 +126,12 @@ function activate(context) {
             } catch (error) {
                 console.error('Error fetching specific Ayah:', error)
                 vscode.window.showErrorMessage(
-                    `${DEFAULT_DUAA} (invalid surah/Ayah reference or Internet problem)`
+                    getDefaultDuaa(language) +
+                        ' (invalid surah/Ayah reference or Internet problem)'
                 )
             }
         }
     )
-
     context.subscriptions.push(disposable)
 
     // Register the command to fetch the current Hijri date
