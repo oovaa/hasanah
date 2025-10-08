@@ -19,12 +19,12 @@ Hasanah is a VS Code extension that brings the beauty of the Quran and Hadith di
 - **Customizable Intervals:** Set how often you want to see a new Ayah or Hadith.
 - **Dual Language Support:**
   - Ayahs: Arabic (`ar`) and English (`en`).
-  - Hadiths: Arabic (`ar`) and English (`en`) (experimental).
+    - Hadiths: Arabic (`ar`) and English (`en`).
 - **Hijri Date:** Quickly get the current Islamic (Hijri) date.
 - **Specific Ayah Lookup:** Fetch a particular Ayah by Surah and Ayah number.
 - **Auto-Dismiss Notifications:** Popups will automatically disappear after a configurable portion of the display interval.
 - **Offline Duaa:** Displays a default Duaa if an internet connection is unavailable.
-- **Caching:** Hijri date requests are cached to improve performance.
+- **Caching:** In-memory caching is used for Ayah, Hadith, and Hijri date requests to improve performance.
 
 ---
 
@@ -100,7 +100,10 @@ We welcome contributions to make Hasanah even better!
 3. **Install dependencies**:
     ```bash
     bun install
-    # or yarn or npm
+    # or
+    yarn install
+    # or
+    npm install
     ```
 4. **Open in VS Code**:
     ```bash
