@@ -50,6 +50,6 @@ async function getText(turns, language) {
     return text
 }
 
-// console.log(await getText(false, 'en'))
+// console.log(await getText(true, 'ar'))
 
 module.exports.getText = getText
