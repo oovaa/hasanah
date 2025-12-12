@@ -73,19 +73,24 @@ async function getRandomHadith() {
         }
         const data = await response.json()
 
-        const arabicBook = collections.find(
-            (x) => x.english == data['data'].id
-        ).arabic
-
         if (!data || !data['data'] || !Array.isArray(data['data']['hadiths'])) {
             throw new Error('Invalid API response structure')
         }
         const hadiths = data['data']['hadiths']
         if (!hadiths.length) throw new Error('No hadiths found in response')
-        hadithCache[cacheKey] = hadiths
-        const randomIndex = Math.floor(Math.random() * hadiths.length)
 
-        return { ...hadiths[randomIndex], book: arabicBook }
+        // Find the Arabic book name, with fallback to the original collection's Arabic name
+        const foundCollection = collections.find(
+            (x) => x.english == data['data'].id
+        )
+        const arabicBook = foundCollection ? foundCollection.arabic : collection.arabic
+
+        // Add the Arabic book name to each hadith before caching
+        const hadithsWithBook = hadiths.map(h => ({ ...h, book: arabicBook }))
+        hadithCache[cacheKey] = hadithsWithBook
+        const randomIndex = Math.floor(Math.random() * hadithsWithBook.length)
+
+        return hadithsWithBook[randomIndex]
     } catch (error) {
         console.error('Error fetching random Hadith:', error)
         if (
