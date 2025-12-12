@@ -81,7 +81,7 @@ async function getRandomHadith() {
 
         // Find the Arabic book name, with fallback to the original collection's Arabic name
         const foundCollection = collections.find(
-            (x) => x.english == data['data'].id
+            (x) => x.english === data['data'].id
         )
         const arabicBook = foundCollection ? foundCollection.arabic : collection.arabic
 
