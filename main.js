@@ -5,8 +5,8 @@ const { getAyah } = require('./quraan')
 /**
  * @typedef {Object} Hadith
  * @property {string} hadith - The text of the Hadith.
- * @property {string} book - The book where the Hadith is found.
- * @property {number} number - The number of the Hadith in the book.
+ * @property {string} author - The author/narrator of the Hadith collection.
+ * @property {number} number - The number of the Hadith in the collection.
  */
 
 /**
@@ -38,7 +38,8 @@ async function getText(turns, language) {
                     ? await GetRandomHadith()
                     : await GetRandomHadith_ENG()
 
-            text = `${hadith.hadith} 💚 book (${hadith.book}) (${hadith.number})`
+            // Changed from 'book' to 'author' to better represent the narrator/compiler of the hadith
+            text = `${hadith.hadith} 💚 author (${hadith.author}) (${hadith.number})`
         } else {
             const ayahData = await getAyah(language)
             text = `${ayahData.text} ❤️ ${ayahData.surah_name} (${ayahData.ayah_num})`

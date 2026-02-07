@@ -15,7 +15,7 @@ Hasanah is a VS Code extension that brings the beauty of the Quran and Hadith di
 ## ✨ Features
 
 - **Random Quranic Verses (Ayahs):** Displays random Ayahs in your chosen language.
-- **Random Hadiths:** Shows random Hadiths, with support for both Arabic and English.
+- **Random Hadiths:** Shows random Hadiths with author attribution (narrator/compiler), with support for both Arabic and English.
 - **Customizable Intervals:** Set how often you want to see a new Ayah or Hadith.
 - **Dual Language Support:**
   - Ayahs: Arabic (`ar`) and English (`en`).
@@ -88,6 +88,7 @@ We welcome contributions to make Hasanah even better!
 - [Node.js](https://nodejs.org/) (v18+ recommended, check [`package.json`](package.json) for specific engine requirements)
 - [Visual Studio Code](https://code.visualstudio.com/) (v1.93+ recommended, check [`package.json`](package.json) for specific engine requirements)
 - [npm](https://www.npmjs.com/) (usually comes with Node.js) or [Yarn](https://yarnpkg.com/)
+- [Bun](https://bun.sh/) (optional, for running tests faster)
 
 ### Getting Started
 
@@ -119,7 +120,13 @@ We welcome contributions to make Hasanah even better!
     ```bash
     npm run lint
     ```
-8. **Submit a Pull Request**:
+8. **Run tests**:
+    ```bash
+    bun test
+    # or use npm if you don't have bun installed
+    npm test
+    ```
+9. **Submit a Pull Request**:
     - Create a new branch for your feature or bug fix.
     - Commit your changes with clear and descriptive messages.
     - Push your branch to your fork.
@@ -145,6 +152,37 @@ We welcome contributions to make Hasanah even better!
 
 ### Q: How can I hide a notification popup?
 **A:** You can usually dismiss VS Code notifications by pressing the `Esc` key or clicking the "Close" (X) button on the notification. The notifications are also designed to auto-dismiss.
+
+---
+
+## 🧪 Testing
+
+Hasanah includes comprehensive tests to ensure code quality and correctness.
+
+### Running Tests
+
+To run all tests:
+
+```bash
+bun test
+```
+
+Or if you prefer npm:
+
+```bash
+npm test
+```
+
+### Test Coverage
+
+The test suite includes:
+
+- **Hadith Tests**: Verifies that hadith retrieval works correctly with proper author attribution
+- **Cache Tests**: Ensures that caching mechanisms work efficiently to reduce API calls
+- **Main Function Tests**: Validates the getText function and error handling
+- **Integration Tests**: Tests the interaction between different modules
+
+All tests use mocked API responses to ensure consistent and reliable test execution.
 
 ---
 

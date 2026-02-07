@@ -88,7 +88,10 @@ async function fetchRandomHadith() {
 /**
  * Gets a random Hadith in the specified language.
  * @param {string} language - Language code ('en', 'ar', 'ur').
- * @returns {Promise<Object>} Hadith object.
+ * @returns {Promise<Object>} Hadith object with author, hadith text, and number.
+ * @property {string} hadith - The text of the Hadith in the specified language.
+ * @property {string} author - The author/narrator of the Hadith collection (e.g., Sahih Bukhari, Sahih Muslim).
+ * @property {string|number} number - The Hadith number within the collection.
  */
 async function GetRandomHadith_ENG(language = 'en') {
     const lang = {
@@ -101,7 +104,9 @@ async function GetRandomHadith_ENG(language = 'en') {
         if (hadith) {
             return {
                 hadith: hadith[`${lang}`],
-                book: hadith['book']?.['bookName'] || 'Unknown',
+                // Changed from 'book' to 'author' to better represent the narrator/compiler of the hadith
+                // Check 'author' first (if API provides it directly), then book.bookName (current API structure)
+                author: hadith['author'] || hadith['book']?.['bookName'] || 'Unknown',
                 number: hadith['hadithNumber'] || 'N/A',
             }
         } else {
