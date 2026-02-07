@@ -79,18 +79,19 @@ async function getRandomHadith() {
         const hadiths = data['data']['hadiths']
         if (!hadiths.length) throw new Error('No hadiths found in response')
 
-        // Find the Arabic book name, with fallback to the original collection's Arabic name
+        // Find the Arabic author name (narrator/compiler), with fallback to the original collection's Arabic name
         const foundCollection = collections.find(
             (x) => x.english === data['data'].id
         )
-        const arabicBook = foundCollection ? foundCollection.arabic : collection.arabic
+        const arabicAuthor = foundCollection ? foundCollection.arabic : collection.arabic
 
-        // Add the Arabic book name to each hadith before caching
-        const hadithsWithBook = hadiths.map(h => ({ ...h, book: arabicBook }))
-        hadithCache[cacheKey] = hadithsWithBook
-        const randomIndex = Math.floor(Math.random() * hadithsWithBook.length)
+        // Add the Arabic author name to each hadith before caching
+        // We add it as 'book' key for backward compatibility, but it represents the author/narrator
+        const hadithsWithAuthor = hadiths.map(h => ({ ...h, book: arabicAuthor, author: arabicAuthor }))
+        hadithCache[cacheKey] = hadithsWithAuthor
+        const randomIndex = Math.floor(Math.random() * hadithsWithAuthor.length)
 
-        return hadithsWithBook[randomIndex]
+        return hadithsWithAuthor[randomIndex]
     } catch (error) {
         console.error('Error fetching random Hadith:', error)
         if (
@@ -105,7 +106,10 @@ async function getRandomHadith() {
 
 /**
  * Gets a random Hadith in Arabic.
- * @returns {Promise<Object>} Hadith object.
+ * @returns {Promise<Object>} Hadith object with author, hadith text, and number.
+ * @property {string} hadith - The Arabic text of the Hadith.
+ * @property {string} author - The author/narrator of the Hadith collection (e.g., البخاري, مسلم).
+ * @property {string|number} number - The Hadith number within the collection.
  */
 async function GetRandomHadith() {
     try {
@@ -114,7 +118,8 @@ async function GetRandomHadith() {
         if (hadith) {
             return {
                 hadith: hadith['arab'],
-                book: hadith['book'] || 'Unknown',
+                // Changed from 'book' to 'author' to better represent the narrator/compiler of the hadith
+                author: hadith['book'] || hadith['author'] || 'Unknown',
                 number: hadith['number'] || 'N/A',
             }
         } else {
