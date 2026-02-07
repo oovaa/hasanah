@@ -50,7 +50,7 @@ describe('Main getText function', () => {
         const result = await getText(true, 'ar')
 
         expect(result).toContain('إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ')
-        expect(result).toContain('author') // Should contain the word "author"
+        expect(result).toContain('💚 author (') // Check for proper format with author field
         expect(result).toContain('البخاري') // Should contain Arabic author name
         expect(result).not.toContain('book (Unknown)') // Should not show "Unknown" as author
     })
@@ -74,7 +74,7 @@ describe('Main getText function', () => {
         const result = await getText(true, 'en')
 
         expect(result).toContain('Actions are by intentions')
-        expect(result).toContain('author') // Should contain the word "author"
+        expect(result).toContain('💚 author (') // Check for proper format with author field
         expect(result).toContain('Sahih Muslim') // Should contain author name
         expect(result).not.toContain('book (Unknown)') // Should not show "Unknown" as author
     })

@@ -86,7 +86,8 @@ async function getRandomHadith() {
         const arabicAuthor = foundCollection ? foundCollection.arabic : collection.arabic
 
         // Add the Arabic author name to each hadith before caching
-        // We add it as 'book' key for backward compatibility, but it represents the author/narrator
+        // We keep 'book' field for backward compatibility with existing code that may reference it
+        // TODO: In a future version (v10.x), deprecate and remove the 'book' field
         const hadithsWithAuthor = hadiths.map(h => ({ ...h, book: arabicAuthor, author: arabicAuthor }))
         hadithCache[cacheKey] = hadithsWithAuthor
         const randomIndex = Math.floor(Math.random() * hadithsWithAuthor.length)
@@ -119,7 +120,8 @@ async function GetRandomHadith() {
             return {
                 hadith: hadith['arab'],
                 // Changed from 'book' to 'author' to better represent the narrator/compiler of the hadith
-                author: hadith['book'] || hadith['author'] || 'Unknown',
+                // Check 'author' first (new field), then 'book' (legacy field for backward compatibility)
+                author: hadith['author'] || hadith['book'] || 'Unknown',
                 number: hadith['number'] || 'N/A',
             }
         } else {

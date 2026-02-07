@@ -105,8 +105,8 @@ async function GetRandomHadith_ENG(language = 'en') {
             return {
                 hadith: hadith[`${lang}`],
                 // Changed from 'book' to 'author' to better represent the narrator/compiler of the hadith
-                // The API provides book.bookName, or we fallback to 'Unknown'
-                author: hadith['book']?.['bookName'] || hadith['author'] || 'Unknown',
+                // Check 'author' first (if API provides it directly), then book.bookName (current API structure)
+                author: hadith['author'] || hadith['book']?.['bookName'] || 'Unknown',
                 number: hadith['hadithNumber'] || 'N/A',
             }
         } else {
