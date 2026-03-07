@@ -30,7 +30,6 @@ async function getText(turns, language) {
         language === 'ar'
             ? 'اللهم احفظ السودان واهله ❤️ سبحان الله وبحمده'
             : 'O God, protect Sudan and its people ❤️ Glory to God and praise to Him'
-
     try {
         if (turns) {
             const hadith =
@@ -38,7 +37,6 @@ async function getText(turns, language) {
                     ? await GetRandomHadith()
                     : await GetRandomHadith_ENG()
 
-            // Changed from 'book' to 'author' to better represent the narrator/compiler of the hadith
             text = `${hadith.hadith} 💚 author (${hadith.author}) (${hadith.number})`
         } else {
             const ayahData = await getAyah(language)

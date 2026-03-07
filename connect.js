@@ -1,5 +1,4 @@
 import { time, timeEnd } from 'console'
-import { getSpecificAyah as oldgetSpecificAyah } from './oldquraan'
 import { GetRandomHadith } from './hadith'
 import { getSpecificAyah } from './quraan'
 
@@ -7,18 +6,15 @@ import { getSpecificAyah } from './quraan'
 async function main() {
     time('hadith time')
     let hadith = await GetRandomHadith()
+    console.log(hadith)
+
     timeEnd('hadith time')
     // console.log(hadith)
 
     console.time('new get spicific ayah')
-    const aya2 = await getSpecificAyah('2', '255' , "ar") // 'https://quranapi.pages.dev/api'
+    const aya2 = await getSpecificAyah('2', '255', 'ar') // 'https://quranapi.pages.dev/api'
     // console.log(aya2)
     console.timeEnd('new get spicific ayah')
-
-    console.time('old get spicific ayah')
-    const aya = await oldgetSpecificAyah("2", "255")
-    // console.log(aya)
-    console.timeEnd('old get spicific ayah')
 }
 
 // main()
