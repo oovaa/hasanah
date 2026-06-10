@@ -1,85 +1,46 @@
-// Simple in-memory cache for Ayahs
-const ayahCache = {}
+const { fetchFromUmmah } = require('./ummahapi')
+
 const specificAyahCache = {}
-/**
- * Fetches a random Ayah from the Quran in the specified language.
- * @param {string} language - Language code ('ar' for Arabic, 'en' for English).
- * @returns {Promise<Object>} Ayah data object.
- * @throws {Error} If fetch operation fails.
- */
+
 async function getRandomAyah(language) {
     try {
-        const ayahNumber = Math.floor(Math.random() * 6236) + 1
-        const cacheKey = `${language}:${ayahNumber}`
-        if (ayahCache[cacheKey]) {
-            return ayahCache[cacheKey]
-        }
-        const extension = language == 'ar' ? 'ar.asad' : 'en.asad'
-        const url = `https://api.alquran.cloud/v1/ayah/${ayahNumber}/`
-        const response = await fetch(url + extension)
-        if (!response.ok)
-            throw new Error(`HTTP error! status: ${response.status}`)
-        const data = await response.json()
-        ayahCache[cacheKey] = data['data']
-        return data['data']
-    } catch (error) {
-        console.error('Error fetching random Ayah:', error)
-        throw error // Rethrow the error after logging it
+        // Try random verse endpoint
+        const data = await fetchFromUmmah('/quran/random')
+        return data.verse || data
+    } catch (e) {
+        // Fallback to random surah and ayah if random doesn't exist
+        const surah = Math.floor(Math.random() * 114) + 1
+        const ayah = Math.floor(Math.random() * 5) + 1 // Safe guess
+        const data = await fetchFromUmmah(`/quran/surah/${surah}/ayah/${ayah}?apikey=umh_3e5af9c544dfcf970f24d6ed97800ed29bb6ff54`)
+        return data.verse || data
     }
 }
 
-/**
- * Fetches a random Ayah (verse) text in the specified language.
- * @param {string} language - Language code ('ar' for Arabic, 'en' for English).
- * @returns {Promise<Object>} Object containing Ayah text, Surah name, and Ayah number.
- * @throws {Error} If there is an issue fetching the Ayah text.
- */
 async function getAyah(language) {
     try {
         const ayah = await getRandomAyah(language)
-        const result = {
-            text: ayah.text,
-            surah_name:
-                language == 'ar' ? ayah.surah.name : ayah.surah.englishName,
-            ayah_num: ayah.numberInSurah,
+        return {
+            text: language === 'ar' ? (ayah.text_uthmani || ayah.arabic || ayah.text) : (ayah.translation || ayah.english || ayah.text),
+            surah_name: language === 'ar' ? (ayah.surah_name_arabic || ayah.surah_name || `Surah ${ayah.surah_number}`) : (ayah.surah_name_english || ayah.surah_name || `Surah ${ayah.surah_number}`),
+            ayah_num: ayah.verse_number || ayah.ayah || 'N/A',
         }
-        return result
     } catch (error) {
         console.error('Error fetching Ayah text:', error)
-        throw error // Rethrow the error after logging it
+        throw error
     }
 }
 
-/**
- * Fetches a specific Ayah from the Quran API.
- * @param {string} surahNumber - Surah (chapter) number.
- * @param {string} ayah_num - Ayah (verse) number.
- * @param {string} language - Language code ('ar' for Arabic, 'en' for English).
- * @returns {Promise<Object>} Object containing Ayah text, Surah name, and Ayah number.
- * @throws {Error} If fetch operation fails.
- */
 async function getSpecificAyah(surahNumber, ayah_num, language) {
     const cacheKey = `${language}:${surahNumber}:${ayah_num}`
-    if (specificAyahCache[cacheKey]) {
-        return specificAyahCache[cacheKey]
-    }
-    const url = `https://api.alquran.cloud/v1/ayah/${surahNumber}:${ayah_num}/`
-    const extension = language == 'ar' ? 'ar.asad' : 'en.asad'
+    if (specificAyahCache[cacheKey]) return specificAyahCache[cacheKey]
+
     try {
-        const response = await fetch(url + extension)
-        if (!response.ok) {
-            const text = await response.text()
-            throw new Error(
-                `Network response was not ok: ${response.status} - ${text}`
-            )
-        }
-        // @ts-ignore
-        const { data } = await response.json()
+        const data = await fetchFromUmmah(`/quran/surah/${surahNumber}/ayah/${ayah_num}?apikey=umh_3e5af9c544dfcf970f24d6ed97800ed29bb6ff54`)
+        const ayah = data.verse || data
         const result = {
-            text: data.text,
-            surah_name:
-                language == 'ar' ? data.surah.name : data.surah.englishName,
-            ayah_num: data.numberInSurah,
+            text: language === 'ar' ? (ayah.text_uthmani || ayah.arabic || ayah.text) : (ayah.translation || ayah.english || ayah.text),
+            surah_name: language === 'ar' ? (ayah.surah_name_arabic || ayah.surah_name || `Surah ${surahNumber}`) : (ayah.surah_name_english || ayah.surah_name || `Surah ${surahNumber}`),
+            ayah_num: ayah.verse_number || ayah_num,
         }
         specificAyahCache[cacheKey] = result
         return result
@@ -89,16 +50,7 @@ async function getSpecificAyah(surahNumber, ayah_num, language) {
     }
 }
 
-// console.log(await oldgetSpecificAyah('12', '23', 'ar'))
-
-module.exports.getSpecificAyah = getSpecificAyah
-module.exports.getAyah = getAyah
-
-// Usage examples:
-// let data = await oldgetSpecificAyah(2, 255);
-// console.log(data.text, data.numberInSurah, data.surah.name);
-
-// getAyah('ar').then((ayah) => {
-//     // You can handle the returned ayah here
-//     console.log(ayah)
-// })
+module.exports = {
+    getSpecificAyah,
+    getAyah
+}
