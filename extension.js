@@ -50,6 +50,13 @@ function showAutoDismissNotification(message, duration) {
     )
 }
 
+function getDuaaText(duaa, language) {
+    if (language === 'ar' && duaa.arabic) {
+        return duaa.arabic
+    }
+    return duaa.translation || duaa.text || duaa.arabic || "Duaa not found"
+}
+
 /**
  * Activates the extension.
  * @param {vscode.ExtensionContext} context - The context in which the extension is activated.
@@ -107,9 +114,9 @@ function activate(context) {
                 prompt: 'Enter the number of the ayah',
             })
             const language = getLanguage()
-            if (!surah || !ayah) {
+            if (!surah || !ayah || isNaN(surah) || isNaN(ayah)) {
                 vscode.window.showInformationMessage(
-                    'Invalid input. Please enter a number.'
+                    'Invalid input. Surah and Ayah numbers are required.'
                 )
                 return
             }
@@ -158,7 +165,7 @@ function activate(context) {
             try {
                 const duaa = await getRandomDuaa()
                 const language = getLanguage()
-                const text = language === 'ar' && duaa.arabic ? duaa.arabic : duaa.translation || duaa.text || duaa.arabic || "Duaa not found"
+                const text = getDuaaText(duaa, language)
                 vscode.window.showInformationMessage(`Duaa: ${text} 🤲`)
             } catch (e) {
                 console.error('An error occurred:', e.message)
@@ -194,8 +201,8 @@ function activate(context) {
             const ayah = await vscode.window.showInputBox({
                 prompt: 'Enter the number of the ayah',
             })
-            if (!surah || !ayah) {
-                vscode.window.showInformationMessage('Invalid input. Please enter a number.')
+            if (!surah || !ayah || isNaN(surah) || isNaN(ayah)) {
+                vscode.window.showInformationMessage('Invalid input. Surah and Ayah numbers are required.')
                 return
             }
             try {

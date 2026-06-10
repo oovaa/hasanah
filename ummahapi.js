@@ -6,8 +6,8 @@ async function fetchFromUmmah(endpoint) {
         throw new Error(`UmmahAPI error: ${response.status}`)
     }
     const json = await response.json()
-    if (!json.success && json.code !== 200) {
-        // Handle varying response formats
+    if (json.success === false) {
+        throw new Error(`UmmahAPI returned success: false`)
     }
     return json.data || json
 }
