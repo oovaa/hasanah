@@ -30,6 +30,18 @@
             {
                 "command": "hasanah.getHijriDate",
                 "title": "hasanah: get Hijri Date"
+            },
+            {
+                "command": "hasanah.getRandomDuaa",
+                "title": "hasanah: get Random Duaa"
+            },
+            {
+                "command": "hasanah.getRandomNameOfAllah",
+                "title": "hasanah: get Random Name of Allah"
+            },
+            {
+                "command": "hasanah.getTafsir",
+                "title": "hasanah: get Tafsir for Ayah"
             }
         ],
         "configuration": {

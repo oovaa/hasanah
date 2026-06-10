@@ -2,6 +2,7 @@ const vscode = require('vscode')
 const { getText } = require('./main')
 const { getSpecificAyah } = require('./quraan')
 const { get_hijri_Date } = require('./islamicDate.js')
+const { getRandomDuaa, getRandomNameOfAllah, getTafsir } = require('./ummahapi')
 
 let timerId
 
@@ -47,6 +48,13 @@ function showAutoDismissNotification(message, duration) {
             })
         }
     )
+}
+
+function getDuaaText(duaa, language) {
+    if (language === 'ar' && duaa.arabic) {
+        return duaa.arabic
+    }
+    return duaa.translation || duaa.text || duaa.arabic || "Duaa not found"
 }
 
 /**
@@ -106,9 +114,9 @@ function activate(context) {
                 prompt: 'Enter the number of the ayah',
             })
             const language = getLanguage()
-            if (!surah || !ayah) {
+            if (!surah || !ayah || isNaN(surah) || isNaN(ayah)) {
                 vscode.window.showInformationMessage(
-                    'Invalid input. Please enter a number.'
+                    'Invalid input. Surah and Ayah numbers are required.'
                 )
                 return
             }
@@ -145,6 +153,66 @@ function activate(context) {
                 )
             } catch (e) {
                 console.error('An error occurred:', e.message)
+            }
+        }
+    )
+    context.subscriptions.push(disposable)
+
+    // Register the command to get a Random Duaa
+    disposable = vscode.commands.registerCommand(
+        'hasanah.getRandomDuaa',
+        async () => {
+            try {
+                const duaa = await getRandomDuaa()
+                const language = getLanguage()
+                const text = getDuaaText(duaa, language)
+                vscode.window.showInformationMessage(`Duaa: ${text} 🤲`)
+            } catch (e) {
+                console.error('An error occurred:', e.message)
+                vscode.window.showErrorMessage('Error fetching Duaa')
+            }
+        }
+    )
+    context.subscriptions.push(disposable)
+
+    // Register the command to get a Random Name of Allah
+    disposable = vscode.commands.registerCommand(
+        'hasanah.getRandomNameOfAllah',
+        async () => {
+            try {
+                const data = await getRandomNameOfAllah()
+                const name = data.name || data
+                vscode.window.showInformationMessage(`${name.arabic} - ${name.transliteration} (${name.english}) 🌟`)
+            } catch (e) {
+                console.error('An error occurred:', e.message)
+                vscode.window.showErrorMessage('Error fetching Name of Allah')
+            }
+        }
+    )
+    context.subscriptions.push(disposable)
+
+    // Register the command to get Tafsir
+    disposable = vscode.commands.registerCommand(
+        'hasanah.getTafsir',
+        async () => {
+            const surah = await vscode.window.showInputBox({
+                prompt: 'Enter the number of the surah',
+            })
+            const ayah = await vscode.window.showInputBox({
+                prompt: 'Enter the number of the ayah',
+            })
+            if (!surah || !ayah || isNaN(surah) || isNaN(ayah)) {
+                vscode.window.showInformationMessage('Invalid input. Surah and Ayah numbers are required.')
+                return
+            }
+            try {
+                const tafsirId = getLanguage() === 'ar' ? 'muyassar' : 'ibn_kathir'
+                const data = await getTafsir(tafsirId, surah, ayah)
+                const text = data.text || data.tafsir || 'Tafsir not found'
+                vscode.window.showInformationMessage(`Tafsir (${tafsirId}): ${text.substring(0, 1000)}${text.length > 1000 ? '...' : ''}`)
+            } catch (e) {
+                console.error('An error occurred:', e.message)
+                vscode.window.showErrorMessage('Error fetching Tafsir')
             }
         }
     )
