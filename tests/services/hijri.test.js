@@ -11,14 +11,18 @@ describe('HijriCalendarService', () => {
     hijriService.api = api
   })
 
-  test('should fetch today\'s Hijri date', async () => {
+  test("should fetch today's Hijri date", async () => {
     const mockData = {
-      date: '1445-01-01',
-      month: 'Muharram',
-      year: 1445,
-      day: 1
+      data: {
+        hijri: {
+          date: '1445-01-01',
+          day: 1,
+          month_name: 'Muharram',
+          year: 1445,
+        },
+      },
     }
-    api.get = jest.fn().mockResolvedValue(mockData)
+    api.get = () => Promise.resolve(mockData)
 
     const hijriDate = await hijriService.getTodayHijriDate()
     expect(hijriDate).toBeDefined()

@@ -1,6 +1,7 @@
 class UmmahAPI {
-  constructor() {
+  constructor(apiKey = null) {
     this.baseURL = 'https://ummahapi.com/api'
+    this.apiKey = apiKey
     this.cache = {}
     this.cacheTimeout = 24 * 60 * 60 * 1000 // 24 hours
   }
@@ -14,7 +15,12 @@ class UmmahAPI {
     const url = new URL(`${this.baseURL}${endpoint}`)
     Object.entries(params).forEach(([key, value]) => url.searchParams.append(key, value))
 
-    const response = await fetch(url.toString())
+    const headers = {}
+    if (this.apiKey) {
+      headers['x-api-key'] = this.apiKey
+    }
+
+    const response = await fetch(url.toString(), { headers })
     if (!response.ok) {
       throw new Error(`API error: ${response.status} - ${response.statusText}`)
     }

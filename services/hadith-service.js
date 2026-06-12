@@ -17,9 +17,9 @@ class HadithService {
 
   formatHadith(data) {
     return {
-      hadith: data.hadith || data.arabic || '',
-      author: data.author || data.book?.bookName || data.collection_name || '',
-      number: data.number || data.hadithNumber || '',
+      hadith: data.arabic || data.english || '',
+      author: data.collection_name || '',
+      number: data.hadithnumber || '',
       collection: data.collection || data.id || ''
     }
   }

@@ -17,9 +17,9 @@ class QuranService {
 
   formatAyah(data, language) {
     return {
-      text: data.text,
-      surah_name: language === 'ar' ? data.surah.name : data.surah.englishName,
-      ayah_num: data.numberInSurah
+      text: language === 'ar' ? data.verse.arabic : data.verse.translations.sahih_international,
+      surah_name: language === 'ar' ? data.surah.name_arabic : data.surah.name_english,
+      ayah_num: data.verse.ayah
     }
   }
 }

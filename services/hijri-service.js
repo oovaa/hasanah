@@ -6,14 +6,14 @@ class HijriCalendarService {
   }
 
   async getTodayHijriDate() {
-    const data = await this.api.get('/today-hijri')
-    return this.formatHijriDate(data)
+    const response = await this.api.get('/today-hijri')
+    return this.formatHijriDate(response.data.hijri)
   }
 
   formatHijriDate(data) {
     return {
       date: data.date,
-      month: data.month,
+      month: data.month_name,
       year: data.year,
       day: data.day
     }

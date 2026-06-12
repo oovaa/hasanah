@@ -13,11 +13,10 @@ describe('QuranService', () => {
 
   test('should fetch random ayah', async () => {
     const mockData = {
-      text: 'Test ayah text',
-      surah: { name: 'Test Surah', englishName: 'Test Surah English' },
-      numberInSurah: 1
+      surah: { name_arabic: 'Test Surah', name_english: 'Test Surah English' },
+      verse: { arabic: 'Test ayah text', ayah: 1, translations: { sahih_international: 'Test ayah text EN' } }
     }
-    api.get = jest.fn().mockResolvedValue({ data: mockData })
+    api.get = () => Promise.resolve({ data: mockData })
 
     const ayah = await quranService.getRandomAyah('en')
     expect(ayah).toBeDefined()
@@ -28,11 +27,10 @@ describe('QuranService', () => {
 
   test('should fetch specific ayah', async () => {
     const mockData = {
-      text: 'Test specific ayah text',
-      surah: { name: 'Test Surah', englishName: 'Test Surah English' },
-      numberInSurah: 2
+      surah: { name_arabic: 'Test Surah', name_english: 'Test Surah English' },
+      verse: { arabic: 'Test specific ayah text', ayah: 2, translations: { sahih_international: 'Test specific ayah text EN' } }
     }
-    api.get = jest.fn().mockResolvedValue({ data: mockData })
+    api.get = () => Promise.resolve({ data: mockData })
 
     const ayah = await quranService.getSpecificAyah(2, 255, 'ar')
     expect(ayah.text).toBeDefined()
