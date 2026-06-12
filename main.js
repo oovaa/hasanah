@@ -1,6 +1,7 @@
 const { GetRandomHadith_ENG } = require('./eng_hadith')
 const { GetRandomHadith } = require('./hadith')
-const { getAyah } = require('./quraan')
+const { QuranService } = require('./services/quran-service')
+const quranService = new QuranService()
 
 /**
  * @typedef {Object} Hadith
@@ -39,7 +40,7 @@ async function getText(turns, language) {
 
             text = `${hadith.hadith} 💚 author (${hadith.author}) (${hadith.number})`
         } else {
-            const ayahData = await getAyah(language)
+            const ayahData = await quranService.getRandomAyah(language)
             text = `${ayahData.text} ❤️ ${ayahData.surah_name} (${ayahData.ayah_num})`
         }
     } catch (error) {

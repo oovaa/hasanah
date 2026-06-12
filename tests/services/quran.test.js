@@ -7,50 +7,36 @@ describe('QuranService', () => {
 
   beforeEach(() => {
     api = new UmmahAPI()
-    quranService = new QuranService(api)
+    quranService = new QuranService()
+    quranService.api = api
   })
 
-  test('should initialize with API instance', () => {
-    expect(quranService.api).toBe(api)
+  test('should fetch random ayah', async () => {
+    const mockData = {
+      text: 'Test ayah text',
+      surah: { name: 'Test Surah', englishName: 'Test Surah English' },
+      numberInSurah: 1
+    }
+    api.get = jest.fn().mockResolvedValue({ data: mockData })
+
+    const ayah = await quranService.getRandomAyah('en')
+    expect(ayah).toBeDefined()
+    expect(ayah.text).toBeDefined()
+    expect(ayah.surah_name).toBeDefined()
+    expect(ayah.ayah_num).toBeDefined()
   })
 
-  test('should get surah', async () => {
-    const mockData = { surah: 1, verses: [] }
-    api.get = jest.fn().mockResolvedValue(mockData)
+  test('should fetch specific ayah', async () => {
+    const mockData = {
+      text: 'Test specific ayah text',
+      surah: { name: 'Test Surah', englishName: 'Test Surah English' },
+      numberInSurah: 2
+    }
+    api.get = jest.fn().mockResolvedValue({ data: mockData })
 
-    const result = await quranService.getSurah(1)
-
-    expect(api.get).toHaveBeenCalledWith('/quran/surah/1', {})
-    expect(result).toEqual(mockData)
-  })
-
-  test('should get surah with ayah range', async () => {
-    const mockData = { surah: 1, verses: [] }
-    api.get = jest.fn().mockResolvedValue(mockData)
-
-    const result = await quranService.getSurah(1, '1-10')
-
-    expect(api.get).toHaveBeenCalledWith('/quran/surah/1', { ayahRange: '1-10' })
-    expect(result).toEqual(mockData)
-  })
-
-  test('should get juz', async () => {
-    const mockData = { juz: 1, verses: [] }
-    api.get = jest.fn().mockResolvedValue(mockData)
-
-    const result = await quranService.getJuz(1)
-
-    expect(api.get).toHaveBeenCalledWith('/quran/juz/1', {})
-    expect(result).toEqual(mockData)
-  })
-
-  test('should search quran', async () => {
-    const mockData = { results: [] }
-    api.get = jest.fn().mockResolvedValue(mockData)
-
-    const result = await quranService.search('test', 'en')
-
-    expect(api.get).toHaveBeenCalledWith('/quran/search', { query: 'test', language: 'en' })
-    expect(result).toEqual(mockData)
+    const ayah = await quranService.getSpecificAyah(2, 255, 'ar')
+    expect(ayah.text).toBeDefined()
+    expect(ayah.surah_name).toBeDefined()
+    expect(ayah.ayah_num).toBeDefined()
   })
 })

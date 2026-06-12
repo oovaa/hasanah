@@ -1,25 +1,26 @@
 const { UmmahAPI } = require('../ummah-api')
 
 class QuranService {
-  constructor(api) {
-    this.api = api || new UmmahAPI()
+  constructor() {
+    this.api = new UmmahAPI()
   }
 
-  async getSurah(surahNumber, ayahRange = null) {
-    const endpoint = `/quran/surah/${surahNumber}`
-    const params = ayahRange ? { ayahRange } : {}
-    return this.api.get(endpoint, params)
+  async getRandomAyah(language = 'ar') {
+    const response = await this.api.get('/quran/random')
+    return this.formatAyah(response.data, language)
   }
 
-  async getJuz(juzNumber) {
-    const endpoint = `/quran/juz/${juzNumber}`
-    return this.api.get(endpoint, {})
+  async getSpecificAyah(surahNumber, ayahNumber, language = 'ar') {
+    const response = await this.api.get(`/quran/surah/${surahNumber}/ayah/${ayahNumber}`, { script: 'uthmani' })
+    return this.formatAyah(response.data, language)
   }
 
-  async search(query, language = 'en') {
-    const endpoint = '/quran/search'
-    const params = { query, language }
-    return this.api.get(endpoint, params)
+  formatAyah(data, language) {
+    return {
+      text: data.text,
+      surah_name: language === 'ar' ? data.surah.name : data.surah.englishName,
+      ayah_num: data.numberInSurah
+    }
   }
 }
 
