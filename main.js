@@ -1,6 +1,7 @@
-const { GetRandomHadith_ENG } = require('./eng_hadith')
-const { GetRandomHadith } = require('./hadith')
+const { HadithService } = require('./services/hadith-service')
 const { QuranService } = require('./services/quran-service')
+
+const hadithService = new HadithService()
 const quranService = new QuranService()
 
 /**
@@ -33,10 +34,7 @@ async function getText(turns, language) {
             : 'O God, protect Sudan and its people ❤️ Glory to God and praise to Him'
     try {
         if (turns) {
-            const hadith =
-                language === 'ar'
-                    ? await GetRandomHadith()
-                    : await GetRandomHadith_ENG()
+            const hadith = await hadithService.getRandomHadith(language)
 
             text = `${hadith.hadith} 💚 author (${hadith.author}) (${hadith.number})`
         } else {

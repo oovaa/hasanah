@@ -1,7 +1,12 @@
 const vscode = require('vscode')
 const { getText } = require('./main')
-const { getSpecificAyah } = require('./quraan')
-const { get_hijri_Date } = require('./islamicDate.js')
+const { HijriCalendarService } = require('./services/hijri-service')
+const { DuaaService } = require('./services/duaa-service')
+const { QuranService } = require('./services/quran-service')
+
+const hijriCalendarService = new HijriCalendarService()
+const duaaService = new DuaaService()
+const quranService = new QuranService()
 
 let timerId
 
@@ -113,14 +118,14 @@ function activate(context) {
                 return
             }
             try {
-                const data = await getSpecificAyah(surah, ayah, language)
+                const data = await quranService.getSpecificAyah(surah, ayah, language)
                 if (data) {
                     vscode.window.showInformationMessage(
                         `${data.text} 💙 ${data.surah_name} (${data.ayah_num})`
                     )
                 } else {
                     vscode.window.showInformationMessage(
-                        'No data returned from the Quraan API.'
+                        'No data returned from the Quran API.'
                     )
                 }
             } catch (error) {
@@ -139,9 +144,25 @@ function activate(context) {
         'hasanah.getHijriDate',
         async () => {
             try {
-                const hejri_date = await get_hijri_Date()
+                const hijriDate = await hijriCalendarService.getTodayHijriDate()
                 vscode.window.showInformationMessage(
-                    `Today in Hijri is: ${hejri_date}`
+                    `Today in Hijri is: ${hijriDate.date} ${hijriDate.month} ${hijriDate.year}`
+                )
+            } catch (e) {
+                console.error('An error occurred:', e.message)
+            }
+        }
+    )
+    context.subscriptions.push(disposable)
+
+    // Register the command to fetch random dua
+    disposable = vscode.commands.registerCommand(
+        'hasanah.getDuaa',
+        async () => {
+            try {
+                const dua = await duaaService.getRandomDuaa()
+                vscode.window.showInformationMessage(
+                    `${dua.text} (${dua.category})`
                 )
             } catch (e) {
                 console.error('An error occurred:', e.message)

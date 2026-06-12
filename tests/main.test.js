@@ -35,15 +35,16 @@ describe('Main getText function', () => {
 
     test('should display hadith with author (not book) in Arabic', async () => {
         mockFetch({
+            success: true,
+            service: 'hadith',
             data: {
-                id: 'bukhari',
-                hadiths: [
-                    {
-                        number: 1,
-                        arab: 'إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ',
-                    },
-                ],
+                hadith: 'إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ',
+                author: 'البخاري',
+                number: '1',
+                collection: 'bukhari',
+                arabic_name: 'صحيح البخاري'
             },
+            timestamp: '2026-06-12T00:00:00Z'
         })
 
         const { getText } = require('../main.js')
@@ -57,17 +58,16 @@ describe('Main getText function', () => {
 
     test('should display hadith with author (not book) in English', async () => {
         mockFetch({
-            hadiths: {
-                data: [
-                    {
-                        hadithNumber: '42',
-                        hadithEnglish: 'Actions are by intentions',
-                        book: {
-                            bookName: 'Sahih Muslim',
-                        },
-                    },
-                ],
+            success: true,
+            service: 'hadith',
+            data: {
+                hadith: 'Actions are by intentions',
+                author: 'Sahih Muslim',
+                number: '42',
+                collection: 'muslim',
+                arabic_name: 'صحيح مسلم'
             },
+            timestamp: '2026-06-12T00:00:00Z'
         })
 
         const { getText } = require('../main.js')
@@ -81,15 +81,16 @@ describe('Main getText function', () => {
 
     test('should format hadith text correctly with author and number', async () => {
         mockFetch({
+            success: true,
+            service: 'hadith',
             data: {
-                id: 'muslim',
-                hadiths: [
-                    {
-                        number: 123,
-                        arab: 'حديث تجريبي',
-                    },
-                ],
+                hadith: 'حديث تجريبي',
+                author: 'مسلم',
+                number: '123',
+                collection: 'muslim',
+                arabic_name: 'صحيح مسلم'
             },
+            timestamp: '2026-06-12T00:00:00Z'
         })
 
         const { getText } = require('../main.js')
@@ -102,13 +103,17 @@ describe('Main getText function', () => {
     test('should handle ayah display (turns = false)', async () => {
         // Mock ayah response
         mockFetch({
+            success: true,
+            service: 'quran',
             data: {
                 text: 'بسم الله الرحمن الرحيم',
                 surah: {
                     name: 'الفاتحة',
+                    englishName: 'Al-Fatiha',
                 },
                 numberInSurah: 1,
             },
+            timestamp: '2026-06-12T00:00:00Z'
         })
 
         const { getText } = require('../main.js')
@@ -173,15 +178,16 @@ describe('Main getText function', () => {
             delete require.cache[require.resolve('../hadith.js')]
 
             mockFetch({
+                success: true,
+                service: 'hadith',
                 data: {
-                    id: collection.id,
-                    hadiths: [
-                        {
-                            number: 1,
-                            arab: 'حديث من ' + collection.arabic,
-                        },
-                    ],
+                    hadith: 'حديث من ' + collection.arabic,
+                    author: collection.arabic,
+                    number: '1',
+                    collection: collection.id,
+                    arabic_name: collection.arabic
                 },
+                timestamp: '2026-06-12T00:00:00Z'
             })
 
             const { getText } = require('../main.js')

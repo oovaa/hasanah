@@ -14,17 +14,19 @@ Hasanah is a VS Code extension that brings the beauty of the Quran and Hadith di
 
 ## ✨ Features
 
-- **Random Quranic Verses (Ayahs):** Displays random Ayahs in your chosen language.
-- **Random Hadiths:** Shows random Hadiths with author attribution (narrator/compiler), with support for both Arabic and English.
+- **Random Quranic Verses (Ayahs):** Displays random Ayahs with enhanced support for multiple scripts, translations, and audio from Ummah API.
+- **Random Hadiths:** Shows random Hadiths from 7 major collections with improved author attribution and metadata.
+- **Enhanced Hijri Date:** Current Islamic date with month names and events from Ummah API.
+- **Random Duas:** 126 authentic duas from Quran and Sunnah across 27 categories.
+- **99 Names of Allah:** Complete Asma ul Husna with Arabic, transliteration, and meanings.
 - **Customizable Intervals:** Set how often you want to see a new Ayah or Hadith.
 - **Dual Language Support:**
   - Ayahs: Arabic (`ar`) and English (`en`).
-    - Hadiths: Arabic (`ar`) and English (`en`).
-- **Hijri Date:** Quickly get the current Islamic (Hijri) date.
+  - Hadiths: Arabic (`ar`), English (`en`), and Urdu (`ur`).
 - **Specific Ayah Lookup:** Fetch a particular Ayah by Surah and Ayah number.
 - **Auto-Dismiss Notifications:** Popups will automatically disappear after a configurable portion of the display interval.
 - **Offline Duaa:** Displays a default Duaa if an internet connection is unavailable.
-- **Caching:** In-memory caching is used for Ayah, Hadith, and Hijri date requests to improve performance.
+- **Enhanced Caching:** In-memory caching is used for Ayah, Hadith, and Hijri date requests to improve performance.
 
 ---
 
@@ -70,6 +72,7 @@ Hasanah provides the following commands, accessible via the Command Palette (`Ct
 
 - **`hasanah: get Ayah`**: Prompts you to enter a Surah number and Ayah number, then displays the specified Quranic verse.
 - **`hasanah: get Hijri Date`**: Displays the current date in the Hijri calendar.
+- **`hasanah: get Duaa`**: Displays a random authentic Duaa from Quran and Sunnah.
 
 ---
 
@@ -191,10 +194,12 @@ All tests use mocked API responses to ensure consistent and reliable test execut
 - Inspired by the **"Ayat"** extension.
 - Special thanks to **[Abdul Baaki Hudu](https://github.com/baaki20)** for the initial English Hadith support.
 - APIs used:
-  - Quran: [AlQuran.cloud API](https://alquran.cloud/api)
-  - Arabic Hadith: [Hadith API (gading.dev)](https://api.hadith.gading.dev/)
-  - English Hadith: [Hadith API (hadithapi.com)](https://www.hadithapi.com/docs/hadiths) (Experimental)
-  - Hijri Date: [Al Adhan API](https://aladhan.com/prayer-times-api)
+  - Unified API: [Ummah API](https://ummahapi.com/) - Single unified API for Quran, Hadith, Hijri Date, Duas, and Names of Allah
+  - Previous APIs (migrated from):
+    - Quran: [AlQuran.cloud API](https://alquran.cloud/api)
+    - Arabic Hadith: [Hadith API (gading.dev)](https://api.hadith.gading.dev/)
+    - English Hadith: [Hadith API (hadithapi.com)](https://www.hadithapi.com/docs/hadiths)
+    - Hijri Date: [Al Adhan API](https://aladhan.com/prayer-times-api)
 
 ---
 

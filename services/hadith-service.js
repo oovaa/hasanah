@@ -5,21 +5,21 @@ class HadithService {
     this.api = new UmmahAPI()
   }
 
-  async getRandomHadith(language = 'ar') {
+  async getRandomHadith() {
     const response = await this.api.get('/hadith/random')
-    return this.formatHadith(response.data, language)
+    return this.formatHadith(response.data)
   }
 
-  async getSpecificHadith(collection, number, language = 'en') {
+  async getSpecificHadith(collection, number) {
     const response = await this.api.get(`/hadith/${collection}/${number}`)
-    return this.formatHadith(response.data, language)
+    return this.formatHadith(response.data)
   }
 
-  formatHadith(data, language) {
+  formatHadith(data) {
     return {
-      hadith: data.arabic || data.hadith || '',
-      author: data.collection_name || data.author || '',
-      number: data.hadithnumber || data.number || '',
+      hadith: data.hadith || data.arabic || '',
+      author: data.author || data.book?.bookName || data.collection_name || '',
+      number: data.number || data.hadithNumber || '',
       collection: data.collection || data.id || ''
     }
   }
