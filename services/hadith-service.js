@@ -1,30 +1,27 @@
 const { UmmahAPI } = require('../ummah-api')
 
 class HadithService {
-  constructor(api) {
-    this.api = api || new UmmahAPI()
+  constructor() {
+    this.api = new UmmahAPI()
   }
 
-  async getHadith(book, chapter, verse = null) {
-    const endpoint = `/hadith/${book}/${chapter}`
-    const params = verse ? { verse } : {}
-    return this.api.get(endpoint, params)
+  async getRandomHadith(language = 'ar') {
+    const response = await this.api.get('/hadith/random')
+    return this.formatHadith(response.data, language)
   }
 
-  async getSahihBukhari() {
-    const endpoint = '/hadith/sahih-bukhari'
-    return this.api.get(endpoint, {})
+  async getSpecificHadith(collection, number, language = 'en') {
+    const response = await this.api.get(`/hadith/${collection}/${number}`)
+    return this.formatHadith(response.data, language)
   }
 
-  async getMuslim() {
-    const endpoint = '/hadith/muslim'
-    return this.api.get(endpoint, {})
-  }
-
-  async search(query, language = 'en') {
-    const endpoint = '/hadith/search'
-    const params = { query, language }
-    return this.api.get(endpoint, params)
+  formatHadith(data, language) {
+    return {
+      hadith: data.arabic || data.hadith || '',
+      author: data.collection_name || data.author || '',
+      number: data.hadithnumber || data.number || '',
+      collection: data.collection || data.id || ''
+    }
   }
 }
 
