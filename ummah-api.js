@@ -22,7 +22,9 @@ class UmmahAPI {
 
     const response = await fetch(url.toString(), { headers })
     if (!response.ok) {
-      throw new Error(`API error: ${response.status} - ${response.statusText}`)
+      let details = ''
+      try { const body = await response.json(); details = body.message || body.error || JSON.stringify(body) } catch {}
+      throw new Error(`API error: ${response.status} - ${response.statusText} (${details})`)
     }
 
     const data = await response.json()

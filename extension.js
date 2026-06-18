@@ -151,7 +151,8 @@ function activate(context) {
                 )
             } catch (error) {
                 console.error('Error fetching tafsir:', error)
-                vscode.window.showErrorMessage('Error fetching tafsir.')
+                const msg = error.message.includes('(') ? error.message.match(/\((.+)\)$/)[1] : 'Error fetching tafsir'
+                vscode.window.showErrorMessage(msg)
             }
         }
     )
