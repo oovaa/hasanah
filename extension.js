@@ -129,11 +129,8 @@ function activate(context) {
     disposable = vscode.commands.registerCommand(
         'hasanah.getTafsir',
         async () => {
-            const tafsirKey = await vscode.window.showQuickPick(
-                ['ibn_kathir', 'maarif', 'muyassar'],
-                { placeHolder: 'Select tafsir source' }
-            )
-            if (!tafsirKey) return
+            const language = getLanguage()
+            const tafsirKey = language === 'ar' ? 'ibn_kathir_ar' : 'ibn_kathir'
             const surah = await vscode.window.showInputBox({
                 prompt: 'Enter surah number (1-114)',
             })

@@ -74,7 +74,7 @@ Alternatively, you can directly edit your `settings.json` file:
 Hasanah provides the following commands, accessible via the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`):
 
 - **`hasanah: get Ayah`**: Prompts you to enter a Surah number and Ayah number, then displays the specified Quranic verse.
-- **`hasanah: get Tafsir`**: Prompts you to select a tafsir source (Ibn Kathir, Maarif, Muyassar) and enter a Surah/Ayah number, then displays the tafsir text.
+- **`hasanah: get Tafsir`**: Prompts you to enter a Surah and Ayah number, then displays the tafsir text. Uses Arabic tafsir (`ibn_kathir_ar`) when language is `ar`, English (`ibn_kathir`) when language is `en`.
 - **`hasanah: get Prayer Times`**: Prompts you to enter latitude and longitude, then displays the current prayer times.
 - **`hasanah: get Hijri Date`**: Displays the current date in the Hijri calendar.
 
