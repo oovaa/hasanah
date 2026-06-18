@@ -3,6 +3,23 @@
 All notable changes to the **Hasanah** extension will be documented in this file.  
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [10.0.2] - 2026-06-18
+
+### Added
+- **3-step tafsir flow** — choose tafsir source (Ibn Kathir Arabic/English, Ma'arif al-Qur'an, Tafsir Muyassar), select surah from a numbered QuickPick list (1–114), then enter ayah number.
+
+### Fixed
+- **Tafsir command** now shows 4 tafsir sources instead of auto-selecting based on language.
+
+---
+
+## [10.0.1] - 2026-06-18
+
+### Fixed
+- **Random endpoints now skip cache** — `getDuaa`, random hadith, and other random commands no longer return the same cached result for 24 hours. Each call gets fresh content from the API.
+
+---
+
 ## [10.0.0] - 2026-06-18
 
 ### Added

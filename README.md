@@ -2,7 +2,7 @@
 
 Hasanah is a VS Code extension that brings the beauty of the Quran and Hadith directly into your coding environment. It displays random Ayahs (Quranic verses) and Hadiths at customizable intervals, helping you stay spiritually connected while you code.
 
-[![Version](https://img.shields.io/badge/version-10.0.0-blue)](https://marketplace.visualstudio.com/items?itemName=omarabdo.hasanah)
+[![Version](https://img.shields.io/badge/version-10.0.2-blue)](https://marketplace.visualstudio.com/items?itemName=omarabdo.hasanah)
 [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE.md)
 [![Open Issues](https://img.shields.io/github/issues/oovaa/hasanah)](https://github.com/oovaa/hasanah/issues)
 [![Installs](https://img.shields.io/visual-studio-marketplace/i/omarabdo.hasanah?label=Installs)](https://marketplace.visualstudio.com/items?itemName=omarabdo.hasanah)
@@ -18,7 +18,7 @@ Hasanah is a VS Code extension that brings the beauty of the Quran and Hadith di
 - **Unified Ummah API:** Quran, Hadith, Duas, Tafsir, Prayer Times, Hijri Date, and 99 Names all through one API with built-in caching.
 - **Random Quranic Verses (Ayahs):** Displays random Ayahs with Arabic and English translation.
 - **Random Hadiths:** Shows random Hadiths from 7 major collections (Bukhari, Muslim, Tirmidhi, etc.) in Arabic and English.
-- **Specific Ayah & Tafsir Lookup:** Fetch any verse by surah/ayah number, or get scholarly tafsir (Ibn Kathir) in Arabic or English based on your language setting. Tafsir opens in a scrollable editor tab.
+- **Specific Ayah & Tafsir Lookup:** Fetch any verse by surah/ayah number, or get scholarly tafsir from 4 sources (Ibn Kathir in Arabic/English, Ma'arif al-Qur'an, Tafsir Muyassar) via a 3-step selector. Opens in a scrollable editor tab.
 - **Prayer Times:** Auto-detects your location via IP geolocation. Displays all prayer times with current time and next prayer countdown. Get notified 10 minutes before each prayer and when it's time to pray.
 - **Random Duas:** 126 authentic duas from Quran and Sunnah across 27 categories, respecting language setting.
 - **Hijri Date:** Current Islamic date from the Ummah API.
@@ -27,7 +27,7 @@ Hasanah is a VS Code extension that brings the beauty of the Quran and Hadith di
 - **Dual Language Support:** Arabic and English across all content types.
 - **Auto-Dismiss Notifications:** Popups automatically disappear after a configurable portion of the display interval.
 - **Offline Duaa:** Displays a default Duaa if an internet connection is unavailable.
-- **Enhanced Caching:** 24-hour in-memory caching minimizes API calls.
+- **Enhanced Caching:** 24-hour in-memory caching for non-random data; random endpoints always fetch fresh content on each call.
 
 ---
 
@@ -72,7 +72,7 @@ Alternatively, you can directly edit your `settings.json` file:
 Hasanah provides the following commands, accessible via the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`):
 
 - **`hasanah: get Ayah`**: Prompts you to enter a Surah number and Ayah number, then displays the specified Quranic verse.
-- **`hasanah: get Tafsir`**: Prompts you to enter a Surah and Ayah number, then displays the tafsir text in a scrollable editor tab. Uses Arabic tafsir (`ibn_kathir_ar`) when language is `ar`, English (`ibn_kathir`) when language is `en`.
+- **`hasanah: get Tafsir`**: 3-step flow — pick a tafsir source (Ibn Kathir Arabic/English, Ma'arif al-Qur'an, Tafsir Muyassar), select a surah from a numbered list (1–114), then enter an ayah number. Displays the full commentary in a scrollable editor tab.
 - **`hasanah: get Prayer Times`**: Auto-detects your location and displays all prayer times with current time and next prayer countdown.
 - **`hasanah: get Duaa`**: Displays a random authentic Duaa from Quran and Sunnah, respecting the language setting.
 - **`hasanah: get Hijri Date`**: Displays the current date in the Hijri calendar.
