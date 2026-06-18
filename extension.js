@@ -172,10 +172,13 @@ function activate(context) {
                 const loc = await prayerAlertService.getLocation()
                 const times = await prayerTimeService.getPrayerTimes(loc.latitude, loc.longitude)
                 const pt = times.prayer_times
+                const cs = times.current_status
+                const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                const nextStr = cs.next_prayer ? cs.next_prayer.charAt(0).toUpperCase() + cs.next_prayer.slice(1) : '—'
                 vscode.window.showInformationMessage(
-                    `Prayer Times (${times.date}) - ${loc.city}, ${loc.country}\n` +
-                    `Fajr: ${pt.fajr} | Sunrise: ${pt.sunrise} | Dhuhr: ${pt.dhuhr} | ` +
-                    `Asr: ${pt.asr} | Maghrib: ${pt.maghrib} | Isha: ${pt.isha}`
+                    `🕌 ${loc.city}, ${loc.country} — ${times.date} | ${now}\n` +
+                    `☀️ ${pt.fajr}  🌞 ${pt.sunrise}  🌤 ${pt.dhuhr}  🌥 ${pt.asr}  🌅 ${pt.maghrib}  🌙 ${pt.isha}\n` +
+                    `Next: ${nextStr} in ${cs.time_until_next || '—'}`
                 )
             } catch (error) {
                 console.error('Error fetching prayer times:', error)
