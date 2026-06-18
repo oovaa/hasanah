@@ -5,31 +5,20 @@ class DuaaService {
     this.api = api || new UmmahAPI()
   }
 
-  async getDuaa(duaaId) {
-    const endpoint = `/duaa/${duaaId}`
-    return this.api.get(endpoint, {})
+  async getRandomDuaa() {
+    const response = await this.api.get('/duas/random')
+    return this.formatDuaa(response.data)
   }
 
-  async getAllDuaa(category = null) {
-    const endpoint = '/duaa'
-    const params = category ? { category } : {}
-    return this.api.get(endpoint, params)
-  }
-
-  async getMorningDuaa() {
-    const endpoint = '/duaa/morning'
-    return this.api.get(endpoint, {})
-  }
-
-  async getEveningDuaa() {
-    const endpoint = '/duaa/evening'
-    return this.api.get(endpoint, {})
-  }
-
-  async search(query, language = 'en') {
-    const endpoint = '/duaa/search'
-    const params = { query, language }
-    return this.api.get(endpoint, params)
+  formatDuaa(data) {
+    return {
+      text: data.arabic || data.translation || '',
+      translation: data.translation || '',
+      transliteration: data.transliteration || '',
+      category: data.category_info?.name || data.category || '',
+      source: data.source || '',
+      title: data.title || ''
+    }
   }
 }
 

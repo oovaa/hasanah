@@ -14,63 +14,51 @@ describe('DuaaService', () => {
     expect(duaaService.api).toBe(api)
   })
 
-  test('should get duaa', async () => {
-    const mockData = { duaa: 'test duaa' }
-    api.get = jest.fn().mockResolvedValue(mockData)
+  test('should get random duaa', async () => {
+    const mockData = {
+      data: {
+        id: 1,
+        category: 'morning',
+        title: 'Morning Duaa',
+        arabic: 'اللهم بك أصبحنا',
+        translation: 'O Allah, with You we enter the morning',
+        transliteration: 'Allahumma bika asbahna',
+        source: 'Bukhari',
+        category_info: { name: 'Evening & Morning' }
+      }
+    }
+    api.get = () => Promise.resolve(mockData)
 
-    const result = await duaaService.getDuaa(1)
-
-    expect(api.get).toHaveBeenCalledWith('/duaa/1', {})
-    expect(result).toEqual(mockData)
+    const result = await duaaService.getRandomDuaa()
+    expect(result.text).toBe('اللهم بك أصبحنا')
+    expect(result.translation).toBe('O Allah, with You we enter the morning')
+    expect(result.category).toBe('Evening & Morning')
+    expect(result.source).toBe('Bukhari')
+    expect(result.title).toBe('Morning Duaa')
   })
 
-  test('should get all duaa', async () => {
-    const mockData = { duaa: [] }
-    api.get = jest.fn().mockResolvedValue(mockData)
-
-    const result = await duaaService.getAllDuaa()
-
-    expect(api.get).toHaveBeenCalledWith('/duaa', {})
-    expect(result).toEqual(mockData)
+  test('should format duaa with arabic text', () => {
+    const data = {
+      arabic: 'ربنا آتنا في الدنيا حسنة',
+      translation: 'Our Lord, give us in this world good',
+      transliteration: 'Rabbana atina fid-dunya hasanah',
+      category_info: { name: 'Quran' },
+      source: 'Quran 2:201',
+      title: 'Dua for goodness'
+    }
+    const result = duaaService.formatDuaa(data)
+    expect(result.text).toBe('ربنا آتنا في الدنيا حسنة')
+    expect(result.translation).toBe('Our Lord, give us in this world good')
+    expect(result.category).toBe('Quran')
+    expect(result.source).toBe('Quran 2:201')
   })
 
-  test('should get all duaa with category', async () => {
-    const mockData = { duaa: [] }
-    api.get = jest.fn().mockResolvedValue(mockData)
-
-    const result = await duaaService.getAllDuaa('morning')
-
-    expect(api.get).toHaveBeenCalledWith('/duaa', { category: 'morning' })
-    expect(result).toEqual(mockData)
-  })
-
-  test('should get morning duaa', async () => {
-    const mockData = { duaa: 'morning' }
-    api.get = jest.fn().mockResolvedValue(mockData)
-
-    const result = await duaaService.getMorningDuaa()
-
-    expect(api.get).toHaveBeenCalledWith('/duaa/morning', {})
-    expect(result).toEqual(mockData)
-  })
-
-  test('should get evening duaa', async () => {
-    const mockData = { duaa: 'evening' }
-    api.get = jest.fn().mockResolvedValue(mockData)
-
-    const result = await duaaService.getEveningDuaa()
-
-    expect(api.get).toHaveBeenCalledWith('/duaa/evening', {})
-    expect(result).toEqual(mockData)
-  })
-
-  test('should search duaa', async () => {
-    const mockData = { results: [] }
-    api.get = jest.fn().mockResolvedValue(mockData)
-
-    const result = await duaaService.search('test', 'en')
-
-    expect(api.get).toHaveBeenCalledWith('/duaa/search', { query: 'test', language: 'en' })
-    expect(result).toEqual(mockData)
+  test('should fallback to translation when no arabic text', () => {
+    const data = {
+      translation: 'Our Lord, give us good',
+      category_info: { name: 'Quran' }
+    }
+    const result = duaaService.formatDuaa(data)
+    expect(result.text).toBe('Our Lord, give us good')
   })
 })
