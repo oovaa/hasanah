@@ -172,6 +172,11 @@ function activate(context) {
             const surah = surahPick.split(' - ')[0]
             const ayah = await vscode.window.showInputBox({
                 prompt: 'Enter the number of the ayah',
+                validateInput: (value) => {
+                    const n = parseInt(value, 10)
+                    if (isNaN(n) || n < 1) return 'Ayah must be a positive integer'
+                    return null
+                }
             })
             if (!ayah) {
                 vscode.window.showInformationMessage('Invalid input.')
