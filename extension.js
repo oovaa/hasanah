@@ -145,7 +145,7 @@ function activate(context) {
             try {
                 const data = await tafsirService.getTafsir(surah, ayah, tafsirKey)
                 const doc = await vscode.workspace.openTextDocument({
-                    content: `${data.verse_key} - ${data.tafsir_name}\n${'='.repeat(50)}\n\n${data.text}`,
+                    content: `${data.verse_key} - ${data.tafsir_name}\n${'='.repeat(50)}\n\n${data.text.replace(/([.!?؟]) /g, '$1\n')}`,
                     language: language === 'ar' ? 'plaintext' : 'plaintext'
                 })
                 await vscode.window.showTextDocument(doc, { preview: true })
