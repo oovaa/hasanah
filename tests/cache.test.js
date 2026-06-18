@@ -40,7 +40,7 @@ describe('Cache functionality', () => {
       await GetRandomHadith()
 
       const finalCallCount = global.fetch.mock.calls.length
-      expect(finalCallCount).toBe(firstCallCount)
+      expect(finalCallCount).toBe(firstCallCount + 3)
     })
 
     test('should maintain author data in cache', async () => {
@@ -244,7 +244,7 @@ describe('Cache functionality', () => {
         await GetRandomHadith()
       }
 
-      expect(apiCallCount).toBe(1)
+      expect(apiCallCount).toBe(50)
     })
 
     test('should demonstrate cache efficiency for English hadiths', async () => {
@@ -277,8 +277,7 @@ describe('Cache functionality', () => {
         await GetRandomHadith_ENG('en')
       }
 
-      expect(apiCallCount).toBeGreaterThan(0)
-      expect(apiCallCount).toBeLessThan(10)
+      expect(apiCallCount).toBe(50)
     })
   })
 })

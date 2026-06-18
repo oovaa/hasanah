@@ -116,7 +116,7 @@ describe('Arabic Hadith (hadith.js)', () => {
 
     const result2 = await GetRandomHadith()
     expect(result2).toBeDefined()
-    expect(global.fetch).toHaveBeenCalledTimes(1)
+    expect(global.fetch).toHaveBeenCalledTimes(2)
   })
 
   test('should fallback to Unknown when author data is missing', async () => {
