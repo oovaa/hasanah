@@ -76,6 +76,7 @@ Hasanah provides the following commands, accessible via the Command Palette (`Ct
 - **`hasanah: get Ayah`**: Prompts you to enter a Surah number and Ayah number, then displays the specified Quranic verse.
 - **`hasanah: get Tafsir`**: Prompts you to enter a Surah and Ayah number, then displays the tafsir text. Uses Arabic tafsir (`ibn_kathir_ar`) when language is `ar`, English (`ibn_kathir`) when language is `en`.
 - **`hasanah: get Prayer Times`**: Prompts you to enter latitude and longitude, then displays the current prayer times.
+- **`hasanah: get Duaa`**: Displays a random authentic Duaa from Quran and Sunnah.
 - **`hasanah: get Hijri Date`**: Displays the current date in the Hijri calendar.
 
 ---

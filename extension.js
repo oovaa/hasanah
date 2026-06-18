@@ -1,12 +1,14 @@
 const vscode = require('vscode')
 const { getText } = require('./main')
 const { HijriCalendarService } = require('./services/hijri-service')
+const { DuaaService } = require('./services/duaa-service')
 const { QuranService } = require('./services/quran-service')
 const { TafsirService } = require('./services/tafsir-service')
 const { PrayerTimeService } = require('./services/prayer-time-service')
 const { PrayerAlertService } = require('./services/prayer-alert-service')
 
 const hijriCalendarService = new HijriCalendarService()
+const duaaService = new DuaaService()
 const quranService = new QuranService()
 const tafsirService = new TafsirService()
 const prayerTimeService = new PrayerTimeService()
@@ -195,6 +197,23 @@ function activate(context) {
                 const hijriDate = await hijriCalendarService.getTodayHijriDate()
                 vscode.window.showInformationMessage(
                     `Today in Hijri is: ${hijriDate.date} ${hijriDate.month} ${hijriDate.year}`
+                )
+            } catch (e) {
+                console.error('An error occurred:', e.message)
+            }
+        }
+    )
+    context.subscriptions.push(disposable)
+
+    disposable = vscode.commands.registerCommand(
+        'hasanah.getDuaa',
+        async () => {
+            try {
+                const language = getLanguage()
+                const dua = await duaaService.getRandomDuaa()
+                const text = language === 'ar' ? dua.text : (dua.translation || dua.text)
+                vscode.window.showInformationMessage(
+                    `${text} 🤲 ${dua.category}${dua.source ? ` (${dua.source})` : ''}`
                 )
             } catch (e) {
                 console.error('An error occurred:', e.message)

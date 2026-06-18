@@ -38,6 +38,10 @@
             {
                 "command": "hasanah.getHijriDate",
                 "title": "hasanah: get Hijri Date"
+            },
+            {
+                "command": "hasanah.getDuaa",
+                "title": "hasanah: get Duaa"
             }
         ],
         "configuration": {
