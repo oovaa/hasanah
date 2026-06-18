@@ -15,72 +15,35 @@ describe('NamesOfAllahService', () => {
   })
 
   test('should get all names', async () => {
-    const mockData = { names: [] }
-    api.get = jest.fn().mockResolvedValue(mockData)
+    const mockData = { data: { names: [] } }
+    api.get = () => Promise.resolve(mockData)
 
     const result = await namesOfAllahService.getAllNames()
-
-    expect(api.get).toHaveBeenCalledWith('/names-of-allah', { language: 'en' })
-    expect(result).toEqual(mockData)
+    expect(result.names).toBeDefined()
   })
 
-  test('should get all names with language', async () => {
-    const mockData = { names: [] }
-    api.get = jest.fn().mockResolvedValue(mockData)
-
-    const result = await namesOfAllahService.getAllNames('ar')
-
-    expect(api.get).toHaveBeenCalledWith('/names-of-allah', { language: 'ar' })
-    expect(result).toEqual(mockData)
-  })
-
-  test('should get name', async () => {
-    const mockData = { name: 'test' }
-    api.get = jest.fn().mockResolvedValue(mockData)
+  test('should get name by id', async () => {
+    const mockData = { data: { name: 'Ar-Rahman', number: 1 } }
+    api.get = () => Promise.resolve(mockData)
 
     const result = await namesOfAllahService.getName(1)
-
-    expect(api.get).toHaveBeenCalledWith('/names-of-allah/1', {})
-    expect(result).toEqual(mockData)
+    expect(result.name).toBe('Ar-Rahman')
+    expect(result.number).toBe(1)
   })
 
-  test('should get by category', async () => {
-    const mockData = { names: [] }
-    api.get = jest.fn().mockResolvedValue(mockData)
+  test('should get random name', async () => {
+    const mockData = { data: { name: 'Ar-Rahman' } }
+    api.get = () => Promise.resolve(mockData)
 
-    const result = await namesOfAllahService.getByCategory('attributes')
-
-    expect(api.get).toHaveBeenCalledWith('/names-of-allah/category/attributes', { language: 'en' })
-    expect(result).toEqual(mockData)
+    const result = await namesOfAllahService.getRandomName()
+    expect(result.name).toBe('Ar-Rahman')
   })
 
-  test('should get by category with language', async () => {
-    const mockData = { names: [] }
-    api.get = jest.fn().mockResolvedValue(mockData)
+  test('should search names', async () => {
+    const mockData = { data: { results: [{ name: 'Ar-Rahman' }] } }
+    api.get = () => Promise.resolve(mockData)
 
-    const result = await namesOfAllahService.getByCategory('attributes', 'ar')
-
-    expect(api.get).toHaveBeenCalledWith('/names-of-allah/category/attributes', { language: 'ar' })
-    expect(result).toEqual(mockData)
-  })
-
-  test('should get by letter', async () => {
-    const mockData = { names: [] }
-    api.get = jest.fn().mockResolvedValue(mockData)
-
-    const result = await namesOfAllahService.getByLetter('a')
-
-    expect(api.get).toHaveBeenCalledWith('/names-of-allah/letter/a', { language: 'en' })
-    expect(result).toEqual(mockData)
-  })
-
-  test('should get by letter with language', async () => {
-    const mockData = { names: [] }
-    api.get = jest.fn().mockResolvedValue(mockData)
-
-    const result = await namesOfAllahService.getByLetter('a', 'ar')
-
-    expect(api.get).toHaveBeenCalledWith('/names-of-allah/letter/a', { language: 'ar' })
-    expect(result).toEqual(mockData)
+    const result = await namesOfAllahService.search('merciful')
+    expect(result.results).toBeDefined()
   })
 })

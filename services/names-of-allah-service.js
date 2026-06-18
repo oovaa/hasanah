@@ -5,27 +5,24 @@ class NamesOfAllahService {
     this.api = api || new UmmahAPI()
   }
 
-  async getAllNames(language = 'en') {
-    const endpoint = '/names-of-allah'
-    const params = { language }
-    return this.api.get(endpoint, params)
+  async getAllNames() {
+    const response = await this.api.get('/asma-ul-husna')
+    return response.data
   }
 
   async getName(nameId) {
-    const endpoint = `/names-of-allah/${nameId}`
-    return this.api.get(endpoint, {})
+    const response = await this.api.get(`/asma-ul-husna/${nameId}`)
+    return response.data
   }
 
-  async getByCategory(category, language = 'en') {
-    const endpoint = `/names-of-allah/category/${category}`
-    const params = { language }
-    return this.api.get(endpoint, params)
+  async getRandomName() {
+    const response = await this.api.get('/asma-ul-husna/random')
+    return response.data
   }
 
-  async getByLetter(letter, language = 'en') {
-    const endpoint = `/names-of-allah/letter/${letter}`
-    const params = { language }
-    return this.api.get(endpoint, params)
+  async search(query) {
+    const response = await this.api.get('/asma-ul-husna/search', { q: query })
+    return response.data
   }
 }
 
