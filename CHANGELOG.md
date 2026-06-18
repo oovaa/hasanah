@@ -3,6 +3,39 @@
 All notable changes to the **Hasanah** extension will be documented in this file.  
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [10.0.0] - 2026-06-18
+
+### Added
+- **Unified Ummah API** — migrated from 4 separate APIs to `ummahapi.com` (Quran, Hadith, Hijri, Duas, Tafsir, Prayer Times, 99 Names all through one service).
+- **Tafsir command** (`hasanah.getTafsir`) — fetch scholarly commentary for any verse. Auto-selects Ibn Kathir (Arabic/English) based on language setting. Displays full scrollable text in an editor tab.
+- **Prayer Times command** (`hasanah.getPrayerTimes`) — auto-detects location via IP geolocation, shows all prayer times with current time and next prayer countdown.
+- **Prayer alerts** — automatic notifications at 10 minutes and 1 minute before each prayer, refreshing daily.
+- **Duaa command** (`hasanah.getDuaa`) — random authentic dua from Quran and Sunnah, respecting language setting.
+- **3-state alternation** — automatically cycles through Hadith 💚 → Ayah ❤️ → Duaa 🤲 in the notification loop.
+- **TafsirService, PrayerTimeService, PrayerAlertService, LocationService** — new service layer modules.
+
+### Fixed
+- **DuaaService** — corrected endpoints from `/duaa/` to `/duas/`, added `getRandomDuaa()`.
+- **HadithService** — now respects language parameter (picks Arabic vs English text).
+- **NamesOfAllahService** — fixed broken endpoints to `/asma-ul-husna`.
+- **UmmahAPI** — improved error messages with API response body included.
+- **Input validation** — tafsir command validates surah (1-114) and ayah (≥1) before API calls.
+- **Error messages** — API error responses now show the actual reason from the server.
+
+### Changed
+- **Architecture** — unified all API integration under `ummah-api.js` with built-in caching (24h TTL).
+- **Extension host** — `turn` variable changed from boolean to 3-state counter.
+- **Config description** — updated to reflect hadith/ayah/duaa cycle.
+
+---
+
+## [9.4.2] - 2026-06-12
+
+### Fixed
+- Unknown author display in hadith notifications.
+
+---
+
 ## [9.4.0] - 2025-07-10
 
 ### Improved
@@ -17,14 +50,6 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ---
 
 ## [9.3.1] - 2025-05-26
-
-### Improved
-- General code structure refactored for better maintainability and readability.
-- Added robust error handling and a reusable `safeFetch` utility with timeout to both Hadith modules.
-- Enhanced API response validation and error messages.
-- Updated and improved the README documentation for clarity and completeness.
-
-## [9.3.0] - 2025-02-12
 
 ### Modified
 - Update the Hasanah logo preparing for Ramadan

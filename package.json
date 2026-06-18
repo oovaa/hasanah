@@ -1,6 +1,6 @@
 {
     "name": "hasanah",
-    "version": "9.4.2",
+    "version": "10.0.0",
     "repository": {
         "type": "git",
         "url": "https://github.com/oovaa/hasanah.git"
@@ -28,8 +28,20 @@
                 "title": "hasanah: get Ayah"
             },
             {
+                "command": "hasanah.getTafsir",
+                "title": "hasanah: get Tafsir"
+            },
+            {
+                "command": "hasanah.getPrayerTimes",
+                "title": "hasanah: get Prayer Times"
+            },
+            {
                 "command": "hasanah.getHijriDate",
                 "title": "hasanah: get Hijri Date"
+            },
+            {
+                "command": "hasanah.getDuaa",
+                "title": "hasanah: get Duaa"
             }
         ],
         "configuration": {
@@ -38,7 +50,7 @@
                 "hasanah.delay": {
                     "type": "number",
                     "default": 20,
-                    "description": "Delay for ayah/hadith display in minutes"
+                    "description": "Delay for hadith/ayah/duaa display in minutes"
                 },
                 "hasanah.language": {
                     "type": "string",

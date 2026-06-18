@@ -12,7 +12,7 @@ async function main() {
     // console.log(hadith)
 
     console.time('new get spicific ayah')
-    const aya2 = await getSpecificAyah('2', '255', 'ar') // 'https://quranapi.pages.dev/api'
+    await getSpecificAyah('2', '255', 'ar') // 'https://quranapi.pages.dev/api'
     // console.log(aya2)
     console.timeEnd('new get spicific ayah')
 }
