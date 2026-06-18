@@ -8,7 +8,8 @@ class UmmahAPI {
 
   async get(endpoint, params = {}) {
     const cacheKey = `${endpoint}?${JSON.stringify(params)}`
-    if (this.cache[cacheKey] && Date.now() - this.cache[cacheKey].timestamp < this.cacheTimeout) {
+    const isRandom = endpoint.includes('/random')
+    if (!isRandom && this.cache[cacheKey] && Date.now() - this.cache[cacheKey].timestamp < this.cacheTimeout) {
       return this.cache[cacheKey].data
     }
 
@@ -28,7 +29,9 @@ class UmmahAPI {
     }
 
     const data = await response.json()
-    this.cache[cacheKey] = { data, timestamp: Date.now() }
+    if (!isRandom) {
+      this.cache[cacheKey] = { data, timestamp: Date.now() }
+    }
     return data
   }
 }
