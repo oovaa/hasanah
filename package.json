@@ -28,6 +28,14 @@
                 "title": "hasanah: get Ayah"
             },
             {
+                "command": "hasanah.getTafsir",
+                "title": "hasanah: get Tafsir"
+            },
+            {
+                "command": "hasanah.getPrayerTimes",
+                "title": "hasanah: get Prayer Times"
+            },
+            {
                 "command": "hasanah.getHijriDate",
                 "title": "hasanah: get Hijri Date"
             }
@@ -38,7 +46,7 @@
                 "hasanah.delay": {
                     "type": "number",
                     "default": 20,
-                    "description": "Delay for ayah/hadith display in minutes"
+                    "description": "Delay for hadith/ayah/duaa display in minutes"
                 },
                 "hasanah.language": {
                     "type": "string",

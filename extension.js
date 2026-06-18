@@ -1,12 +1,14 @@
 const vscode = require('vscode')
 const { getText } = require('./main')
 const { HijriCalendarService } = require('./services/hijri-service')
-const { DuaaService } = require('./services/duaa-service')
 const { QuranService } = require('./services/quran-service')
+const { TafsirService } = require('./services/tafsir-service')
+const { PrayerTimeService } = require('./services/prayer-time-service')
 
 const hijriCalendarService = new HijriCalendarService()
-const duaaService = new DuaaService()
 const quranService = new QuranService()
+const tafsirService = new TafsirService()
+const prayerTimeService = new PrayerTimeService()
 
 let timerId
 
@@ -24,15 +26,7 @@ function getDefaultDuaa(language) {
         : 'O Allah, protect Sudan and its people...'
 }
 
-/**
- * Displays an automatically dismissing notification with the given message for the specified duration.
- *
- * @param {string} message - The text content of the notification.
- * @param {number} duration - Time in milliseconds before the notification is automatically dismissed.
- * @returns {void}
- */
 function showAutoDismissNotification(message, duration) {
-    // Use withProgress for auto-dismiss, but ensure only one notification at a time
     vscode.window.withProgress(
         {
             location: vscode.ProgressLocation.Notification,
@@ -54,31 +48,26 @@ function showAutoDismissNotification(message, duration) {
     )
 }
 
-/**
- * Activates the extension.
- * @param {vscode.ExtensionContext} context - The context in which the extension is activated.
- */
 function activate(context) {
-    let turns = false
+    let turn = 0
 
     function getDelay() {
         return getConfig().get('delay') * 60000
     }
 
-    // Function to fetch and display text (Hadith or Ayah) at regular intervals
     const showText = async () => {
         const language = getLanguage()
         let delay = getDelay()
         try {
-            const text = await getText(turns, language)
-            const dismissTime = (2 * delay) / 3 // Two-thirds of the delay
+            const text = await getText(turn, language)
+            const dismissTime = (2 * delay) / 3
             showAutoDismissNotification(text, dismissTime)
         } catch (err) {
             vscode.window.showErrorMessage(
                 getDefaultDuaa(language) + ' (Error displaying text)'
             )
         }
-        turns = !turns
+        turn = (turn + 1) % 3
     }
 
     function startInterval() {
@@ -88,7 +77,6 @@ function activate(context) {
 
     startInterval()
 
-    // Listen for configuration changes
     context.subscriptions.push(
         vscode.workspace.onDidChangeConfiguration((e) => {
             if (
@@ -100,7 +88,6 @@ function activate(context) {
         })
     )
 
-    // Register the command to fetch a specific Ayah
     let disposable = vscode.commands.registerCommand(
         'hasanah.getAyah',
         async () => {
@@ -139,7 +126,66 @@ function activate(context) {
     )
     context.subscriptions.push(disposable)
 
-    // Register the command to fetch the current Hijri date
+    disposable = vscode.commands.registerCommand(
+        'hasanah.getTafsir',
+        async () => {
+            const tafsirKey = await vscode.window.showQuickPick(
+                ['ibn_kathir', 'maarif', 'muyassar'],
+                { placeHolder: 'Select tafsir source' }
+            )
+            if (!tafsirKey) return
+            const surah = await vscode.window.showInputBox({
+                prompt: 'Enter the number of the surah',
+            })
+            const ayah = await vscode.window.showInputBox({
+                prompt: 'Enter the number of the ayah',
+            })
+            if (!surah || !ayah) {
+                vscode.window.showInformationMessage('Invalid input.')
+                return
+            }
+            try {
+                const data = await tafsirService.getTafsir(surah, ayah, tafsirKey)
+                vscode.window.showInformationMessage(
+                    `${data.verse_key} - ${data.tafsir_name}\n\n${data.text.slice(0, 500)}...`
+                )
+            } catch (error) {
+                console.error('Error fetching tafsir:', error)
+                vscode.window.showErrorMessage('Error fetching tafsir.')
+            }
+        }
+    )
+    context.subscriptions.push(disposable)
+
+    disposable = vscode.commands.registerCommand(
+        'hasanah.getPrayerTimes',
+        async () => {
+            const lat = await vscode.window.showInputBox({
+                prompt: 'Enter your latitude (e.g. 40.71)',
+            })
+            const lng = await vscode.window.showInputBox({
+                prompt: 'Enter your longitude (e.g. -74.01)',
+            })
+            if (!lat || !lng) {
+                vscode.window.showInformationMessage('Invalid coordinates.')
+                return
+            }
+            try {
+                const times = await prayerTimeService.getPrayerTimes(lat, lng)
+                const pt = times.prayer_times
+                vscode.window.showInformationMessage(
+                    `Prayer Times (${times.date}) - ${times.location.latitude},${times.location.longitude}\n` +
+                    `Fajr: ${pt.fajr} | Sunrise: ${pt.sunrise} | Dhuhr: ${pt.dhuhr} | ` +
+                    `Asr: ${pt.asr} | Maghrib: ${pt.maghrib} | Isha: ${pt.isha}`
+                )
+            } catch (error) {
+                console.error('Error fetching prayer times:', error)
+                vscode.window.showErrorMessage('Error fetching prayer times.')
+            }
+        }
+    )
+    context.subscriptions.push(disposable)
+
     disposable = vscode.commands.registerCommand(
         'hasanah.getHijriDate',
         async () => {
@@ -154,27 +200,8 @@ function activate(context) {
         }
     )
     context.subscriptions.push(disposable)
-
-    // Register the command to fetch random dua
-    disposable = vscode.commands.registerCommand(
-        'hasanah.getDuaa',
-        async () => {
-            try {
-                const dua = await duaaService.getRandomDuaa()
-                vscode.window.showInformationMessage(
-                    `${dua.text} (${dua.category})`
-                )
-            } catch (e) {
-                console.error('An error occurred:', e.message)
-            }
-        }
-    )
-    context.subscriptions.push(disposable)
 }
 
-/**
- * Deactivates the extension.
- */
 function deactivate() {
     if (timerId) {
         clearInterval(timerId)
