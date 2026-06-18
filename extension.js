@@ -59,6 +59,7 @@ function activate(context) {
         const language = getLanguage()
         let delay = getDelay()
         try {
+            turn = 2
             const text = await getText(turn, language)
             const dismissTime = (2 * delay) / 3
             showAutoDismissNotification(text, dismissTime)
@@ -143,9 +144,11 @@ function activate(context) {
             }
             try {
                 const data = await tafsirService.getTafsir(surah, ayah, tafsirKey)
-                vscode.window.showInformationMessage(
-                    `${data.verse_key} - ${data.tafsir_name}\n\n${data.text.slice(0, 500)}...`
-                )
+                const doc = await vscode.workspace.openTextDocument({
+                    content: `${data.verse_key} - ${data.tafsir_name}\n${'='.repeat(50)}\n\n${data.text}`,
+                    language: language === 'ar' ? 'plaintext' : 'plaintext'
+                })
+                await vscode.window.showTextDocument(doc, { preview: true })
             } catch (error) {
                 console.error('Error fetching tafsir:', error)
                 const msg = error.message.includes('(') ? error.message.match(/\((.+)\)$/)[1] : 'Error fetching tafsir'
