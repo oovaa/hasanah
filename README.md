@@ -2,7 +2,7 @@
 
 Hasanah is a VS Code extension that brings the beauty of the Quran and Hadith directly into your coding environment. It displays random Ayahs (Quranic verses) and Hadiths at customizable intervals, helping you stay spiritually connected while you code.
 
-[![Version](https://img.shields.io/badge/version-9.4.0-blue)](https://marketplace.visualstudio.com/items?itemName=omarabdo.hasanah)
+[![Version](https://img.shields.io/badge/version-10.0.0-blue)](https://marketplace.visualstudio.com/items?itemName=omarabdo.hasanah)
 [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE.md)
 [![Open Issues](https://img.shields.io/github/issues/oovaa/hasanah)](https://github.com/oovaa/hasanah/issues)
 [![Installs](https://img.shields.io/visual-studio-marketplace/i/omarabdo.hasanah?label=Installs)](https://marketplace.visualstudio.com/items?itemName=omarabdo.hasanah)
@@ -14,22 +14,20 @@ Hasanah is a VS Code extension that brings the beauty of the Quran and Hadith di
 
 ## ✨ Features
 
-- **3-State Alternation:** Automatically cycles between Hadith, Ayah, and Duaa at configurable intervals.
-- **Random Quranic Verses (Ayahs):** Displays random Ayahs with enhanced support for multiple scripts, translations, and audio from Ummah API.
-- **Random Hadiths:** Shows random Hadiths from 7 major collections with improved author attribution and metadata.
-- **Random Duas:** 126 authentic duas from Quran and Sunnah across 27 categories.
-- **Enhanced Hijri Date:** Current Islamic date with month names and events from Ummah API.
+- **3-State Alternation:** Automatically cycles between Hadith 💚, Ayah ❤️, and Duaa 🤲 at configurable intervals.
+- **Unified Ummah API:** Quran, Hadith, Duas, Tafsir, Prayer Times, Hijri Date, and 99 Names all through one API with built-in caching.
+- **Random Quranic Verses (Ayahs):** Displays random Ayahs with Arabic and English translation.
+- **Random Hadiths:** Shows random Hadiths from 7 major collections (Bukhari, Muslim, Tirmidhi, etc.) in Arabic and English.
+- **Specific Ayah & Tafsir Lookup:** Fetch any verse by surah/ayah number, or get scholarly tafsir (Ibn Kathir) in Arabic or English based on your language setting. Tafsir opens in a scrollable editor tab.
+- **Prayer Times:** Auto-detects your location via IP geolocation. Displays all prayer times with current time and next prayer countdown. Get notified 10 minutes before each prayer and when it's time to pray.
+- **Random Duas:** 126 authentic duas from Quran and Sunnah across 27 categories, respecting language setting.
+- **Hijri Date:** Current Islamic date from the Ummah API.
 - **99 Names of Allah:** Complete Asma ul Husna with Arabic, transliteration, and meanings.
-- **Customizable Intervals:** Set how often you want to see a new Ayah or Hadith.
-- **Dual Language Support:**
-  - Ayahs: Arabic (`ar`) and English (`en`).
-  - Hadiths: Arabic (`ar`), English (`en`), and Urdu (`ur`).
-- **Tafsir Lookup:** Fetch tafsir (exegesis) for any verse from Ibn Kathir, Maarif, or Muyassar.
-- **Prayer Times:** Get accurate prayer times for any location worldwide.
-- **Specific Ayah Lookup:** Fetch a particular Ayah by Surah and Ayah number.
-- **Auto-Dismiss Notifications:** Popups will automatically disappear after a configurable portion of the display interval.
+- **Customizable Intervals:** Set how often you want to see a new notification.
+- **Dual Language Support:** Arabic and English across all content types.
+- **Auto-Dismiss Notifications:** Popups automatically disappear after a configurable portion of the display interval.
 - **Offline Duaa:** Displays a default Duaa if an internet connection is unavailable.
-- **Enhanced Caching:** In-memory caching is used for Ayah, Hadith, and Hijri date requests to improve performance.
+- **Enhanced Caching:** 24-hour in-memory caching minimizes API calls.
 
 ---
 
@@ -74,9 +72,9 @@ Alternatively, you can directly edit your `settings.json` file:
 Hasanah provides the following commands, accessible via the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`):
 
 - **`hasanah: get Ayah`**: Prompts you to enter a Surah number and Ayah number, then displays the specified Quranic verse.
-- **`hasanah: get Tafsir`**: Prompts you to enter a Surah and Ayah number, then displays the tafsir text. Uses Arabic tafsir (`ibn_kathir_ar`) when language is `ar`, English (`ibn_kathir`) when language is `en`.
-- **`hasanah: get Prayer Times`**: Prompts you to enter latitude and longitude, then displays the current prayer times.
-- **`hasanah: get Duaa`**: Displays a random authentic Duaa from Quran and Sunnah.
+- **`hasanah: get Tafsir`**: Prompts you to enter a Surah and Ayah number, then displays the tafsir text in a scrollable editor tab. Uses Arabic tafsir (`ibn_kathir_ar`) when language is `ar`, English (`ibn_kathir`) when language is `en`.
+- **`hasanah: get Prayer Times`**: Auto-detects your location and displays all prayer times with current time and next prayer countdown.
+- **`hasanah: get Duaa`**: Displays a random authentic Duaa from Quran and Sunnah, respecting the language setting.
 - **`hasanah: get Hijri Date`**: Displays the current date in the Hijri calendar.
 
 ---
