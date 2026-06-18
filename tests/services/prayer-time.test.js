@@ -27,6 +27,14 @@ describe('PrayerTimeService', () => {
           maghrib: '20:30',
           isha: '22:10'
         },
+        prayer_datetimes: {
+          fajr: '2026-06-18T03:45:00-04:00',
+          sunrise: '2026-06-18T05:25:00-04:00',
+          dhuhr: '2026-06-18T12:58:00-04:00',
+          asr: '2026-06-18T18:12:00-04:00',
+          maghrib: '2026-06-18T20:30:00-04:00',
+          isha: '2026-06-18T22:10:00-04:00'
+        },
         current_status: {
           current_prayer: 'fajr',
           next_prayer: 'sunrise',
@@ -47,6 +55,7 @@ describe('PrayerTimeService', () => {
     expect(result.prayer_times.dhuhr).toBe('12:58')
     expect(result.prayer_times.isha).toBe('22:10')
     expect(result.current_status.current_prayer).toBe('fajr')
+    expect(result.prayer_datetimes.fajr).toBe('2026-06-18T03:45:00-04:00')
   })
 
   test('should fetch prayer times with custom method and madhab', async () => {
@@ -65,6 +74,13 @@ describe('PrayerTimeService', () => {
           maghrib: '21:15',
           isha: '23:00'
         },
+        prayer_datetimes: {
+          fajr: '2026-06-18T02:45:00+01:00',
+          dhuhr: '2026-06-18T13:00:00+01:00',
+          asr: '2026-06-18T17:30:00+01:00',
+          maghrib: '2026-06-18T21:15:00+01:00',
+          isha: '2026-06-18T23:00:00+01:00'
+        },
         current_status: {}
       }
     }
@@ -74,6 +90,7 @@ describe('PrayerTimeService', () => {
     expect(result.method).toBe('ISNA')
     expect(result.madhab).toBe('Hanafi')
     expect(result.prayer_times.fajr).toBe('02:45')
+    expect(result.prayer_datetimes.fajr).toBe('2026-06-18T02:45:00+01:00')
   })
 
   test('should format prayer times data', () => {
@@ -91,11 +108,15 @@ describe('PrayerTimeService', () => {
         maghrib: '20:30',
         isha: '22:10'
       },
+      prayer_datetimes: {
+        fajr: '2026-06-18T03:45:00-04:00'
+      },
       current_status: {}
     }
     const result = prayerTimeService.formatPrayerTimes(data)
     expect(result.date).toBe('2026-06-18')
     expect(result.method).toBe('MuslimWorldLeague')
     expect(result.prayer_times.fajr).toBe('03:45')
+    expect(result.prayer_datetimes.fajr).toBe('2026-06-18T03:45:00-04:00')
   })
 })

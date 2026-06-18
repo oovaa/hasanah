@@ -24,6 +24,7 @@ class PrayerTimeService {
       method: data.calculation_method,
       madhab: data.madhab,
       prayer_times: data.prayer_times,
+      prayer_datetimes: data.prayer_datetimes,
       current_status: data.current_status
     }
   }

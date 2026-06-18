@@ -4,11 +4,13 @@ const { HijriCalendarService } = require('./services/hijri-service')
 const { QuranService } = require('./services/quran-service')
 const { TafsirService } = require('./services/tafsir-service')
 const { PrayerTimeService } = require('./services/prayer-time-service')
+const { PrayerAlertService } = require('./services/prayer-alert-service')
 
 const hijriCalendarService = new HijriCalendarService()
 const quranService = new QuranService()
 const tafsirService = new TafsirService()
 const prayerTimeService = new PrayerTimeService()
+const prayerAlertService = new PrayerAlertService()
 
 let timerId
 
@@ -59,7 +61,6 @@ function activate(context) {
         const language = getLanguage()
         let delay = getDelay()
         try {
-            turn = 2
             const text = await getText(turn, language)
             const dismissTime = (2 * delay) / 3
             showAutoDismissNotification(text, dismissTime)
@@ -77,6 +78,12 @@ function activate(context) {
     }
 
     startInterval()
+
+    prayerAlertService.start((msg, duration) => {
+        showAutoDismissNotification('🕌 ' + msg, duration)
+    })
+
+    context.subscriptions.push({ dispose: () => prayerAlertService.stop() })
 
     context.subscriptions.push(
         vscode.workspace.onDidChangeConfiguration((e) => {
@@ -161,21 +168,12 @@ function activate(context) {
     disposable = vscode.commands.registerCommand(
         'hasanah.getPrayerTimes',
         async () => {
-            const lat = await vscode.window.showInputBox({
-                prompt: 'Enter your latitude (e.g. 40.71)',
-            })
-            const lng = await vscode.window.showInputBox({
-                prompt: 'Enter your longitude (e.g. -74.01)',
-            })
-            if (!lat || !lng) {
-                vscode.window.showInformationMessage('Invalid coordinates.')
-                return
-            }
             try {
-                const times = await prayerTimeService.getPrayerTimes(lat, lng)
+                const loc = await prayerAlertService.getLocation()
+                const times = await prayerTimeService.getPrayerTimes(loc.latitude, loc.longitude)
                 const pt = times.prayer_times
                 vscode.window.showInformationMessage(
-                    `Prayer Times (${times.date}) - ${times.location.latitude},${times.location.longitude}\n` +
+                    `Prayer Times (${times.date}) - ${loc.city}, ${loc.country}\n` +
                     `Fajr: ${pt.fajr} | Sunrise: ${pt.sunrise} | Dhuhr: ${pt.dhuhr} | ` +
                     `Asr: ${pt.asr} | Maghrib: ${pt.maghrib} | Isha: ${pt.isha}`
                 )
@@ -208,6 +206,7 @@ function deactivate() {
         clearInterval(timerId)
         timerId = null
     }
+    prayerAlertService.stop()
 }
 
 module.exports = {
