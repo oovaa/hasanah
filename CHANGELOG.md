@@ -3,6 +3,19 @@
 All notable changes to the **Hasanah** extension will be documented in this file.  
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [10.0.4] - 2026-07-23
+
+### Added
+- **99 Names of Allah commands** — `hasanah.getRandomName` (random name) and `hasanah.getNameByNumber` (pick by number 1–99 with input validation).
+- **Prayer alert tests** — 13 tests covering start/stop lifecycle, date rollover, dedup, boundary edge cases.
+
+### Removed
+- **5 legacy files** — `hadith.js`, `quraan.js`, `eng_hadith.js`, `islamicDate.js`, `connect.js` (pre-UmmahAPI code no longer imported).
+- **Unused dependencies** — `abort-controller`, `node-fetch`.
+- **Dead test files** — legacy hadith/cache/extension stubs.
+
+---
+
 ## [10.0.2] - 2026-06-18
 
 ### Added

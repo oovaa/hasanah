@@ -6,6 +6,7 @@ const { QuranService } = require('./services/quran-service')
 const { TafsirService } = require('./services/tafsir-service')
 const { PrayerTimeService } = require('./services/prayer-time-service')
 const { PrayerAlertService } = require('./services/prayer-alert-service')
+const { NamesOfAllahService } = require('./services/names-of-allah-service')
 
 const hijriCalendarService = new HijriCalendarService()
 const duaaService = new DuaaService()
@@ -13,6 +14,7 @@ const quranService = new QuranService()
 const tafsirService = new TafsirService()
 const prayerTimeService = new PrayerTimeService()
 const prayerAlertService = new PrayerAlertService()
+const namesOfAllahService = new NamesOfAllahService()
 
 let timerId
 
@@ -261,6 +263,48 @@ function activate(context) {
                 )
             } catch (e) {
                 console.error('An error occurred:', e.message)
+            }
+        }
+    )
+    context.subscriptions.push(disposable)
+
+    disposable = vscode.commands.registerCommand(
+        'hasanah.getRandomName',
+        async () => {
+            try {
+                const data = await namesOfAllahService.getRandomName()
+                const name = namesOfAllahService.formatName(data)
+                vscode.window.showInformationMessage(
+                    `${name.number}. ${name.name} — ${name.transliteration} — ${name.meaning}`
+                )
+            } catch (e) {
+                console.error('An error occurred:', e.message)
+                vscode.window.showErrorMessage('Error fetching name of Allah.')
+            }
+        }
+    )
+    context.subscriptions.push(disposable)
+
+    disposable = vscode.commands.registerCommand(
+        'hasanah.getNameByNumber',
+        async () => {
+            const input = await vscode.window.showInputBox({
+                prompt: 'Enter name number (1-99)',
+                validateInput: (v) => {
+                    const n = parseInt(v)
+                    return isNaN(n) || n < 1 || n > 99 ? 'Enter a number between 1 and 99' : null
+                }
+            })
+            if (!input) return
+            try {
+                const data = await namesOfAllahService.getName(input)
+                const name = namesOfAllahService.formatName(data)
+                vscode.window.showInformationMessage(
+                    `${name.number}. ${name.name} — ${name.transliteration} — ${name.meaning}`
+                )
+            } catch (e) {
+                console.error('An error occurred:', e.message)
+                vscode.window.showErrorMessage('Error fetching name of Allah.')
             }
         }
     )

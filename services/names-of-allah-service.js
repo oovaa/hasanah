@@ -24,6 +24,15 @@ class NamesOfAllahService {
     const response = await this.api.get('/asma-ul-husna/search', { q: query })
     return response.data
   }
+
+  formatName(data) {
+    return {
+      number: data.number || '',
+      name: data.name || data.arabic || '',
+      transliteration: data.transliteration || '',
+      meaning: data.meaning || data.english || ''
+    }
+  }
 }
 
 module.exports = { NamesOfAllahService }

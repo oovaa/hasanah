@@ -1,4 +1,6 @@
-import { describe, test, expect, beforeEach, mock } from 'bun:test'
+import { describe, test, expect, beforeEach, afterEach, mock } from 'bun:test'
+
+const origFetch = globalThis.fetch
 
 const mockFetch = (responseData, shouldFail = false) => {
   global.fetch = mock((url) => {
@@ -14,8 +16,10 @@ const mockFetch = (responseData, shouldFail = false) => {
 describe('Main getText function', () => {
   beforeEach(() => {
     delete require.cache[require.resolve('../main.js')]
-    delete require.cache[require.resolve('../hadith.js')]
-    delete require.cache[require.resolve('../eng_hadith.js')]
+  })
+
+  afterEach(() => {
+    globalThis.fetch = origFetch
   })
 
   test('should display hadith with author in Arabic (turn 0)', async () => {
@@ -206,7 +210,6 @@ describe('Main getText function', () => {
 
     for (const c of collections) {
       delete require.cache[require.resolve('../main.js')]
-      delete require.cache[require.resolve('../hadith.js')]
 
       mockFetch({
         success: true,
