@@ -110,14 +110,25 @@ function activate(context) {
                 prompt: 'Enter the number of the ayah',
             })
             const language = getLanguage()
-            if (!surah || !ayah || isNaN(surah) || isNaN(ayah) || parseInt(surah) < 1 || parseInt(ayah) < 1) {
+            if (
+                !surah ||
+                !ayah ||
+                isNaN(surah) ||
+                isNaN(ayah) ||
+                parseInt(surah) < 1 ||
+                parseInt(ayah) < 1
+            ) {
                 vscode.window.showInformationMessage(
                     'Invalid input. Please enter a number.'
                 )
                 return
             }
             try {
-                const data = await quranService.getSpecificAyah(surah, ayah, language)
+                const data = await quranService.getSpecificAyah(
+                    surah,
+                    ayah,
+                    language
+                )
                 if (data) {
                     vscode.window.showInformationMessage(
                         `${data.text} 💙 ${data.surah_name} (${data.ayah_num})`
@@ -154,35 +165,120 @@ function activate(context) {
             const tafsirKey = pick.key
 
             const surahs = [
-                '1 - Al-Fatiha', '2 - Al-Baqarah', '3 - Aal-e-Imran', '4 - An-Nisa',
-                '5 - Al-Maidah', '6 - Al-Anam', '7 - Al-Araf', '8 - Al-Anfal',
-                '9 - At-Tawbah', '10 - Yunus', '11 - Hud', '12 - Yusuf',
-                '13 - Ar-Rad', '14 - Ibrahim', '15 - Al-Hijr', '16 - An-Nahl',
-                '17 - Al-Isra', '18 - Al-Kahf', '19 - Maryam', '20 - Ta-Ha',
-                '21 - Al-Anbiya', '22 - Al-Hajj', '23 - Al-Muminun', '24 - An-Nur',
-                '25 - Al-Furqan', '26 - Ash-Shuara', '27 - An-Naml', '28 - Al-Qasas',
-                '29 - Al-Ankabut', '30 - Ar-Rum', '31 - Luqman', '32 - As-Sajdah',
-                '33 - Al-Ahzab', '34 - Saba', '35 - Fatir', '36 - Ya-Sin',
-                '37 - As-Saffat', '38 - Sad', '39 - Az-Zumar', '40 - Ghafir',
-                '41 - Fussilat', '42 - Ash-Shura', '43 - Az-Zukhruf', '44 - Ad-Dukhan',
-                '45 - Al-Jathiya', '46 - Al-Ahqaf', '47 - Muhammad', '48 - Al-Fath',
-                '49 - Al-Hujurat', '50 - Qaf', '51 - Adh-Dhariyat', '52 - At-Tur',
-                '53 - An-Najm', '54 - Al-Qamar', '55 - Ar-Rahman', '56 - Al-Waqiah',
-                '57 - Al-Hadid', '58 - Al-Mujadila', '59 - Al-Hashr', '60 - Al-Mumtahina',
-                '61 - As-Saff', '62 - Al-Jumua', '63 - Al-Munafiqun', '64 - At-Taghabun',
-                '65 - At-Talaq', '66 - At-Tahrim', '67 - Al-Mulk', '68 - Al-Qalam',
-                '69 - Al-Haqqah', '70 - Al-Maarij', '71 - Nuh', '72 - Al-Jinn',
-                '73 - Al-Muzzammil', '74 - Al-Muddaththir', '75 - Al-Qiyamah', '76 - Al-Insan',
-                '77 - Al-Mursalat', '78 - An-Naba', '79 - An-Naziat', '80 - Abasa',
-                '81 - At-Takwir', '82 - Al-Infitar', '83 - Al-Mutaffifin', '84 - Al-Inshiqaq',
-                '85 - Al-Buruj', '86 - At-Tariq', '87 - Al-Ala', '88 - Al-Ghashiyah',
-                '89 - Al-Fajr', '90 - Al-Balad', '91 - Ash-Shams', '92 - Al-Layl',
-                '93 - Ad-Duha', '94 - Ash-Sharh', '95 - At-Tin', '96 - Al-Alaq',
-                '97 - Al-Qadr', '98 - Al-Bayyinah', '99 - Az-Zalzalah', '100 - Al-Adiyat',
-                '101 - Al-Qariah', '102 - At-Takathur', '103 - Al-Asr', '104 - Al-Humazah',
-                '105 - Al-Fil', '106 - Quraysh', '107 - Al-Maun', '108 - Al-Kawthar',
-                '109 - Al-Kafirun', '110 - An-Nasr', '111 - Al-Masad', '112 - Al-Ikhlas',
-                '113 - Al-Falaq', '114 - An-Nas'
+                '1 - Al-Fatiha',
+                '2 - Al-Baqarah',
+                '3 - Aal-e-Imran',
+                '4 - An-Nisa',
+                '5 - Al-Maidah',
+                '6 - Al-Anam',
+                '7 - Al-Araf',
+                '8 - Al-Anfal',
+                '9 - At-Tawbah',
+                '10 - Yunus',
+                '11 - Hud',
+                '12 - Yusuf',
+                '13 - Ar-Rad',
+                '14 - Ibrahim',
+                '15 - Al-Hijr',
+                '16 - An-Nahl',
+                '17 - Al-Isra',
+                '18 - Al-Kahf',
+                '19 - Maryam',
+                '20 - Ta-Ha',
+                '21 - Al-Anbiya',
+                '22 - Al-Hajj',
+                '23 - Al-Muminun',
+                '24 - An-Nur',
+                '25 - Al-Furqan',
+                '26 - Ash-Shuara',
+                '27 - An-Naml',
+                '28 - Al-Qasas',
+                '29 - Al-Ankabut',
+                '30 - Ar-Rum',
+                '31 - Luqman',
+                '32 - As-Sajdah',
+                '33 - Al-Ahzab',
+                '34 - Saba',
+                '35 - Fatir',
+                '36 - Ya-Sin',
+                '37 - As-Saffat',
+                '38 - Sad',
+                '39 - Az-Zumar',
+                '40 - Ghafir',
+                '41 - Fussilat',
+                '42 - Ash-Shura',
+                '43 - Az-Zukhruf',
+                '44 - Ad-Dukhan',
+                '45 - Al-Jathiya',
+                '46 - Al-Ahqaf',
+                '47 - Muhammad',
+                '48 - Al-Fath',
+                '49 - Al-Hujurat',
+                '50 - Qaf',
+                '51 - Adh-Dhariyat',
+                '52 - At-Tur',
+                '53 - An-Najm',
+                '54 - Al-Qamar',
+                '55 - Ar-Rahman',
+                '56 - Al-Waqiah',
+                '57 - Al-Hadid',
+                '58 - Al-Mujadila',
+                '59 - Al-Hashr',
+                '60 - Al-Mumtahina',
+                '61 - As-Saff',
+                '62 - Al-Jumua',
+                '63 - Al-Munafiqun',
+                '64 - At-Taghabun',
+                '65 - At-Talaq',
+                '66 - At-Tahrim',
+                '67 - Al-Mulk',
+                '68 - Al-Qalam',
+                '69 - Al-Haqqah',
+                '70 - Al-Maarij',
+                '71 - Nuh',
+                '72 - Al-Jinn',
+                '73 - Al-Muzzammil',
+                '74 - Al-Muddaththir',
+                '75 - Al-Qiyamah',
+                '76 - Al-Insan',
+                '77 - Al-Mursalat',
+                '78 - An-Naba',
+                '79 - An-Naziat',
+                '80 - Abasa',
+                '81 - At-Takwir',
+                '82 - Al-Infitar',
+                '83 - Al-Mutaffifin',
+                '84 - Al-Inshiqaq',
+                '85 - Al-Buruj',
+                '86 - At-Tariq',
+                '87 - Al-Ala',
+                '88 - Al-Ghashiyah',
+                '89 - Al-Fajr',
+                '90 - Al-Balad',
+                '91 - Ash-Shams',
+                '92 - Al-Layl',
+                '93 - Ad-Duha',
+                '94 - Ash-Sharh',
+                '95 - At-Tin',
+                '96 - Al-Alaq',
+                '97 - Al-Qadr',
+                '98 - Al-Bayyinah',
+                '99 - Az-Zalzalah',
+                '100 - Al-Adiyat',
+                '101 - Al-Qariah',
+                '102 - At-Takathur',
+                '103 - Al-Asr',
+                '104 - Al-Humazah',
+                '105 - Al-Fil',
+                '106 - Quraysh',
+                '107 - Al-Maun',
+                '108 - Al-Kawthar',
+                '109 - Al-Kafirun',
+                '110 - An-Nasr',
+                '111 - Al-Masad',
+                '112 - Al-Ikhlas',
+                '113 - Al-Falaq',
+                '114 - An-Nas',
             ]
             const surahPick = await vscode.window.showQuickPick(surahs, {
                 placeHolder: 'Select surah by number',
@@ -193,20 +289,35 @@ function activate(context) {
             const ayah = await vscode.window.showInputBox({
                 prompt: 'Enter ayah number',
             })
-            if (!surah || !ayah || isNaN(surah) || isNaN(ayah) || parseInt(surah) < 1 || parseInt(ayah) < 1) {
-                vscode.window.showInformationMessage('Invalid input. Please enter valid numbers.')
+            if (
+                !surah ||
+                !ayah ||
+                isNaN(surah) ||
+                isNaN(ayah) ||
+                parseInt(surah) < 1 ||
+                parseInt(ayah) < 1
+            ) {
+                vscode.window.showInformationMessage(
+                    'Invalid input. Please enter valid numbers.'
+                )
                 return
             }
             try {
-                const data = await tafsirService.getTafsir(surah, ayah, tafsirKey)
+                const data = await tafsirService.getTafsir(
+                    surah,
+                    ayah,
+                    tafsirKey
+                )
                 const doc = await vscode.workspace.openTextDocument({
                     content: `${data.verse_key} - ${data.tafsir_name}\n${'='.repeat(50)}\n\n${data.text.replace(/([.!?؟]) /g, '$1\n')}`,
-                    language: 'plaintext'
+                    language: 'plaintext',
                 })
                 await vscode.window.showTextDocument(doc, { preview: true })
             } catch (error) {
                 console.error('Error fetching tafsir:', error)
-                const msg = error.message.includes('(') ? error.message.match(/\((.+)\)$/)[1] : 'Error fetching tafsir'
+                const msg = error.message.includes('(')
+                    ? error.message.match(/\((.+)\)$/)[1]
+                    : 'Error fetching tafsir'
                 vscode.window.showErrorMessage(msg)
             }
         }
@@ -218,15 +329,24 @@ function activate(context) {
         async () => {
             try {
                 const loc = await prayerAlertService.getLocation()
-                const times = await prayerTimeService.getPrayerTimes(loc.latitude, loc.longitude)
+                const times = await prayerTimeService.getPrayerTimes(
+                    loc.latitude,
+                    loc.longitude
+                )
                 const pt = times.prayer_times
                 const cs = times.current_status
-                const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                const nextStr = cs.next_prayer ? cs.next_prayer.charAt(0).toUpperCase() + cs.next_prayer.slice(1) : '—'
+                const now = new Date().toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                })
+                const nextStr = cs.next_prayer
+                    ? cs.next_prayer.charAt(0).toUpperCase() +
+                      cs.next_prayer.slice(1)
+                    : '—'
                 vscode.window.showInformationMessage(
                     `🕌 ${loc.city}, ${loc.country} — ${times.date} | ${now}\n` +
-                    `☀️ ${pt.fajr}  🌞 ${pt.sunrise}  🌤 ${pt.dhuhr}  🌥 ${pt.asr}  🌅 ${pt.maghrib}  🌙 ${pt.isha}\n` +
-                    `Next: ${nextStr} in ${cs.time_until_next || '—'}`
+                        `☀️ ${pt.fajr}  🌞 ${pt.sunrise}  🌤 ${pt.dhuhr}  🌥 ${pt.asr}  🌅 ${pt.maghrib}  🌙 ${pt.isha}\n` +
+                        `Next: ${nextStr} in ${cs.time_until_next || '—'}`
                 )
             } catch (error) {
                 console.error('Error fetching prayer times:', error)
@@ -257,7 +377,8 @@ function activate(context) {
             try {
                 const language = getLanguage()
                 const dua = await duaaService.getRandomDuaa()
-                const text = language === 'ar' ? dua.text : (dua.translation || dua.text)
+                const text =
+                    language === 'ar' ? dua.text : dua.translation || dua.text
                 vscode.window.showInformationMessage(
                     `${text} 🤲 ${dua.category}${dua.source ? ` (${dua.source})` : ''}`
                 )
@@ -292,8 +413,10 @@ function activate(context) {
                 prompt: 'Enter name number (1-99)',
                 validateInput: (v) => {
                     const n = parseInt(v)
-                    return isNaN(n) || n < 1 || n > 99 ? 'Enter a number between 1 and 99' : null
-                }
+                    return isNaN(n) || n < 1 || n > 99
+                        ? 'Enter a number between 1 and 99'
+                        : null
+                },
             })
             if (!input) return
             try {

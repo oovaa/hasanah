@@ -1,7 +1,21 @@
 # Changelog
 
 All notable changes to the **Hasanah** extension will be documented in this file.  
-This project adheres to [Semantic Versioning](https://semver.org/).
+This project adheres to [Semantic Versioning](https://semver.org.).
+
+## [10.0.5] - 2026-08-25
+
+### Fixed
+- **Test wiring** — `npm test` now correctly runs `bun test` (was pointing to stale vscode-test configuration with non-existent `test/` directory).
+- **Fetch timeouts** — all Ummah API calls now use `AbortSignal.timeout(15s)` so hung network requests can no longer freeze notifications or services.
+- **Input validation** — `getAyah` now validates surah and ayah are positive numbers (matching existing `getTafsir` validation).
+- **Lint hygiene** — ESLint config declares Bun test globals + `fetch`/`globalThis` (109 warnings → 0).
+
+### Added
+- **Test coverage** — abort-signal, timeout-rejection, and cache tests in `tests/ummah.test.js`; dropped unused mock param in `tests/main.test.js`.
+
+### Removed
+- **Stale test config** — deleted unused `.vscode-test.mjs`.
 
 ## [10.0.4] - 2026-07-23
 
