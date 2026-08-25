@@ -6,6 +6,16 @@
         "node": true,
         "mocha": true
     },
+    "globals": {
+        "describe": "readonly",
+        "test": "readonly",
+        "expect": "readonly",
+        "beforeEach": "readonly",
+        "afterEach": "readonly",
+        "mock": "readonly",
+        "globalThis": "readonly",
+        "fetch": "readonly"
+    },
     "parserOptions": {
         "ecmaVersion": 2021,
         "ecmaFeatures": {

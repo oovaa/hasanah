@@ -3,7 +3,7 @@ import { describe, test, expect, beforeEach, afterEach, mock } from 'bun:test'
 const origFetch = globalThis.fetch
 
 const mockFetch = (responseData, shouldFail = false) => {
-  global.fetch = mock((url) => {
+  global.fetch = mock(() => {
     if (shouldFail) return Promise.reject(new Error('Network error'))
     return Promise.resolve({
       ok: true,

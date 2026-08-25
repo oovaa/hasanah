@@ -89,7 +89,7 @@
     "scripts": {
         "lint": "eslint .",
         "pretest": "npm run lint",
-        "test": "vscode-test"
+        "test": "bun test"
     },
     "dependencies": {}
 }

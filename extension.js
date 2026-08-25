@@ -110,7 +110,7 @@ function activate(context) {
                 prompt: 'Enter the number of the ayah',
             })
             const language = getLanguage()
-            if (!surah || !ayah) {
+            if (!surah || !ayah || isNaN(surah) || isNaN(ayah) || parseInt(surah) < 1 || parseInt(ayah) < 1) {
                 vscode.window.showInformationMessage(
                     'Invalid input. Please enter a number.'
                 )
