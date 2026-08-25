@@ -21,7 +21,8 @@ class UmmahAPI {
       headers['x-api-key'] = this.apiKey
     }
 
-    const response = await fetch(url.toString(), { headers })
+    // ponytail: hard 15s timeout so a hung network can't freeze notifications forever
+    const response = await fetch(url.toString(), { headers, signal: AbortSignal.timeout(15000) })
     if (!response.ok) {
       let details = ''
       try { const body = await response.json(); details = body.message || body.error || JSON.stringify(body) } catch {}
